@@ -15,6 +15,7 @@ This repository is the frontend only.
 - Zustand for client state (the cart and the blend builder)
 - CSS Modules for styling, with no UI library
 - Motion for animation, Lucide for icons
+- ESLint and Prettier, with Husky and lint-staged to check staged files before each commit
 - json-server on Render for the API
 
 ## Getting started
@@ -22,13 +23,18 @@ This repository is the frontend only.
 You need Node.js 20.9 or newer.
 
 ```bash
-npm install            # install dependencies
+npm install            # install dependencies (also sets up the Husky hook)
 npm run dev            # start the dev server on http://localhost:3000
 npm run build          # build for production
 npm start              # run the production build
-npm run lint           # ESLint
-npx tsc --noEmit       # type-check the whole project
+npm run lint           # ESLint, fails on any warning
+npm run typecheck      # type-check the whole project
+npm run format         # format every file with Prettier
+npm run format:check   # check formatting without changing files
 ```
+
+Before each commit, lint-staged runs ESLint and Prettier on the staged files. The commit stops if
+ESLint finds a warning or an error.
 
 The site uses the live API at `https://tilal-api.onrender.com` by default. The free server sleeps
 when nobody uses it, so the first request can take up to a minute.
@@ -227,6 +233,12 @@ that read the changed value redraw.
 ## Structure
 
 ```
+.husky/         pre-commit hook that runs lint-staged
+.prettierrc.json
+.prettierignore
+CLAUDE.md       rules for AI coding assistants
+DESIGN.md       visual identity
+README.md
 src/
   app/          routes: pages, loading.tsx, error.tsx, not-found.tsx, layout and global styles
   features/     one folder per feature, with its components, styles, store and logic
@@ -245,11 +257,6 @@ public/
 ```
 
 Every component has a matching `.module.css` file next to it.
-
-Other docs:
-
-- `DESIGN.md`: colors, fonts, spacing, components and motion
-- `CLAUDE.md`: project rules for AI coding assistants
 
 ## Deployment
 
