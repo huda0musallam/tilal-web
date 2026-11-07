@@ -44,7 +44,7 @@ export default function Header() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
-        <Link href="/" aria-label="التلال - الصفحة الرئيسية">
+        <Link href="/" onClick={() => handleNavClick("/")} aria-label="التلال - الصفحة الرئيسية">
           <HeaderLogo className={styles.logo} />
         </Link>
 
@@ -56,7 +56,7 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => handleNavClick(link.href)}
               aria-current={isActive(link.href) ? "page" : undefined}
               className={`${styles.link} ${isActive(link.href) ? styles.active : ""}`}
             >
@@ -116,4 +116,13 @@ export default function Header() {
       </div>
     </header>
   );
+  // إذا كنا أصلاً بنفس الصفحة، Next.js ما بيعمل شي، فمنطلع لفوق بإيدنا
+  // إذا كبسنا على الصفحة اللي نحنا فيها، Next.js ما بيعمل شي، فمنطلع لفوق بإيدنا
+  function handleNavClick(href: string) {
+    setMenuOpen(false);
+    if (pathname === href) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    }
+  }
 }
