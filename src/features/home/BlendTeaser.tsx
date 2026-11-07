@@ -61,16 +61,16 @@ export default function BlendTeaser() {
               <span
                 key={i}
                 className={styles.bean}
-                style={
-                  {
-                    left: b.left,
-                    animationDelay: b.delay,
-                    animationDuration: b.duration,
-                    "--r": `${b.rotate}deg`,
-                  } as React.CSSProperties
-                }
+                style={{
+                  left: b.left,
+                  animationDelay: b.delay,
+                  animationDuration: b.duration,
+                }}
               >
-                <Bean size={b.size} />
+                {/* الدوران الأولي لكل حبة، والحركة نفسها بالـ CSS */}
+                <span style={{ display: "block", transform: `rotate(${b.rotate}deg)` }}>
+                  <Bean size={b.size} />
+                </span>
               </span>
             ))}
 

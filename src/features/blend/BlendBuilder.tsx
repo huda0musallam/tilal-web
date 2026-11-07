@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, ShoppingBag } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys, fetcher } from "@/lib/api";
+import { apiKeys, fetchBeans } from "@/lib/api";
 import type { Bean, Cardamom, Roast, Weight } from "@/types";
 import { cart } from "@/features/cart/cart-store";
 import { flyTo } from "@/features/fly/fly-store";
@@ -345,7 +345,7 @@ function Summary({ beans }: { beans: Bean[] }) {
 
 // ===== الصفحة: بتجيب البن وبترتب الخطوات، وما بتعيد الرسم لما الخلطة تتغير =====
 export default function BlendBuilder() {
-  const { data: beans = [] } = useSWR(apiKeys.beans, fetcher<Bean[]>, { suspense: true });
+  const { data: beans = [] } = useSWR(apiKeys.beans, fetchBeans, { suspense: true });
 
   // أول مرة بس: منختار أول نوع بن
   useEffect(() => {

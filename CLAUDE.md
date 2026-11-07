@@ -162,3 +162,4 @@ Do not keep the same information in two places.
 - Copy URL filters into `useState`.
 - Store anything sensitive in `localStorage`, or use it for access control.
 - Publish example reviews as real customer reviews.
+- Use `any`, `as` type assertions or `!` non-null assertions. ESLint blocks them. Use type guards (see `src/lib/guards.ts`) and narrowing instead.

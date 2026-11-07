@@ -4,10 +4,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { Heart } from "lucide-react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { apiKeys, fetcher } from "@/lib/api";
+import { apiKeys, fetchProducts } from "@/lib/api";
 import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";
-import type { Product, Roast } from "@/types";
+import type { Roast } from "@/types";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;
@@ -46,7 +46,7 @@ function countLabel(n: number) {
 type Filters = { roast: RoastFilter; origin: OriginFilter; fav: boolean };
 
 export default function ProductsExplorer() {
-  const { data: products = [] } = useSWR(apiKeys.products, fetcher<Product[]>, {
+  const { data: products = [] } = useSWR(apiKeys.products, fetchProducts, {
     suspense: true,
   });
   const favoriteIds = useFavoriteIds();

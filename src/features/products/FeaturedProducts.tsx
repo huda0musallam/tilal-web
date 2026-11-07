@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import useSWR from "swr";
-import { apiKeys, fetcher } from "@/lib/api";
+import { apiKeys, fetchProducts } from "@/lib/api";
 import ProductCard from "./ProductCard";
 import GridSkeleton from "@/components/ui/GridSkeleton";
-import type { Product } from "@/types";
+
 import styles from "./FeaturedProducts.module.css";
 
 export default function FeaturedProducts() {
   // نفس مفتاح صفحة المنتجات، فلما تروح عليها بتفتح فوراً من الـ cache
-  const { data, error, mutate } = useSWR(apiKeys.products, fetcher<Product[]>);
+  const { data, error, mutate } = useSWR(apiKeys.products, fetchProducts);
   const featured = data?.filter((p) => p.featured) ?? [];
 
   return (

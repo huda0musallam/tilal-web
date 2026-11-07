@@ -61,13 +61,12 @@
 
 @keyframes fall {
   from {
-    transform: translateY(0) rotate(var(--r));
+    transform: translateY(0) rotate(0deg);
   }
   to {
-    transform: translateY(440px) rotate(calc(var(--r) + 180deg));
+    transform: translateY(440px) rotate(180deg);
   }
 }
-
 .ringWrap {
   position: relative;
   z-index: 1;

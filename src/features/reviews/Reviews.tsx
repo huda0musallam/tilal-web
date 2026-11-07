@@ -1,8 +1,8 @@
 "use client";
 import { Star } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys, fetcher } from "@/lib/api";
-import type { Review } from "@/types";
+import { apiKeys, fetchReviews } from "@/lib/api";
+
 import styles from "./Reviews.module.css";
 
 function Stars({ rating }: { rating: number }) {
@@ -22,7 +22,7 @@ function Stars({ rating }: { rating: number }) {
 
 export default function Reviews() {
   // إذا لسه عم يحمّل أو صار خطأ، منخفي القسم
-  const { data: reviews } = useSWR(apiKeys.reviews, fetcher<Review[]>);
+  const { data: reviews } = useSWR(apiKeys.reviews, fetchReviews);
   if (!reviews || reviews.length === 0) return null;
 
   // منكرر الآراء مرتين عشان الشريط يضل مليان ويلف بدون فراغ

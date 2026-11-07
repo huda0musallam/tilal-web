@@ -102,6 +102,9 @@ The header, footer, cart drawer and fly layer are on every page.
 All URLs, SWR keys and fetchers are in `src/lib/api.ts`. No component calls `fetch` directly.
 The brewing guides are not in the API. They live in `src/features/brewing/brewing.ts` because
 they rarely change.
+Every response is checked with a type guard from `src/lib/guards.ts` before it is used. There is
+no `any`, no `as` and no `!` in the code. A response with the wrong shape shows the error message
+instead of breaking the page.
 
 ### Products page and blend page
 
