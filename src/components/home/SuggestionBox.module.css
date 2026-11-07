@@ -1,0 +1,148 @@
+.section {
+  padding-block: 112px;
+  background: var(--section);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: 64px;
+}
+
+.label {
+  margin-bottom: 8px;
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.intro h2 {
+  margin-bottom: 12px;
+}
+
+/* ===== الصندوق ===== */
+.box {
+  padding: 32px;
+  border: 1px solid var(--sand);
+  border-radius: 24px;
+  background: var(--bg);
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldLabel {
+  color: var(--espresso);
+  font-weight: 500;
+}
+
+.optional {
+  color: var(--coffee);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--sand);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--espresso);
+  font: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: #9c8572;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(79, 90, 46, 0.15);
+}
+
+.invalid {
+  border-color: #a63d2a;
+}
+
+.error {
+  color: #a63d2a;
+  font-size: 14px;
+}
+
+/* ===== النجوم ===== */
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.starBtn {
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  transition: transform 0.15s;
+}
+
+.starBtn:hover {
+  transform: scale(1.15);
+}
+
+.starOn {
+  color: var(--nescafe);
+}
+
+.starOff {
+  color: var(--sand);
+}
+
+.submit {
+  justify-self: start;
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* ===== رسالة الشكر ===== */
+.thanks {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-block: 32px;
+  color: var(--olive);
+  text-align: center;
+}
+
+.thanksTitle {
+  color: var(--espresso);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-block: 80px;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .box {
+    padding: 24px;
+  }
+}

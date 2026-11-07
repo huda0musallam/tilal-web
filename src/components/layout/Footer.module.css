@@ -1,0 +1,106 @@
+.footer {
+  margin-top: -1px;
+  color: var(--bg);
+}
+
+/* خط التلال */
+.hills {
+  display: block;
+  width: 100%;
+  height: 90px;
+  margin-bottom: -1px; /* بيمنع ظهور خط رفيع بين التلال والفوتر */
+}
+
+.body {
+  padding-block: 32px 24px;
+  background: var(--olive);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+  gap: 40px;
+  padding-bottom: 40px;
+}
+
+/* ===== البراند ===== */
+.stamp {
+  width: 120px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.tagline {
+  max-width: 260px;
+  color: #e8e1cf;
+}
+
+/* ===== الأعمدة ===== */
+.heading {
+  margin-bottom: 16px;
+  color: var(--bg);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+.link {
+  color: var(--sand);
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--bg);
+}
+
+.contactText {
+  margin-bottom: 16px;
+  color: #e8e1cf;
+}
+
+.whatsapp {
+  background: var(--bg);
+  color: var(--olive);
+}
+
+.whatsapp:hover {
+  background: var(--section);
+}
+
+/* ===== السطر الأخير ===== */
+.bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(247, 242, 234, 0.2);
+  text-align: center;
+}
+
+.bottom p {
+  color: var(--sand);
+  font-size: 14px;
+}
+
+/* ===== التابلت والموبايل ===== */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hills {
+    height: 60px;
+  }
+}

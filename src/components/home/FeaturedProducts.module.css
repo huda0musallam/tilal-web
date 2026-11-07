@@ -1,0 +1,67 @@
+.section {
+  padding-block: 112px;
+  background: var(--section);
+}
+
+.head {
+  margin-bottom: 56px;
+  text-align: center;
+}
+
+.label {
+  margin-bottom: 8px;
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.more {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.error {
+  text-align: center;
+}
+
+/* ===== التحميل ===== */
+.skeleton {
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  background: var(--sand);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ===== التابلت والموبايل ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding-block: 80px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+}

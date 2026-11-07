@@ -1,0 +1,70 @@
+.page {
+  padding-block: 56px 112px;
+}
+
+.head {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.label {
+  margin-bottom: 4px;
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.title {
+  margin-bottom: 8px;
+}
+
+.error {
+  padding-block: 48px;
+  text-align: center;
+}
+
+/* ===== التحميل ===== */
+.skeletonBar {
+  height: 66px;
+  margin-bottom: 36px;
+  border-radius: 18px;
+  background: var(--section);
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.skeleton {
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  background: var(--sand);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 1024px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding-block: 32px 80px;
+  }
+
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+}

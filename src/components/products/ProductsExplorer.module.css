@@ -1,0 +1,92 @@
+/* ===== شريط الفلاتر ===== */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 36px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--section);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.divider {
+  width: 1px;
+  height: 28px;
+  background: var(--sand);
+}
+
+.chip {
+  padding: 8px 18px;
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--coffee);
+  font-weight: 500;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--nescafe);
+}
+
+.active,
+.active:hover {
+  border-color: var(--coffee);
+  background: var(--coffee);
+  color: var(--bg);
+}
+
+.count {
+  margin-inline-start: auto;
+  color: var(--coffee);
+  font-size: 14px;
+}
+
+/* ===== الشبكة ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-block: 64px;
+  text-align: center;
+}
+
+/* ===== التابلت والموبايل ===== */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .divider {
+    display: none;
+  }
+
+  .count {
+    width: 100%;
+    margin-inline-start: 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+}

@@ -1,0 +1,278 @@
+/* ===== الصورة الكبيرة ===== */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(42, 26, 18, 0.85) 0%,
+    rgba(42, 26, 18, 0.35) 55%,
+    rgba(42, 26, 18, 0.1) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  padding-block: 48px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: var(--sand);
+  font-weight: 500;
+}
+
+.back:hover {
+  color: var(--bg);
+}
+
+.heroTitle {
+  color: var(--bg);
+}
+
+.heroTagline {
+  color: #e8e1cf;
+  font-size: 1.2rem;
+}
+
+/* ===== معلومات سريعة ===== */
+.facts {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: -36px;
+  overflow: hidden;
+  border: 1px solid var(--sand);
+  border-radius: 20px;
+  background: var(--sand);
+}
+
+.fact {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 20px 12px;
+  background: var(--bg);
+  text-align: center;
+}
+
+.factIcon {
+  margin-bottom: 4px;
+  color: var(--olive);
+}
+
+.fact dt {
+  color: var(--coffee);
+  font-size: 13px;
+}
+
+.fact dd {
+  color: var(--espresso);
+  font-weight: 700;
+}
+
+/* ===== المحتوى ===== */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  align-items: start;
+  gap: 48px;
+  padding-block: 64px;
+}
+
+.side {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 16px;
+}
+
+.box {
+  padding: 24px;
+  border-radius: 20px;
+  background: var(--section);
+}
+
+.boxTitle {
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--espresso);
+}
+
+.list svg {
+  flex-shrink: 0;
+  margin-top: 6px;
+  color: var(--olive);
+}
+
+.cta {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  border: 1px dashed var(--nescafe);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.cta p {
+  color: var(--espresso);
+  font-weight: 700;
+}
+
+.cta a {
+  justify-content: center;
+}
+
+/* ===== الخطوات ===== */
+.stepsTitle {
+  margin-bottom: 24px;
+}
+
+.steps {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  background: var(--bg);
+}
+
+.step p {
+  color: var(--espresso);
+  font-size: 1.05rem;
+}
+
+.stepNum {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--coffee);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--olive);
+  color: var(--sand);
+}
+
+.tip svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.tip p {
+  color: var(--bg);
+}
+
+/* ===== طرق تانية ===== */
+.others {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 16px;
+  padding-block: 32px 96px;
+  border-top: 1px solid var(--sand);
+}
+
+.othersTitle {
+  color: var(--espresso);
+  font-weight: 700;
+}
+
+.othersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.otherLink {
+  padding: 8px 18px;
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  color: var(--coffee);
+  font-weight: 500;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.otherLink:hover {
+  border-color: var(--nescafe);
+  background: var(--section);
+}
+
+/* ===== التابلت والموبايل ===== */
+@media (max-width: 900px) {
+  .facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 48px;
+  }
+
+  .side {
+    position: static;
+    order: 2; /* الخطوات أول على الموبايل */
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    min-height: 320px;
+  }
+}
+/* المكان اللي بيبين لحد ما يوصل المحتوى */
+.loading {
+  min-height: 420px;
+  background: var(--section);
+}

@@ -1,0 +1,139 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--sand);
+  border-radius: 20px;
+  background: var(--bg);
+  transition: box-shadow 0.35s;
+}
+
+.card:hover {
+  box-shadow: 0 18px 40px rgba(42, 26, 18, 0.12);
+}
+
+/* ===== الصورة ===== */
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+}
+
+.badge {
+  position: absolute;
+  top: 14px;
+  inset-inline-start: 14px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(247, 242, 234, 0.92);
+  color: var(--coffee);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.like {
+  position: absolute;
+  top: 10px;
+  inset-inline-end: 10px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(247, 242, 234, 0.92);
+  color: var(--coffee);
+}
+
+.liked {
+  color: #a63d2a;
+}
+
+/* ===== المحتوى ===== */
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.name {
+  font-size: 1.5rem;
+}
+
+.notes {
+  font-size: 0.95rem;
+}
+
+.group {
+  border: none;
+}
+
+.legend {
+  margin-bottom: 6px;
+  color: var(--coffee);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.option {
+  padding: 6px 14px;
+  border: 1px solid var(--sand);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--coffee);
+  font-size: 14px;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.option:hover {
+  border-color: var(--nescafe);
+}
+
+.selected,
+.selected:hover {
+  border-color: var(--coffee);
+  background: var(--coffee);
+  color: var(--bg);
+}
+
+/* ===== السعر والزر ===== */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed var(--sand);
+}
+
+.price {
+  color: var(--espresso);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.add {
+  padding: 10px 18px;
+}
