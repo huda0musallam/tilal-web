@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Heart, ShoppingBag, Check } from "lucide-react";
 import type { Cardamom, Product, Roast, Weight } from "@/types";
-import { formatPrice, productPrice } from "@/features/products/pricing";
+import { formatPrice, productPrice } from "./pricing";
 import { cart } from "@/features/cart/cart-store";
+import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
+import { flyTo } from "@/features/fly/fly-store";
 import styles from "./ProductCard.module.css";
 
 const ROAST_LABELS: Record<Roast, string> = {
@@ -26,11 +28,13 @@ const CARDAMOM_OPTIONS: { value: Cardamom; label: string }[] = [
   { value: "normal", label: "هيل" },
   { value: "extra", label: "زيادة هيل" },
 ];
+
 const CARDAMOM_DETAIL: Record<Cardamom, string> = {
   none: "بدون هيل",
   normal: "مع هيل",
   extra: "زيادة هيل",
 };
+
 type Props = {
   product: Product;
   index?: number; // لتأخير ظهور الكروت ورا بعض
@@ -39,8 +43,9 @@ type Props = {
 export default function ProductCard({ product, index = 0 }: Props) {
   const [weight, setWeight] = useState<Weight>("250");
   const [cardamom, setCardamom] = useState<Cardamom>("none");
-  const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
+  const liked = useIsFavorite(product.id);
+  const mediaRef = useRef<HTMLDivElement>(null); // من هون بتطير الصورة
 
   const price = productPrice(product, weight, cardamom);
 
@@ -56,9 +61,17 @@ export default function ProductCard({ product, index = 0 }: Props) {
       unitPrice: price,
     });
 
+    flyTo("cart", product.image, mediaRef.current);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
+
+  function handleLike() {
+    const nowLiked = favorites.toggle(product.id);
+    // منطيّر الصورة بس لما نضيف للمفضلة، مش لما نشيل
+    if (nowLiked) flyTo("favorites", product.image, mediaRef.current);
+  }
+
   return (
     <motion.article
       className={styles.card}
@@ -67,7 +80,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.12 }}
     >
-      <div className={styles.media}>
+      <div className={styles.media} ref={mediaRef}>
         <Image
           src={product.image}
           alt={`كيس قهوة التلال، ${product.name}`}
@@ -80,7 +93,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
         <motion.button
           type="button"
           className={`${styles.like} ${liked ? styles.liked : ""}`}
-          onClick={() => setLiked((v) => !v)}
+          onClick={handleLike}
           whileTap={{ scale: 0.85 }}
           aria-pressed={liked}
           aria-label={liked ? `شيل ${product.name} من المفضلة` : `أضف ${product.name} للمفضلة`}

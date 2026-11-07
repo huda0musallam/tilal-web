@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, ShoppingBag } from "lucide-react";
 import useSWR from "swr";
 import { apiKeys, fetcher } from "@/lib/api";
 import type { Bean, Cardamom, Roast, Weight } from "@/types";
 import { cart } from "@/features/cart/cart-store";
+import { flyTo } from "@/features/fly/fly-store";
 import { cardamomCost, formatPrice } from "@/features/products/pricing";
+import { blend, useBlendStore, useShares, type Grind } from "./blend-store";
 import styles from "./BlendBuilder.module.css";
 
-type Grind = "whole" | "arabic" | "filter" | "moka" | "turkish";
 type Option<T> = { value: T; label: string };
 
 const TOTALS: Option<Weight>[] = [
@@ -58,16 +59,7 @@ const BAG_BY_ROAST: Record<Roast, string> = {
 const labelOf = <T,>(options: Option<T>[], value: T) =>
   options.find((o) => o.value === value)?.label ?? "";
 
-// نوزع 100% على الأنواع المختارة بخطوات 10%
-function evenShares(ids: string[]) {
-  const base = Math.floor(10 / ids.length) * 10;
-  const extra = (100 - base * ids.length) / 10;
-  const result: Record<string, number> = {};
-  ids.forEach((id, i) => {
-    result[id] = base + (i < extra ? 10 : 0);
-  });
-  return result;
-}
+const colorOf = (beans: Bean[], bean: Bean) => COLORS[beans.indexOf(bean) % COLORS.length];
 
 // ===== مكونات صغيرة =====
 function Step({
@@ -123,35 +115,143 @@ function Chips<T extends string>({
   );
 }
 
-// ===== الصفحة =====
-export default function BlendBuilder() {
-  // أنواع البن من SWR، والقيمة الأولية جاية من السيرفر
-  const { data: beans = [] } = useSWR(apiKeys.beans, fetcher<Bean[]>, {
-    suspense: true,
-  });
-  const [total, setTotal] = useState<Weight>("250");
-  const [shares, setShares] = useState<Record<string, number>>(() =>
-    beans.length > 0 ? { [beans[0].id]: 100 } : {},
+// ===== الخطوات: كل وحدة بتقرا من الـ store بس اللي بيخصها =====
+function TotalStep() {
+  const total = useBlendStore((s) => s.total);
+  return (
+    <Step n={1} title="الكمية الكلية">
+      <Chips options={TOTALS} value={total} onChange={blend.setTotal} label="الكمية الكلية" />
+    </Step>
   );
-  const [roast, setRoast] = useState<Roast>("medium");
-  const [grind, setGrind] = useState<Grind>("whole");
-  const [cardamom, setCardamom] = useState<Cardamom>("none");
+}
+
+function BeansStep({ beans }: { beans: Bean[] }) {
+  const shares = useShares();
+  const grams = Number(useBlendStore((s) => s.total));
+
+  const selected = beans.filter((b) => b.id in shares);
+  const sum = selected.reduce((s, b) => s + shares[b.id], 0);
+
+  return (
+    <Step n={2} title="أنواع البن" hint="اختار نوع أو أكتر، ووزّع النسب بينهم.">
+      <div className={styles.beans}>
+        {beans.map((b) => {
+          const isOn = b.id in shares;
+          return (
+            <button
+              key={b.id}
+              type="button"
+              onClick={() => blend.toggleBean(b.id)}
+              aria-pressed={isOn}
+              className={`${styles.bean} ${isOn ? styles.beanOn : ""}`}
+            >
+              <span className={styles.beanCheck} aria-hidden="true">
+                {isOn && <Check size={14} />}
+              </span>
+              <span className={styles.beanName}>{b.name}</span>
+              <span className={styles.beanNotes}>{b.notes}</span>
+              <span className={styles.beanPrice}>{formatPrice(b.pricePerGram * 250)} / 250 غ</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* سلايدر لكل نوع إذا في أكتر من نوع */}
+      {selected.length > 1 && (
+        <div className={styles.sliders}>
+          <AnimatePresence initial={false}>
+            {selected.map((b) => (
+              <motion.div
+                key={b.id}
+                className={styles.slider}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+              >
+                <label htmlFor={`share-${b.id}`} className={styles.sliderLabel}>
+                  <span>
+                    <i className={styles.swatch} style={{ background: colorOf(beans, b) }} />
+                    {b.name}
+                  </span>
+                  <span>
+                    {shares[b.id]}% · {Math.round((grams * shares[b.id]) / 100)} غ
+                  </span>
+                </label>
+                <input
+                  id={`share-${b.id}`}
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={10}
+                  value={shares[b.id]}
+                  onChange={(e) => blend.setShare(b.id, Number(e.target.value))}
+                  className={styles.range}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {sum !== 100 && (
+            <div className={styles.warning} role="alert">
+              <span>المجموع هلق {sum}%، لازم يكون 100%.</span>
+              <button type="button" className={styles.link} onClick={blend.distribute}>
+                وزّع بالتساوي
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {selected.length === 0 && (
+        <p className={styles.warning} role="alert">
+          اختار نوع بن واحد على الأقل.
+        </p>
+      )}
+    </Step>
+  );
+}
+
+function RoastStep() {
+  const roast = useBlendStore((s) => s.roast);
+  return (
+    <Step n={3} title="درجة التحميص">
+      <Chips options={ROASTS} value={roast} onChange={blend.setRoast} label="درجة التحميص" />
+    </Step>
+  );
+}
+
+function GrindStep() {
+  const grind = useBlendStore((s) => s.grind);
+  return (
+    <Step n={4} title="الطحنة" hint="إذا ما بتعرف، اختار حبوب كاملة وطحنها قبل التحضير.">
+      <Chips options={GRINDS} value={grind} onChange={blend.setGrind} label="الطحنة" />
+    </Step>
+  );
+}
+
+function CardamomStep() {
+  const cardamom = useBlendStore((s) => s.cardamom);
+  return (
+    <Step n={5} title="الهيل">
+      <Chips options={CARDAMOMS} value={cardamom} onChange={blend.setCardamom} label="الهيل" />
+    </Step>
+  );
+}
+
+// ===== الملخص: بيقرا كل شي لأنه بيعرض كل شي =====
+function Summary({ beans }: { beans: Bean[] }) {
+  const total = useBlendStore((s) => s.total);
+  const roast = useBlendStore((s) => s.roast);
+  const grind = useBlendStore((s) => s.grind);
+  const cardamom = useBlendStore((s) => s.cardamom);
+  const shares = useShares();
   const [added, setAdded] = useState(false);
+  const ringRef = useRef<HTMLDivElement>(null); // من هون بتطير صورة الكيس
 
   const grams = Number(total);
   const selected = beans.filter((b) => b.id in shares);
   const sum = selected.reduce((s, b) => s + shares[b.id], 0);
   const isValid = selected.length > 0 && sum === 100;
-
-  function toggleBean(id: string) {
-    const ids =
-      id in shares ? Object.keys(shares).filter((x) => x !== id) : [...Object.keys(shares), id];
-    setShares(ids.length > 0 ? evenShares(ids) : {});
-  }
-
-  function setShare(id: string, value: number) {
-    setShares({ ...shares, [id]: value });
-  }
 
   // السعر: كل نوع حسب غراماته + الهيل
   const beansCost = selected.reduce((s, b) => s + b.pricePerGram * grams * (shares[b.id] / 100), 0);
@@ -163,13 +263,10 @@ export default function BlendBuilder() {
   for (const b of selected) {
     const start = acc;
     acc += shares[b.id];
-    const color = COLORS[beans.indexOf(b) % COLORS.length];
-    stops.push(`${color} ${start}% ${acc}%`);
+    stops.push(`${colorOf(beans, b)} ${start}% ${acc}%`);
   }
   if (acc < 100) stops.push(`var(--sand) ${acc}% 100%`);
-  const ringStyle = {
-    background: `conic-gradient(${stops.join(", ") || "var(--sand) 0 100%"})`,
-  };
+  const ringStyle = { background: `conic-gradient(${stops.join(", ")})` };
 
   const mixLabel = selected.map((b) => `${b.name} ${shares[b.id]}%`).join(" · ");
 
@@ -190,169 +287,81 @@ export default function BlendBuilder() {
       ],
       unitPrice: price,
     });
+    flyTo("cart", BAG_BY_ROAST[roast], ringRef.current);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
 
   return (
-    <div className={styles.layout}>
-      {/* ===== الخطوات ===== */}
-      <div className={styles.steps}>
-        <Step n={1} title="الكمية الكلية">
-          <Chips options={TOTALS} value={total} onChange={setTotal} label="الكمية الكلية" />
-        </Step>
+    <aside className={styles.summary} aria-label="ملخص الخلطة">
+      <h2 className={styles.summaryTitle}>خلطتك</h2>
 
-        <Step n={2} title="أنواع البن" hint="اختار نوع أو أكتر، ووزّع النسب بينهم.">
-          <div className={styles.beans}>
-            {beans.map((b) => {
-              const isOn = b.id in shares;
-              return (
-                <button
-                  key={b.id}
-                  type="button"
-                  onClick={() => toggleBean(b.id)}
-                  aria-pressed={isOn}
-                  className={`${styles.bean} ${isOn ? styles.beanOn : ""}`}
-                >
-                  <span className={styles.beanCheck} aria-hidden="true">
-                    {isOn && <Check size={14} />}
-                  </span>
-                  <span className={styles.beanName}>{b.name}</span>
-                  <span className={styles.beanNotes}>{b.notes}</span>
-                  <span className={styles.beanPrice}>
-                    {formatPrice(b.pricePerGram * 250)} / 250 غ
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* سلايدر لكل نوع إذا في أكتر من نوع */}
-          {selected.length > 1 && (
-            <div className={styles.sliders}>
-              <AnimatePresence initial={false}>
-                {selected.map((b) => (
-                  <motion.div
-                    key={b.id}
-                    className={styles.slider}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                  >
-                    <label htmlFor={`share-${b.id}`} className={styles.sliderLabel}>
-                      <span>
-                        <i
-                          className={styles.swatch}
-                          style={{
-                            background: COLORS[beans.indexOf(b) % COLORS.length],
-                          }}
-                        />
-                        {b.name}
-                      </span>
-                      <span>
-                        {shares[b.id]}% · {Math.round((grams * shares[b.id]) / 100)} غ
-                      </span>
-                    </label>
-                    <input
-                      id={`share-${b.id}`}
-                      type="range"
-                      min={0}
-                      max={100}
-                      step={10}
-                      value={shares[b.id]}
-                      onChange={(e) => setShare(b.id, Number(e.target.value))}
-                      className={styles.range}
-                    />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-
-              {sum !== 100 && (
-                <div className={styles.warning} role="alert">
-                  <span>المجموع هلق {sum}%، لازم يكون 100%.</span>
-                  <button
-                    type="button"
-                    className={styles.link}
-                    onClick={() => setShares(evenShares(selected.map((b) => b.id)))}
-                  >
-                    وزّع بالتساوي
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {selected.length === 0 && (
-            <p className={styles.warning} role="alert">
-              اختار نوع بن واحد على الأقل.
-            </p>
-          )}
-        </Step>
-
-        <Step n={3} title="درجة التحميص">
-          <Chips options={ROASTS} value={roast} onChange={setRoast} label="درجة التحميص" />
-        </Step>
-
-        <Step n={4} title="الطحنة" hint="إذا ما بتعرف، اختار حبوب كاملة وطحنها قبل التحضير.">
-          <Chips options={GRINDS} value={grind} onChange={setGrind} label="الطحنة" />
-        </Step>
-
-        <Step n={5} title="الهيل">
-          <Chips options={CARDAMOMS} value={cardamom} onChange={setCardamom} label="الهيل" />
-        </Step>
+      <div ref={ringRef} className={styles.ring} style={ringStyle}>
+        <span className={styles.ringText}>{labelOf(TOTALS, total)}</span>
       </div>
 
-      {/* ===== الملخص ===== */}
-      <aside className={styles.summary} aria-label="ملخص الخلطة">
-        <h2 className={styles.summaryTitle}>خلطتك</h2>
+      <ul className={styles.legend}>
+        {selected.map((b) => (
+          <li key={b.id}>
+            <i className={styles.swatch} style={{ background: colorOf(beans, b) }} />
+            {b.name} {shares[b.id]}%
+          </li>
+        ))}
+      </ul>
 
-        <div className={styles.ring} style={ringStyle}>
-          <span className={styles.ringText}>{labelOf(TOTALS, total)}</span>
+      <dl className={styles.details}>
+        <div>
+          <dt>التحميص</dt>
+          <dd>{labelOf(ROASTS, roast)}</dd>
         </div>
-
-        <ul className={styles.legend}>
-          {selected.map((b) => (
-            <li key={b.id}>
-              <i
-                className={styles.swatch}
-                style={{ background: COLORS[beans.indexOf(b) % COLORS.length] }}
-              />
-              {b.name} {shares[b.id]}%
-            </li>
-          ))}
-        </ul>
-
-        <dl className={styles.details}>
-          <div>
-            <dt>التحميص</dt>
-            <dd>{labelOf(ROASTS, roast)}</dd>
-          </div>
-          <div>
-            <dt>الطحنة</dt>
-            <dd>{labelOf(GRINDS, grind)}</dd>
-          </div>
-          <div>
-            <dt>الهيل</dt>
-            <dd>{labelOf(CARDAMOMS, cardamom)}</dd>
-          </div>
-        </dl>
-
-        <div className={styles.priceRow}>
-          <span>السعر</span>
-          <strong>{formatPrice(price)}</strong>
+        <div>
+          <dt>الطحنة</dt>
+          <dd>{labelOf(GRINDS, grind)}</dd>
         </div>
+        <div>
+          <dt>الهيل</dt>
+          <dd>{labelOf(CARDAMOMS, cardamom)}</dd>
+        </div>
+      </dl>
 
-        <button
-          type="button"
-          className={`btn btn-primary ${styles.add}`}
-          onClick={handleAdd}
-          disabled={!isValid}
-        >
-          {added ? <Check size={18} /> : <ShoppingBag size={18} />}
-          {added ? "انضافت خلطتك" : "أضف خلطتي للسلة"}
-        </button>
-        {!isValid && <p className={styles.addHint}>كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
-      </aside>
+      <div className={styles.priceRow}>
+        <span>السعر</span>
+        <strong>{formatPrice(price)}</strong>
+      </div>
+
+      <button
+        type="button"
+        className={`btn btn-primary ${styles.add}`}
+        onClick={handleAdd}
+        disabled={!isValid}
+      >
+        {added ? <Check size={18} /> : <ShoppingBag size={18} />}
+        {added ? "انضافت خلطتك" : "أضف خلطتي للسلة"}
+      </button>
+      {!isValid && <p className={styles.addHint}>كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
+    </aside>
+  );
+}
+
+// ===== الصفحة: بتجيب البن وبترتب الخطوات، وما بتعيد الرسم لما الخلطة تتغير =====
+export default function BlendBuilder() {
+  const { data: beans = [] } = useSWR(apiKeys.beans, fetcher<Bean[]>, { suspense: true });
+
+  // أول مرة بس: منختار أول نوع بن
+  useEffect(() => {
+    blend.init(beans[0]?.id);
+  }, [beans]);
+
+  return (
+    <div className={styles.layout}>
+      <div className={styles.steps}>
+        <TotalStep />
+        <BeansStep beans={beans} />
+        <RoastStep />
+        <GrindStep />
+        <CardamomStep />
+      </div>
+      <Summary beans={beans} />
     </div>
   );
 }

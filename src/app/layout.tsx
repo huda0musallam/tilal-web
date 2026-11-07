@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import CartDrawer from "@/features/cart/CartDrawer";
+import FlyLayer from "@/features/fly/FlyLayer";
 // خط العناوين
 const display = Aref_Ruqaa({
   subsets: ["arabic"],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         <Footer />
         <CartDrawer />
+        <FlyLayer />
       </body>
     </html>
   );

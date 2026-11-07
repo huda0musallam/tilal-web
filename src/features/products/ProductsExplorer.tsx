@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { Heart } from "lucide-react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { apiKeys, fetcher } from "@/lib/api";
+import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";
 import type { Product, Roast } from "@/types";
 import styles from "./ProductsExplorer.module.css";
@@ -26,11 +27,11 @@ const ORIGIN_FILTERS: { value: OriginFilter; label: string }[] = [
 ];
 
 // نتأكد إن القيمة اللي جاية من الرابط صحيحة
-function toRoast(value?: string): RoastFilter {
+function toRoast(value: string | null): RoastFilter {
   return value === "light" || value === "medium" || value === "dark" ? value : "all";
 }
 
-function toOrigin(value?: string): OriginFilter {
+function toOrigin(value: string | null): OriginFilter {
   return value === "brazil" || value === "colombia" ? value : "all";
 }
 
@@ -42,48 +43,42 @@ function countLabel(n: number) {
   return `${n} منتج`;
 }
 
+type Filters = { roast: RoastFilter; origin: OriginFilter; fav: boolean };
+
 export default function ProductsExplorer() {
-  // SWR بياخد القيمة الأولية من السيرفر، وبعدين بيحدّثها لحاله
   const { data: products = [] } = useSWR(apiKeys.products, fetcher<Product[]>, {
     suspense: true,
   });
+  const favoriteIds = useFavoriteIds();
 
-  // منقرا الفلتر من الرابط مباشرة
+  // الرابط هو المصدر الوحيد للفلتر
   const searchParams = useSearchParams();
-  const [roast, setRoast] = useState<RoastFilter>(() =>
-    toRoast(searchParams.get("roast") ?? undefined),
-  );
-  const [origin, setOrigin] = useState<OriginFilter>(() =>
-    toOrigin(searchParams.get("origin") ?? undefined),
-  );
+  const current: Filters = {
+    roast: toRoast(searchParams.get("roast")),
+    origin: toOrigin(searchParams.get("origin")),
+    fav: searchParams.get("fav") === "1",
+  };
 
-  // نحدّث الرابط بدون ما نعيد تحميل الصفحة
-  function updateUrl(nextRoast: RoastFilter, nextOrigin: OriginFilter) {
+  // منغير الرابط بدون ما نعيد تحميل الصفحة، و Next.js بيحدّث useSearchParams لحاله
+  function updateUrl(change: Partial<Filters>) {
+    const next = { ...current, ...change };
     const params = new URLSearchParams();
-    if (nextRoast !== "all") params.set("roast", nextRoast);
-    if (nextOrigin !== "all") params.set("origin", nextOrigin);
+    if (next.roast !== "all") params.set("roast", next.roast);
+    if (next.origin !== "all") params.set("origin", next.origin);
+    if (next.fav) params.set("fav", "1");
     const query = params.toString();
     window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
   }
 
-  function selectRoast(value: RoastFilter) {
-    setRoast(value);
-    updateUrl(value, origin);
-  }
-
-  function selectOrigin(value: OriginFilter) {
-    setOrigin(value);
-    updateUrl(roast, value);
-  }
-
   function resetFilters() {
-    setRoast("all");
-    setOrigin("all");
-    updateUrl("all", "all");
+    updateUrl({ roast: "all", origin: "all", fav: false });
   }
 
   const filtered = products.filter(
-    (p) => (roast === "all" || p.roast === roast) && (origin === "all" || p.origin === origin),
+    (p) =>
+      (current.roast === "all" || p.roast === current.roast) &&
+      (current.origin === "all" || p.origin === current.origin) &&
+      (!current.fav || favoriteIds.includes(p.id)),
   );
 
   return (
@@ -95,9 +90,9 @@ export default function ProductsExplorer() {
             <button
               key={f.value}
               type="button"
-              onClick={() => selectRoast(f.value)}
-              aria-pressed={roast === f.value}
-              className={`${styles.chip} ${roast === f.value ? styles.active : ""}`}
+              onClick={() => updateUrl({ roast: f.value })}
+              aria-pressed={current.roast === f.value}
+              className={`${styles.chip} ${current.roast === f.value ? styles.active : ""}`}
             >
               {f.label}
             </button>
@@ -111,14 +106,26 @@ export default function ProductsExplorer() {
             <button
               key={f.value}
               type="button"
-              onClick={() => selectOrigin(f.value)}
-              aria-pressed={origin === f.value}
-              className={`${styles.chip} ${origin === f.value ? styles.active : ""}`}
+              onClick={() => updateUrl({ origin: f.value })}
+              aria-pressed={current.origin === f.value}
+              className={`${styles.chip} ${current.origin === f.value ? styles.active : ""}`}
             >
               {f.label}
             </button>
           ))}
         </div>
+
+        <span className={styles.divider} aria-hidden="true" />
+
+        <button
+          type="button"
+          onClick={() => updateUrl({ fav: !current.fav })}
+          aria-pressed={current.fav}
+          className={`${styles.chip} ${styles.favChip} ${current.fav ? styles.active : ""}`}
+        >
+          <Heart size={16} fill={current.fav ? "currentColor" : "none"} />
+          المفضلة ({favoriteIds.length})
+        </button>
 
         <p className={styles.count} aria-live="polite">
           {countLabel(filtered.length)}
@@ -128,7 +135,11 @@ export default function ProductsExplorer() {
       {/* المنتجات */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
-          <p>ما في منتجات بهالاختيار.</p>
+          <p>
+            {current.fav && favoriteIds.length === 0
+              ? "ما في منتجات بالمفضلة لهلق. اكبس على القلب بأي منتج لتحفظه."
+              : "ما في منتجات بهالاختيار."}
+          </p>
           <button type="button" className="btn btn-outline" onClick={resetFilters}>
             شيل الفلاتر
           </button>

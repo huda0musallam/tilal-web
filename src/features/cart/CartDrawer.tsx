@@ -9,17 +9,17 @@ import { cart, useCart, useCartStore } from "@/features/cart/cart-store";
 import { formatPrice } from "@/features/products/pricing";
 import { buildOrderMessage, whatsappLink } from "@/lib/whatsapp";
 import styles from "./CartDrawer.module.css";
-
+import { useFavoritesStore } from "@/features/favorites/favorites-store";
 export default function CartDrawer() {
   const { items, isOpen, count, total } = useCart();
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
-  // منقرا السلة المحفوظة بعد ما توصل الصفحة للمتصفح
+  // منقرا السلة والمفضلة المحفوظين بعد ما توصل الصفحة للمتصفح
   useEffect(() => {
     useCartStore.persist.rehydrate();
+    useFavoritesStore.persist.rehydrate();
   }, []);
-
   // لما يفتح الدرج: نوقف تمرير الصفحة، ونسكره بزر Esc
   useEffect(() => {
     if (!isOpen) return;

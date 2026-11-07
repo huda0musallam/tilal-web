@@ -35,7 +35,6 @@ export const cart = {
       items: exists
         ? items.map((i) => (i.key === item.key ? { ...i, qty: i.qty + qty } : i))
         : [...items, { ...item, qty }],
-      isOpen: true,
     });
   },
 

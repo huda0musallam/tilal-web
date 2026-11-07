@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { motion } from "motion/react";
+import { ShoppingBag, Heart, Menu, X } from "lucide-react";
 import HeaderLogo from "@/components/logo/HeaderLogo";
-import { cart, useCartCount } from "@/features/cart/cart-store";
+import { cart, useCart } from "@/features/cart/cart-store";
+import { useFavoritesCount } from "@/features/favorites/favorites-store";
+import { useFlyStore } from "@/features/fly/fly-store";
 import styles from "./Header.module.css";
 
 const links = [
@@ -15,12 +18,19 @@ const links = [
   { href: "/brewing", label: "طرق التحضير" },
 ];
 
+// نطة صغيرة للأيقونة لما توصلها صورة. key جديد = الأنيميشن بيعيد من الأول
+const bumpAnimation = { scale: [1, 1.35, 1] };
+
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const cartCount = useCartCount();
+  const { count: cartCount } = useCart();
+  const favCount = useFavoritesCount();
+  const cartBump = useFlyStore((s) => s.bump.cart);
+  const favBump = useFlyStore((s) => s.bump.favorites);
+
   // نراقب التمرير عشان نصغّر الهيدر
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -56,20 +66,49 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
+          {/* المفضلة: بتفتح صفحة المنتجات على فلتر المفضلة */}
+          <Link
+            href="/products?fav=1"
+            className={styles.iconBtn}
+            data-fly-target="favorites"
+            aria-label={`المفضلة، فيها ${favCount} منتجات`}
+          >
+            <motion.span
+              key={favBump}
+              className={styles.iconInner}
+              animate={favBump > 0 ? bumpAnimation : undefined}
+              transition={{ duration: 0.35 }}
+            >
+              <Heart size={22} strokeWidth={1.8} />
+            </motion.span>
+            {favCount > 0 && <span className={styles.badge}>{favCount}</span>}
+          </Link>
+
+          {/* السلة */}
           <button
             type="button"
             className={styles.iconBtn}
+            onClick={cart.open}
+            data-fly-target="cart"
             aria-label={`السلة، فيها ${cartCount} منتجات`}
           >
-            <ShoppingBag size={22} strokeWidth={1.8} />
+            <motion.span
+              key={cartBump}
+              className={styles.iconInner}
+              animate={cartBump > 0 ? bumpAnimation : undefined}
+              transition={{ duration: 0.35 }}
+            >
+              <ShoppingBag size={22} strokeWidth={1.8} />
+            </motion.span>
             {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
           </button>
 
           <button
             type="button"
-            className={styles.iconBtn}
-            onClick={cart.open}
-            aria-label={`السلة، فيها ${cartCount} منتجات`}
+            className={`${styles.iconBtn} ${styles.menuBtn}`}
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "سكّر القائمة" : "افتح القائمة"}
+            aria-expanded={menuOpen}
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

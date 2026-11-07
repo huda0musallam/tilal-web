@@ -90,3 +90,8 @@
     margin-inline: auto;
   }
 }
+.favChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
