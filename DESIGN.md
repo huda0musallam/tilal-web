@@ -1,0 +1,116 @@
+# Design | Tilal
+
+**Idea:** from the hills to your cup. Coffee roasted by hand at home, warm, natural and modern.
+
+**Feeling:** not dark and not too light. Warm beige with coffee brown and olive green, easy on
+the eyes, with clear contrast.
+
+## Colors
+
+All colors are CSS variables in `src/app/globals.css`. Do not write a color directly unless it
+has no variable.
+
+| Variable       | Color     | Use                                           |
+| -------------- | --------- | --------------------------------------------- |
+| `--bg`         | `#F7F2EA` | Main background                               |
+| `--section`    | `#EFE3D1` | Section and card backgrounds                  |
+| `--sand`       | `#DCC7A8` | Borders and dividers                          |
+| `--nescafe`    | `#B8865A` | Details, icons, stars                         |
+| `--olive`      | `#4F5A2E` | Primary buttons, small labels, footer, badges |
+| `--olive-dark` | `#3E4724` | Primary button hover                          |
+| `--coffee`     | `#5A3726` | Secondary text, selected chips                |
+| `--espresso`   | `#2A1A12` | Headings and main text                        |
+| `--logo`       | `#3B2618` | Logo                                          |
+
+Helper colors:
+
+- `#A63D2A`: errors and the filled heart
+- `#E8E1CF`: secondary text on dark backgrounds (olive and photos)
+- `#6B7A45`: the back hill in the footer wave
+
+Rules:
+
+- Sections alternate between `--bg` and `--section`, so each section has a clear start.
+- Text on olive or on dark photos uses `--bg`.
+- One primary (olive) button in each group of buttons. The others use `btn-outline`.
+
+## Fonts
+
+| Role     | Font                    | Variable         |
+| -------- | ----------------------- | ---------------- |
+| Headings | Aref Ruqaa (700)        | `--font-display` |
+| Text     | Tajawal (400, 500, 700) | `--font-body`    |
+
+- Use Ruqaa only for large headings (`h1`, `h2`, `h3`). It is hard to read at small sizes.
+- Headings need `line-height` of 1.4 or more, because Ruqaa letters rise above the line.
+- Body text is 17px with `line-height: 1.8`.
+
+## Spacing and corners
+
+| Element             | Value                                |
+| ------------------- | ------------------------------------ |
+| Content width       | `1200px` (`.container`)              |
+| Side gutter         | `20px`                               |
+| Section padding     | `112px` on desktop, `80px` on mobile |
+| Button corners      | `8px`                                |
+| Card corners        | `20px`                               |
+| Large image corners | `24px`                               |
+| Chips               | `999px`                              |
+
+## Components
+
+- **Buttons:** `.btn` with `.btn-primary` (olive) or `.btn-outline` (brown border).
+- **Chips:** for choices such as weight, cardamom and filters. The selected chip has a
+  `--coffee` background and `--bg` text.
+- **Cards:** `--section` or `--bg` background with a `--sand` border. They lift a little with a
+  soft shadow on hover.
+- **Section label:** a small bold olive line above each section, such as "قصتنا", with an `h2`
+  under it.
+- **Roast dots:** three dots. The filled ones use `--coffee` and show how dark the roast is.
+- **Header icons:** heart (favorites) and bag (cart), 44px round buttons, with an olive count
+  badge when the count is above zero.
+- **Error box:** `RouteError`, a dashed `--nescafe` border on `--section`, with a "Try again"
+  button.
+- **Placeholders:** `GridSkeleton`, `--sand` blocks that pulse while data loads.
+
+## Images
+
+- Warm, with brown, beige and green, and side light like morning light.
+- No cold or blue tones.
+- File names are lowercase with dashes: `bag-light.jpg`.
+- Every image has an `alt` that says what is in it, in Arabic.
+
+| Image   | File                                                                      |
+| ------- | ------------------------------------------------------------------------- |
+| Hero    | `hero-hills.jpg`                                                          |
+| Story   | `story-roaster.jpg`                                                       |
+| Bags    | `bag-light.jpg` (green), `bag-medium.jpg` (kraft), `bag-dark.jpg` (brown) |
+| Brewing | `brew-v60.jpg`, `brew-moka.jpg`, `brew-cold.jpg`, `hero-dallah.jpg`       |
+
+## Logo
+
+- **Full stamp** (`StampLogo`): footer, story section and the 404 page. It turns slowly.
+- **Wordmark** (`HeaderLogo`): header.
+- **Hills mark** (`icon.svg`): browser tab icon.
+- On dark backgrounds: `<StampLogo ink="#F7F2EA" />`
+- The logo is a React component, not an image, so it uses the Ruqaa font from the site.
+
+## Motion
+
+- **Reveal:** elements rise and fade in over 0.5 to 0.6 seconds. Items in a row follow each
+  other with 0.1 seconds between them.
+- **Once:** reveal animations run only the first time (`once: true`).
+- **Calm:** continuous motion (the stamp, the hero zoom, the falling beans) is very slow, so the
+  page feels alive without pulling attention.
+- **Feedback:** the heart springs when pressed. Buttons shrink slightly when pressed.
+- **Fly to the header:** adding to the cart or favorites sends a small copy of the bag image in
+  an arc to the header icon over 0.8 seconds, then the icon bounces once.
+- **Reduce motion:** all motion stops when the user has `prefers-reduced-motion` on. The fly
+  animation is skipped and only the count updates.
+
+## Writing
+
+- A light, warm Levantine dialect, like talking to a neighbor.
+- Short, clear sentences.
+- Buttons start with a verb: "أضف للسلة"، "ابدأ خلطتك"، "اطلب عبر واتساب".
+- Error messages say what happened and what to do: "ما قدرنا نجيب المنتجات هلق، جرّب كمان شوي."
