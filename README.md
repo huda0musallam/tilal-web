@@ -4,8 +4,10 @@
 their own blend, read brewing guides and send their order through WhatsApp. The interface is in
 Arabic and reads right to left.
 
-The data comes from a separate API, [`tilal-api`](https://github.com/huda0musallam/tilal-api).
-This repository is the frontend only.
+The data comes from a separate API. Its code is in
+[`tilal-api`](https://github.com/huda0musallam/tilal-api), and it runs on Render at
+`https://tilal-api.onrender.com`. Render deploys the API again every time `tilal-api` is pushed
+to GitHub. This repository is the frontend only.
 
 ## Technologies
 
