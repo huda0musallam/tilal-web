@@ -11,12 +11,7 @@ type Props = {
 };
 
 // بيطلّع العنصر من تحت لفوق لما يبين بالشاشة
-export default function Reveal({
-  children,
-  delay = 0,
-  as = "div",
-  className,
-}: Props) {
+export default function Reveal({ children, delay = 0, as = "div", className }: Props) {
   const Tag = as === "li" ? motion.li : motion.div;
   return (
     <Tag

@@ -1,15 +1,13 @@
+"use client";
 import { Star } from "lucide-react";
-import { getReviews } from "@/lib/api";
+import useSWR from "swr";
+import { apiKeys, fetcher } from "@/lib/api";
 import type { Review } from "@/types";
 import styles from "./Reviews.module.css";
 
 function Stars({ rating }: { rating: number }) {
   return (
-    <div
-      className={styles.stars}
-      role="img"
-      aria-label={`تقييم ${rating} من 5`}
-    >
+    <div className={styles.stars} role="img" aria-label={`تقييم ${rating} من 5`}>
       {[1, 2, 3, 4, 5].map((n) => (
         <Star
           key={n}
@@ -22,16 +20,10 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export default async function Reviews() {
-  let reviews: Review[];
-
-  try {
-    reviews = await getReviews();
-  } catch {
-    return null; // إذا الـ API طافي منخفي القسم
-  }
-
-  if (reviews.length === 0) return null;
+export default function Reviews() {
+  // إذا لسه عم يحمّل أو صار خطأ، منخفي القسم
+  const { data: reviews } = useSWR(apiKeys.reviews, fetcher<Review[]>);
+  if (!reviews || reviews.length === 0) return null;
 
   // منكرر الآراء مرتين عشان الشريط يضل مليان ويلف بدون فراغ
   const loop = [...reviews, ...reviews];
@@ -44,10 +36,7 @@ export default async function Reviews() {
       </div>
 
       <div className={styles.marquee}>
-        <div
-          className={styles.track}
-          style={{ animationDuration: `${reviews.length * 7}s` }}
-        >
+        <div className={styles.track} style={{ animationDuration: `${reviews.length * 7}s` }}>
           {loop.map((review, i) => (
             <figure
               key={`${review.id}-${i}`}

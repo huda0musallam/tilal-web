@@ -38,12 +38,7 @@ export default function Hero() {
 
       {/* النص */}
       <div className={`container ${styles.content}`}>
-        <motion.div
-          className={styles.text}
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-        >
+        <motion.div className={styles.text} variants={stagger} initial="hidden" animate="show">
           <motion.p variants={fadeUp} className={styles.eyebrow}>
             محمصة منزلية · تحميص طازة بدفعات صغيرة
           </motion.p>

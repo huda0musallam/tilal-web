@@ -43,9 +43,7 @@ export default function Footer() {
           {/* البراند */}
           <div className={styles.brand}>
             <StampLogo className={styles.stamp} ink="#F7F2EA" />
-            <p className={styles.tagline}>
-              قهوة محمّصة بالبيت بحب، من التلال لفنجانك.
-            </p>
+            <p className={styles.tagline}>قهوة محمّصة بالبيت بحب، من التلال لفنجانك.</p>
           </div>
 
           {/* الصفحات */}
@@ -79,9 +77,7 @@ export default function Footer() {
           {/* التواصل */}
           <div>
             <p className={styles.heading}>تواصل معنا</p>
-            <p className={styles.contactText}>
-              اطلب أو اسأل عن أي شي، منحكي عالواتساب.
-            </p>
+            <p className={styles.contactText}>اطلب أو اسأل عن أي شي، منحكي عالواتساب.</p>
             <a
               href={whatsappLink("مرحبا، عندي سؤال عن قهوة التلال")}
               target="_blank"

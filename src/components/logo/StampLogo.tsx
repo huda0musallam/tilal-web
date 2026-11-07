@@ -10,22 +10,8 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
       aria-label="ختم التلال - Tilal Coffee"
     >
       {/* حلقات الختم */}
-      <circle
-        cx="600"
-        cy="600"
-        r="520"
-        fill="none"
-        stroke={ink}
-        strokeWidth={18}
-      />
-      <circle
-        cx="600"
-        cy="600"
-        r="485"
-        fill="none"
-        stroke={ink}
-        strokeWidth={7}
-      />
+      <circle cx="600" cy="600" r="520" fill="none" stroke={ink} strokeWidth={18} />
+      <circle cx="600" cy="600" r="485" fill="none" stroke={ink} strokeWidth={7} />
 
       {/* التلال */}
       <path
@@ -68,22 +54,11 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
       </text>
 
       {/* خط زخرفي */}
-      <path
-        d="M390 830 H520 M680 830 H810"
-        stroke={ink}
-        strokeWidth={8}
-        strokeLinecap="round"
-      />
+      <path d="M390 830 H520 M680 830 H810" stroke={ink} strokeWidth={8} strokeLinecap="round" />
 
       {/* حبة البن والورق */}
-      <path
-        d="M455 900 C390 865 345 895 365 940 C385 985 445 1000 490 955 Z"
-        fill={ink}
-      />
-      <path
-        d="M745 900 C810 865 855 895 835 940 C815 985 755 1000 710 955 Z"
-        fill={ink}
-      />
+      <path d="M455 900 C390 865 345 895 365 940 C385 985 445 1000 490 955 Z" fill={ink} />
+      <path d="M745 900 C810 865 855 895 835 940 C815 985 755 1000 710 955 Z" fill={ink} />
       <path
         d="M600 855 C525 880 500 955 555 1015 C580 1040 620 1040 645 1015 C700 955 675 880 600 855 Z"
         fill={ink}

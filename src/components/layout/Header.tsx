@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import HeaderLogo from "@/components/logo/HeaderLogo";
-import { cart, useCart } from "@/lib/cart-store";
+import { cart, useCartCount } from "@/features/cart/cart-store";
 import styles from "./Header.module.css";
 
 const links = [
@@ -20,7 +20,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { count: cartCount } = useCart();
+  const cartCount = useCartCount();
   // نراقب التمرير عشان نصغّر الهيدر
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -29,8 +29,7 @@ export default function Header() {
   }, []);
 
   // هل الرابط هو الصفحة الحالية؟
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>

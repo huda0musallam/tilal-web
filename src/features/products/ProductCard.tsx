@@ -5,8 +5,8 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Heart, ShoppingBag, Check } from "lucide-react";
 import type { Cardamom, Product, Roast, Weight } from "@/types";
-import { formatPrice, productPrice } from "@/lib/pricing";
-import { cart } from "@/lib/cart-store";
+import { formatPrice, productPrice } from "@/features/products/pricing";
+import { cart } from "@/features/cart/cart-store";
 import styles from "./ProductCard.module.css";
 
 const ROAST_LABELS: Record<Roast, string> = {
@@ -45,11 +45,8 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const price = productPrice(product, weight, cardamom);
 
   function handleAdd() {
-    const weightLabel =
-      WEIGHTS.find((w) => w.value === weight)?.label ?? weight;
-    const details = product.cardamom
-      ? [weightLabel, CARDAMOM_DETAIL[cardamom]]
-      : [weightLabel];
+    const weightLabel = WEIGHTS.find((w) => w.value === weight)?.label ?? weight;
+    const details = product.cardamom ? [weightLabel, CARDAMOM_DETAIL[cardamom]] : [weightLabel];
 
     cart.add({
       key: `${product.id}-${weight}-${cardamom}`,
@@ -86,11 +83,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
           onClick={() => setLiked((v) => !v)}
           whileTap={{ scale: 0.85 }}
           aria-pressed={liked}
-          aria-label={
-            liked
-              ? `شيل ${product.name} من المفضلة`
-              : `أضف ${product.name} للمفضلة`
-          }
+          aria-label={liked ? `شيل ${product.name} من المفضلة` : `أضف ${product.name} للمفضلة`}
         >
           <motion.span
             key={liked ? "on" : "off"}
@@ -148,11 +141,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
         <div className={styles.footer}>
           <span className={styles.price}>{formatPrice(price)}</span>
-          <button
-            type="button"
-            className={`btn btn-primary ${styles.add}`}
-            onClick={handleAdd}
-          >
+          <button type="button" className={`btn btn-primary ${styles.add}`} onClick={handleAdd}>
             {added ? <Check size={18} /> : <ShoppingBag size={18} />}
             {added ? "انضافت" : "أضف للسلة"}
           </button>

@@ -3,9 +3,11 @@
 import { useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, ShoppingBag } from "lucide-react";
+import useSWR from "swr";
+import { apiKeys, fetcher } from "@/lib/api";
 import type { Bean, Cardamom, Roast, Weight } from "@/types";
-import { cart } from "@/lib/cart-store";
-import { cardamomCost, formatPrice } from "@/lib/pricing";
+import { cart } from "@/features/cart/cart-store";
+import { cardamomCost, formatPrice } from "@/features/products/pricing";
 import styles from "./BlendBuilder.module.css";
 
 type Grind = "whole" | "arabic" | "filter" | "moka" | "turkish";
@@ -122,7 +124,11 @@ function Chips<T extends string>({
 }
 
 // ===== الصفحة =====
-export default function BlendBuilder({ beans }: { beans: Bean[] }) {
+export default function BlendBuilder() {
+  // أنواع البن من SWR، والقيمة الأولية جاية من السيرفر
+  const { data: beans = [] } = useSWR(apiKeys.beans, fetcher<Bean[]>, {
+    suspense: true,
+  });
   const [total, setTotal] = useState<Weight>("250");
   const [shares, setShares] = useState<Record<string, number>>(() =>
     beans.length > 0 ? { [beans[0].id]: 100 } : {},
@@ -139,9 +145,7 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
 
   function toggleBean(id: string) {
     const ids =
-      id in shares
-        ? Object.keys(shares).filter((x) => x !== id)
-        : [...Object.keys(shares), id];
+      id in shares ? Object.keys(shares).filter((x) => x !== id) : [...Object.keys(shares), id];
     setShares(ids.length > 0 ? evenShares(ids) : {});
   }
 
@@ -150,12 +154,8 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
   }
 
   // السعر: كل نوع حسب غراماته + الهيل
-  const beansCost = selected.reduce(
-    (s, b) => s + b.pricePerGram * grams * (shares[b.id] / 100),
-    0,
-  );
-  const price =
-    Math.round((beansCost + cardamomCost(cardamom, grams)) * 100) / 100;
+  const beansCost = selected.reduce((s, b) => s + b.pricePerGram * grams * (shares[b.id] / 100), 0);
+  const price = Math.round((beansCost + cardamomCost(cardamom, grams)) * 100) / 100;
 
   // ألوان الدائرة
   const stops: string[] = [];
@@ -171,9 +171,7 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
     background: `conic-gradient(${stops.join(", ") || "var(--sand) 0 100%"})`,
   };
 
-  const mixLabel = selected
-    .map((b) => `${b.name} ${shares[b.id]}%`)
-    .join(" · ");
+  const mixLabel = selected.map((b) => `${b.name} ${shares[b.id]}%`).join(" · ");
 
   function handleAdd() {
     if (!isValid) return;
@@ -201,19 +199,10 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
       {/* ===== الخطوات ===== */}
       <div className={styles.steps}>
         <Step n={1} title="الكمية الكلية">
-          <Chips
-            options={TOTALS}
-            value={total}
-            onChange={setTotal}
-            label="الكمية الكلية"
-          />
+          <Chips options={TOTALS} value={total} onChange={setTotal} label="الكمية الكلية" />
         </Step>
 
-        <Step
-          n={2}
-          title="أنواع البن"
-          hint="اختار نوع أو أكتر، ووزّع النسب بينهم."
-        >
+        <Step n={2} title="أنواع البن" hint="اختار نوع أو أكتر، ووزّع النسب بينهم.">
           <div className={styles.beans}>
             {beans.map((b) => {
               const isOn = b.id in shares;
@@ -250,23 +239,18 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                   >
-                    <label
-                      htmlFor={`share-${b.id}`}
-                      className={styles.sliderLabel}
-                    >
+                    <label htmlFor={`share-${b.id}`} className={styles.sliderLabel}>
                       <span>
                         <i
                           className={styles.swatch}
                           style={{
-                            background:
-                              COLORS[beans.indexOf(b) % COLORS.length],
+                            background: COLORS[beans.indexOf(b) % COLORS.length],
                           }}
                         />
                         {b.name}
                       </span>
                       <span>
-                        {shares[b.id]}% ·{" "}
-                        {Math.round((grams * shares[b.id]) / 100)} غ
+                        {shares[b.id]}% · {Math.round((grams * shares[b.id]) / 100)} غ
                       </span>
                     </label>
                     <input
@@ -289,9 +273,7 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
                   <button
                     type="button"
                     className={styles.link}
-                    onClick={() =>
-                      setShares(evenShares(selected.map((b) => b.id)))
-                    }
+                    onClick={() => setShares(evenShares(selected.map((b) => b.id)))}
                   >
                     وزّع بالتساوي
                   </button>
@@ -308,34 +290,15 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
         </Step>
 
         <Step n={3} title="درجة التحميص">
-          <Chips
-            options={ROASTS}
-            value={roast}
-            onChange={setRoast}
-            label="درجة التحميص"
-          />
+          <Chips options={ROASTS} value={roast} onChange={setRoast} label="درجة التحميص" />
         </Step>
 
-        <Step
-          n={4}
-          title="الطحنة"
-          hint="إذا ما بتعرف، اختار حبوب كاملة وطحنها قبل التحضير."
-        >
-          <Chips
-            options={GRINDS}
-            value={grind}
-            onChange={setGrind}
-            label="الطحنة"
-          />
+        <Step n={4} title="الطحنة" hint="إذا ما بتعرف، اختار حبوب كاملة وطحنها قبل التحضير.">
+          <Chips options={GRINDS} value={grind} onChange={setGrind} label="الطحنة" />
         </Step>
 
         <Step n={5} title="الهيل">
-          <Chips
-            options={CARDAMOMS}
-            value={cardamom}
-            onChange={setCardamom}
-            label="الهيل"
-          />
+          <Chips options={CARDAMOMS} value={cardamom} onChange={setCardamom} label="الهيل" />
         </Step>
       </div>
 
@@ -388,9 +351,7 @@ export default function BlendBuilder({ beans }: { beans: Bean[] }) {
           {added ? <Check size={18} /> : <ShoppingBag size={18} />}
           {added ? "انضافت خلطتك" : "أضف خلطتي للسلة"}
         </button>
-        {!isValid && (
-          <p className={styles.addHint}>كمّل اختيار البن لتقدر تضيف الخلطة.</p>
-        )}
+        {!isValid && <p className={styles.addHint}>كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
       </aside>
     </div>
   );

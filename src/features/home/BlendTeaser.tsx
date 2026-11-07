@@ -18,12 +18,7 @@ const BEANS = [
 
 function Bean({ size }: { size: number }) {
   return (
-    <svg
-      viewBox="0 0 20 28"
-      width={size}
-      height={size * 1.4}
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 20 28" width={size} height={size * 1.4} aria-hidden="true">
       <ellipse cx="10" cy="14" rx="9" ry="13" fill="#6B4430" />
       <path
         d="M10 2 C6 9, 14 19, 10 26"
@@ -52,8 +47,7 @@ export default function BlendTeaser() {
             <p className={styles.label}>اصنع خلطتك</p>
             <h2 className={styles.title}>قهوتك، على ذوقك</h2>
             <p className={styles.body}>
-              اختار نوع البن والتحميص والكمية بالغرام، وزيد الهيل قد ما بدك،
-              ونحنا منحمّصلك ياها.
+              اختار نوع البن والتحميص والكمية بالغرام، وزيد الهيل قد ما بدك، ونحنا منحمّصلك ياها.
             </p>
             <Link href="/blend" className={`btn ${styles.cta}`}>
               ابدأ خلطتك

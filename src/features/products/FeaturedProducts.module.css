@@ -26,6 +26,9 @@
 }
 
 .error {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
   text-align: center;
 }
 

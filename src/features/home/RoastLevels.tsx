@@ -56,9 +56,7 @@ export default function RoastLevels() {
         >
           <p className={styles.label}>درجات التحميص</p>
           <h2>لكل مزاج تلّة</h2>
-          <p>
-            من الخفيفة المنعشة للغامقة القوية، اختار التلّة اللي بتشبه مزاجك.
-          </p>
+          <p>من الخفيفة المنعشة للغامقة القوية، اختار التلّة اللي بتشبه مزاجك.</p>
         </motion.div>
 
         <motion.div
@@ -70,10 +68,7 @@ export default function RoastLevels() {
         >
           {roasts.map((roast) => (
             <motion.article key={roast.id} variants={fadeUp}>
-              <Link
-                href={`/products?roast=${roast.id}`}
-                className={styles.card}
-              >
+              <Link href={`/products?roast=${roast.id}`} className={styles.card}>
                 <div className={styles.media}>
                   <Image
                     src={roast.image}

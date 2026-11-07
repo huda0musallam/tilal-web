@@ -1,67 +1,49 @@
+"use client";
+
 import Link from "next/link";
-import { getFeaturedProducts } from "@/lib/api";
-import ProductCard from "@/components/products/ProductCard";
+import useSWR from "swr";
+import { apiKeys, fetcher } from "@/lib/api";
+import ProductCard from "./ProductCard";
+import GridSkeleton from "@/components/ui/GridSkeleton";
 import type { Product } from "@/types";
 import styles from "./FeaturedProducts.module.css";
 
-function SectionHead() {
-  return (
-    <div className={styles.head}>
-      <p className={styles.label}>من محمصتنا</p>
-      <h2>الأكثر طلباً</h2>
-    </div>
-  );
-}
-
-// هاد component بيشتغل على السيرفر، وبيجيب البيانات قبل ما يوصل للمتصفح
-export default async function FeaturedProducts() {
-  let products: Product[];
-
-  try {
-    products = await getFeaturedProducts();
-  } catch {
-    return (
-      <section className={styles.section}>
-        <div className="container">
-          <SectionHead />
-          <p className={styles.error}>ما قدرنا نجيب المنتجات هلق، جرّب كمان شوي.</p>
-        </div>
-      </section>
-    );
-  }
+export default function FeaturedProducts() {
+  // نفس مفتاح صفحة المنتجات، فلما تروح عليها بتفتح فوراً من الـ cache
+  const { data, error, mutate } = useSWR(apiKeys.products, fetcher<Product[]>);
+  const featured = data?.filter((p) => p.featured) ?? [];
 
   return (
     <section className={styles.section}>
       <div className="container">
-        <SectionHead />
-
-        <div className={styles.grid}>
-          {products.map((product, i) => (
-            <ProductCard key={product.id} product={product} index={i} />
-          ))}
+        <div className={styles.head}>
+          <p className={styles.label}>من محمصتنا</p>
+          <h2>الأكثر طلباً</h2>
         </div>
 
-        <div className={styles.more}>
-          <Link href="/products" className="btn btn-outline">
-            شوف كل المنتجات
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// الكروت الفاضية اللي بتطلع وقت التحميل
-export function FeaturedProductsSkeleton() {
-  return (
-    <section className={styles.section}>
-      <div className="container">
-        <SectionHead />
-        <div className={styles.grid}>
-          {[1, 2, 3].map((n) => (
-            <div key={n} className={styles.skeleton} />
-          ))}
-        </div>
+        {error ? (
+          <div className={styles.error} role="alert">
+            <p>ما قدرنا نجيب المنتجات هلق، جرّب كمان شوي.</p>
+            <button type="button" className="btn btn-outline" onClick={() => mutate()}>
+              جرّب مرة تانية
+            </button>
+          </div>
+        ) : !data ? (
+          <GridSkeleton count={3} />
+        ) : (
+          <>
+            <div className={styles.grid}>
+              {featured.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+            <div className={styles.more}>
+              <Link href="/products" className="btn btn-outline">
+                شوف كل المنتجات
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

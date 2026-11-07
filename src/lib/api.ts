@@ -1,43 +1,35 @@
 import type { Bean, Product, Review, Suggestion } from "@/types";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "https://tilal-api.onrender.com";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tilal-api.onrender.com";
 
-// دالة عامة لجلب البيانات
-async function get<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`);
+// مفاتيح SWR: نفس المفتاح لازم ينستخدم بالسيرفر وبالمتصفح
+export const apiKeys = {
+  products: `${API_URL}/products`,
+  beans: `${API_URL}/beans`,
+  reviews: `${API_URL}/reviews`,
+  suggestions: `${API_URL}/suggestions`,
+};
+
+// fetcher واحد لكل طلبات GET، بيشتغل بالسيرفر وبالمتصفح
+export async function fetcher<T>(url: string): Promise<T> {
+  const res = await fetch(url);
   if (!res.ok) {
-    throw new Error(`ما قدرنا نجيب البيانات من ${path}`);
+    throw new Error(`ما قدرنا نجيب البيانات من ${url}`);
   }
   return res.json();
 }
 
-// المنتجات
-export function getProducts() {
-  return get<Product[]>("/products");
-}
+// للسيرفر: منستخدمهم كقيمة أولية لـ SWR
+export const getProducts = () => fetcher<Product[]>(apiKeys.products);
+export const getBeans = () => fetcher<Bean[]>(apiKeys.beans);
+export const getReviews = () => fetcher<Review[]>(apiKeys.reviews);
 
-export async function getFeaturedProducts() {
-  const products = await getProducts();
-  return products.filter((product) => product.featured);
-}
-
-// أنواع البن لصفحة الخلطة
-export function getBeans() {
-  return get<Bean[]>("/beans");
-}
-
-// آراء العملاء
-export function getReviews() {
-  return get<Review[]>("/reviews");
-}
-
-// إرسال اقتراح
-export async function sendSuggestion(data: Omit<Suggestion, "id">) {
-  const res = await fetch(`${API_URL}/suggestions`, {
+// لـ useSWRMutation: بياخد المفتاح والبيانات اللي بدنا نبعتها
+export async function postSuggestion(url: string, { arg }: { arg: Omit<Suggestion, "id"> }) {
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(arg),
   });
   if (!res.ok) {
     throw new Error("ما قدرنا نبعت الاقتراح");

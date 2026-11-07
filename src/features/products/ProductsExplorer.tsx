@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import useSWR from "swr";
+import { useSearchParams } from "next/navigation";
+import { apiKeys, fetcher } from "@/lib/api";
 import ProductCard from "./ProductCard";
 import type { Product, Roast } from "@/types";
 import styles from "./ProductsExplorer.module.css";
@@ -24,9 +27,7 @@ const ORIGIN_FILTERS: { value: OriginFilter; label: string }[] = [
 
 // نتأكد إن القيمة اللي جاية من الرابط صحيحة
 function toRoast(value?: string): RoastFilter {
-  return value === "light" || value === "medium" || value === "dark"
-    ? value
-    : "all";
+  return value === "light" || value === "medium" || value === "dark" ? value : "all";
 }
 
 function toOrigin(value?: string): OriginFilter {
@@ -41,19 +42,20 @@ function countLabel(n: number) {
   return `${n} منتج`;
 }
 
-type Props = {
-  products: Product[];
-  initialRoast?: string;
-  initialOrigin?: string;
-};
+export default function ProductsExplorer() {
+  // SWR بياخد القيمة الأولية من السيرفر، وبعدين بيحدّثها لحاله
+  const { data: products = [] } = useSWR(apiKeys.products, fetcher<Product[]>, {
+    suspense: true,
+  });
 
-export default function ProductsExplorer({
-  products,
-  initialRoast,
-  initialOrigin,
-}: Props) {
-  const [roast, setRoast] = useState<RoastFilter>(toRoast(initialRoast));
-  const [origin, setOrigin] = useState<OriginFilter>(toOrigin(initialOrigin));
+  // منقرا الفلتر من الرابط مباشرة
+  const searchParams = useSearchParams();
+  const [roast, setRoast] = useState<RoastFilter>(() =>
+    toRoast(searchParams.get("roast") ?? undefined),
+  );
+  const [origin, setOrigin] = useState<OriginFilter>(() =>
+    toOrigin(searchParams.get("origin") ?? undefined),
+  );
 
   // نحدّث الرابط بدون ما نعيد تحميل الصفحة
   function updateUrl(nextRoast: RoastFilter, nextOrigin: OriginFilter) {
@@ -61,11 +63,7 @@ export default function ProductsExplorer({
     if (nextRoast !== "all") params.set("roast", nextRoast);
     if (nextOrigin !== "all") params.set("origin", nextOrigin);
     const query = params.toString();
-    window.history.replaceState(
-      null,
-      "",
-      query ? `?${query}` : window.location.pathname,
-    );
+    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
   }
 
   function selectRoast(value: RoastFilter) {
@@ -85,9 +83,7 @@ export default function ProductsExplorer({
   }
 
   const filtered = products.filter(
-    (p) =>
-      (roast === "all" || p.roast === roast) &&
-      (origin === "all" || p.origin === origin),
+    (p) => (roast === "all" || p.roast === roast) && (origin === "all" || p.origin === origin),
   );
 
   return (
@@ -133,11 +129,7 @@ export default function ProductsExplorer({
       {filtered.length === 0 ? (
         <div className={styles.empty}>
           <p>ما في منتجات بهالاختيار.</p>
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={resetFilters}
-          >
+          <button type="button" className="btn btn-outline" onClick={resetFilters}>
             شيل الفلاتر
           </button>
         </div>

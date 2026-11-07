@@ -1,8 +1,7 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { getProducts } from "@/lib/api";
-import ProductsExplorer from "@/components/products/ProductsExplorer";
-import type { Product } from "@/types";
+import { SWRConfig } from "swr";
+import { apiKeys, getProducts } from "@/lib/api";
+import ProductsExplorer from "@/features/products/ProductsExplorer";
 import styles from "./products.module.css";
 
 export const metadata: Metadata = {
@@ -10,11 +9,8 @@ export const metadata: Metadata = {
   description: "بن برازيلي وكولومبي بثلاث درجات تحميص، مع خيار الهيل.",
 };
 
-type Props = {
-  searchParams: Promise<{ roast?: string; origin?: string }>;
-};
-
-export default function ProductsPage({ searchParams }: Props) {
+// server component: بيبلش يجيب المنتجات، وبيعطيها لـ SWR كقيمة أولية
+export default function ProductsPage() {
   return (
     <main className={styles.page}>
       <div className="container">
@@ -24,45 +20,11 @@ export default function ProductsPage({ searchParams }: Props) {
           <p>اختار البن ودرجة التحميص، وحدد الوزن والهيل على ذوقك.</p>
         </header>
 
-        <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsList searchParams={searchParams} />
-        </Suspense>
+        {/* بدون await: الـ component اللي بيقرا المفتاح بيستنى لحاله، و loading.tsx بيبين وقتها */}
+        <SWRConfig value={{ fallback: { [apiKeys.products]: getProducts() } }}>
+          <ProductsExplorer />
+        </SWRConfig>
       </div>
     </main>
-  );
-}
-
-// بيقرا الفلتر من الرابط، وبيجيب المنتجات من الـ API
-async function ProductsList({ searchParams }: Props) {
-  const params = await searchParams;
-
-  let products: Product[];
-  try {
-    products = await getProducts();
-  } catch {
-    return (
-      <p className={styles.error}>ما قدرنا نجيب المنتجات هلق، جرّب كمان شوي.</p>
-    );
-  }
-
-  return (
-    <ProductsExplorer
-      products={products}
-      initialRoast={params.roast}
-      initialOrigin={params.origin}
-    />
-  );
-}
-
-function ProductsSkeleton() {
-  return (
-    <>
-      <div className={styles.skeletonBar} />
-      <div className={styles.skeletonGrid}>
-        {[1, 2, 3, 4, 5, 6].map((n) => (
-          <div key={n} className={styles.skeleton} />
-        ))}
-      </div>
-    </>
   );
 }

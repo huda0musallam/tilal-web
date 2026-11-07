@@ -3,7 +3,7 @@ import { Aref_Ruqaa, Tajawal } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
-import CartDrawer from "@/components/layout/CartDrawer";
+import CartDrawer from "@/features/cart/CartDrawer";
 // خط العناوين
 const display = Aref_Ruqaa({
   subsets: ["arabic"],
@@ -25,15 +25,9 @@ export const metadata: Metadata = {
   description: "بن محمّص بإيدينا بدفعات صغيرة، من التلال لفنجانك.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="ar"
-      dir="rtl"
-      className={`${display.variable} ${body.variable}`}
-    >
+    <html lang="ar" dir="rtl" className={`${display.variable} ${body.variable}`}>
       <body>
         <Header />
         {children}

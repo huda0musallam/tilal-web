@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
-import { BREW_METHODS } from "@/data/brewing";
+import { BREW_METHODS } from "@/features/brewing/brewing";
 import styles from "./BrewingPreview.module.css";
 
 export default function BrewingPreview() {

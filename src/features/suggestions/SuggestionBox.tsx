@@ -3,10 +3,10 @@
 import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, Send, CheckCircle2 } from "lucide-react";
-import { sendSuggestion } from "@/lib/api";
+import useSWRMutation from "swr/mutation";
+import { apiKeys, postSuggestion } from "@/lib/api";
 import styles from "./SuggestionBox.module.css";
 
-type Status = "idle" | "sending" | "success" | "error";
 type Errors = { message?: string; rating?: string };
 
 export default function SuggestionBox() {
@@ -15,7 +15,15 @@ export default function SuggestionBox() {
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState(0);
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<Status>("idle");
+  const [sent, setSent] = useState(false);
+
+  // SWR بيدير حالة الإرسال: عم يبعت، فشل، أو نجح
+  const {
+    trigger,
+    isMutating,
+    error: sendError,
+    reset,
+  } = useSWRMutation(apiKeys.suggestions, postSuggestion);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -27,21 +35,25 @@ export default function SuggestionBox() {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
-    setStatus("sending");
     try {
-      await sendSuggestion({
+      await trigger({
         name: name.trim() || undefined,
         message: message.trim(),
         rating,
         createdAt: new Date().toISOString(),
       });
-      setStatus("success");
+      setSent(true);
       setName("");
       setMessage("");
       setRating(0);
     } catch {
-      setStatus("error");
+      // رسالة الخطأ بتطلع لحالها من sendError
     }
+  }
+
+  function writeAnother() {
+    setSent(false);
+    reset();
   }
 
   const shown = hovered || rating; // النجوم المضوية
@@ -57,7 +69,7 @@ export default function SuggestionBox() {
 
         <div className={styles.box}>
           <AnimatePresence mode="wait">
-            {status === "success" ? (
+            {sent ? (
               <motion.div
                 key="thanks"
                 className={styles.thanks}
@@ -68,11 +80,7 @@ export default function SuggestionBox() {
               >
                 <CheckCircle2 size={48} strokeWidth={1.5} />
                 <p className={styles.thanksTitle}>وصلتنا كلماتك، شكراً إلك.</p>
-                <button
-                  type="button"
-                  className="btn btn-outline"
-                  onClick={() => setStatus("idle")}
-                >
+                <button type="button" className="btn btn-outline" onClick={writeAnother}>
                   اكتب اقتراح تاني
                 </button>
               </motion.div>
@@ -112,14 +120,11 @@ export default function SuggestionBox() {
                     value={message}
                     onChange={(e) => {
                       setMessage(e.target.value);
-                      if (errors.message)
-                        setErrors({ ...errors, message: undefined });
+                      if (errors.message) setErrors({ ...errors, message: undefined });
                     }}
                     placeholder="اكتب اقتراحك هون"
                     aria-invalid={!!errors.message}
-                    aria-describedby={
-                      errors.message ? "s-message-error" : undefined
-                    }
+                    aria-describedby={errors.message ? "s-message-error" : undefined}
                     className={`${styles.input} ${errors.message ? styles.invalid : ""}`}
                   />
                   {errors.message && (
@@ -149,8 +154,7 @@ export default function SuggestionBox() {
                         aria-label={`${n} من 5`}
                         onClick={() => {
                           setRating(n);
-                          if (errors.rating)
-                            setErrors({ ...errors, rating: undefined });
+                          if (errors.rating) setErrors({ ...errors, rating: undefined });
                         }}
                         onMouseEnter={() => setHovered(n)}
                         className={styles.starBtn}
@@ -158,19 +162,15 @@ export default function SuggestionBox() {
                         <Star
                           size={28}
                           fill={n <= shown ? "currentColor" : "none"}
-                          className={
-                            n <= shown ? styles.starOn : styles.starOff
-                          }
+                          className={n <= shown ? styles.starOn : styles.starOff}
                         />
                       </button>
                     ))}
                   </div>
-                  {errors.rating && (
-                    <p className={styles.error}>{errors.rating}</p>
-                  )}
+                  {errors.rating && <p className={styles.error}>{errors.rating}</p>}
                 </div>
 
-                {status === "error" && (
+                {sendError && (
                   <p className={styles.error} role="alert">
                     ما قدرنا نبعت رسالتك، جرّب كمان مرة.
                   </p>
@@ -179,10 +179,10 @@ export default function SuggestionBox() {
                 <button
                   type="submit"
                   className={`btn btn-primary ${styles.submit}`}
-                  disabled={status === "sending"}
+                  disabled={isMutating}
                 >
                   <Send size={18} />
-                  {status === "sending" ? "عم نبعت..." : "أرسل"}
+                  {isMutating ? "عم نبعت..." : "أرسل"}
                 </button>
               </motion.form>
             )}

@@ -4,16 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  X,
-  Minus,
-  Plus,
-  Trash2,
-  ShoppingBag,
-  MessageCircle,
-} from "lucide-react";
-import { cart, useCart } from "@/lib/cart-store";
-import { formatPrice } from "@/lib/pricing";
+import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
+import { cart, useCart, useCartStore } from "@/features/cart/cart-store";
+import { formatPrice } from "@/features/products/pricing";
 import { buildOrderMessage, whatsappLink } from "@/lib/whatsapp";
 import styles from "./CartDrawer.module.css";
 
@@ -22,6 +15,10 @@ export default function CartDrawer() {
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
+  // منقرا السلة المحفوظة بعد ما توصل الصفحة للمتصفح
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
 
   // لما يفتح الدرج: نوقف تمرير الصفحة، ونسكره بزر Esc
   useEffect(() => {
@@ -71,8 +68,7 @@ export default function CartDrawer() {
           >
             <div className={styles.header}>
               <h2 id="cart-title" className={styles.title}>
-                سلتك{" "}
-                {count > 0 && <span className={styles.count}>({count})</span>}
+                سلتك {count > 0 && <span className={styles.count}>({count})</span>}
               </h2>
               <button
                 ref={closeRef}
@@ -89,11 +85,7 @@ export default function CartDrawer() {
               <div className={styles.empty}>
                 <ShoppingBag size={56} strokeWidth={1.2} />
                 <p>سلتك فاضية لهلق.</p>
-                <Link
-                  href="/products"
-                  className="btn btn-primary"
-                  onClick={cart.close}
-                >
+                <Link href="/products" className="btn btn-primary" onClick={cart.close}>
                   تسوّق القهوة
                 </Link>
               </div>
@@ -123,17 +115,13 @@ export default function CartDrawer() {
 
                         <div className={styles.info}>
                           <p className={styles.name}>{item.name}</p>
-                          <p className={styles.details}>
-                            {item.details.join(" · ")}
-                          </p>
+                          <p className={styles.details}>{item.details.join(" · ")}</p>
 
                           <div className={styles.row}>
                             <div className={styles.stepper}>
                               <button
                                 type="button"
-                                onClick={() =>
-                                  cart.setQty(item.key, item.qty + 1)
-                                }
+                                onClick={() => cart.setQty(item.key, item.qty + 1)}
                                 aria-label={`زيد كمية ${item.name}`}
                               >
                                 <Plus size={16} />
@@ -141,9 +129,7 @@ export default function CartDrawer() {
                               <span aria-live="polite">{item.qty}</span>
                               <button
                                 type="button"
-                                onClick={() =>
-                                  cart.setQty(item.key, item.qty - 1)
-                                }
+                                onClick={() => cart.setQty(item.key, item.qty - 1)}
                                 aria-label={`نقّص كمية ${item.name}`}
                               >
                                 <Minus size={16} />
@@ -203,11 +189,7 @@ export default function CartDrawer() {
                     أرسل الطلب عبر واتساب
                   </a>
 
-                  <button
-                    type="button"
-                    className={styles.clear}
-                    onClick={cart.clear}
-                  >
+                  <button type="button" className={styles.clear} onClick={cart.clear}>
                     فضّي السلة
                   </button>
                 </div>

@@ -1,14 +1,11 @@
-import { Suspense } from "react";
-import Hero from "@/components/home/Hero";
-import Story from "@/components/home/Story";
-import RoastLevels from "@/components/home/RoastLevels";
-import FeaturedProducts, {
-  FeaturedProductsSkeleton,
-} from "@/components/home/FeaturedProducts";
-import BlendTeaser from "@/components/home/BlendTeaser";
-import BrewingPreview from "@/components/home/BrewingPreview";
-import Reviews from "@/components/home/Reviews";
-import SuggestionBox from "@/components/home/SuggestionBox";
+import Hero from "@/features/home/Hero";
+import Story from "@/features/home/Story";
+import RoastLevels from "@/features/home/RoastLevels";
+import FeaturedProducts from "@/features/products/FeaturedProducts";
+import BlendTeaser from "@/features/home/BlendTeaser";
+import BrewingPreview from "@/features/brewing/BrewingPreview";
+import Reviews from "@/features/reviews/Reviews";
+import SuggestionBox from "@/features/suggestions/SuggestionBox";
 
 export default function Home() {
   return (
@@ -16,14 +13,10 @@ export default function Home() {
       <Hero />
       <Story />
       <RoastLevels />
-      <Suspense fallback={<FeaturedProductsSkeleton />}>
-        <FeaturedProducts />
-      </Suspense>
+      <FeaturedProducts />
       <BlendTeaser />
       <BrewingPreview />
-      <Suspense fallback={null}>
-        <Reviews />
-      </Suspense>
+      <Reviews />
       <SuggestionBox />
     </main>
   );
