@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Check } from "lucide-react";
 import { formatPrice } from "@/shared/lib/format-price";
 import type { Bean } from "./bean.types";
-import { blend, useBlendStore, useShares } from "./blend-store";
+import { blend, useBlendStore, useShares } from "./blend.store";
 import { selectedBeans, sharesSum } from "./blend.logic";
 import { beanColor } from "./blend.options";
 import Step from "./Step";

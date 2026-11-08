@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "@/features/cart/cart.store";
-import { flyTo } from "@/features/fly/fly-store";
+import { flyTo } from "@/features/fly/fly.store";
 import {
   cardamomLabel,
   roastImage,
@@ -12,7 +12,7 @@ import {
 } from "@/features/products/product.options";
 import { formatPrice } from "@/shared/lib/format-price";
 import type { Bean } from "./bean.types";
-import { useBlendStore, useShares } from "./blend-store";
+import { useBlendStore, useShares } from "./blend.store";
 import { blendPrice, selectedBeans, sharesSum } from "./blend.logic";
 import { beanColor, grindLabel } from "./blend.options";
 import type { BlendChoice } from "./blend.types";

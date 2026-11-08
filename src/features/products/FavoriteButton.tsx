@@ -3,8 +3,8 @@
 import type { RefObject } from "react";
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
-import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
-import { flyTo } from "@/features/fly/fly-store";
+import { favorites, useIsFavorite } from "@/features/favorites/favorites.store";
+import { flyTo } from "@/features/fly/fly.store";
 import type { Product } from "./product.types";
 import styles from "./FavoriteButton.module.css";
 

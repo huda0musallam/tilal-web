@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { apiKeys } from "@/shared/api/client";
 import { fetchProducts } from "@/features/products/products.api";
-import { useFavoriteIds } from "@/features/favorites/favorites-store";
+import { useFavoriteIds } from "@/features/favorites/favorites.store";
 import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
 import type { Option } from "@/shared/lib/option";

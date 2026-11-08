@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { landed, useFlyStore } from "./fly-store";
+import { landed, useFlyStore } from "./fly.store";
 import styles from "./FlyLayer.module.css";
 
 export default function FlyLayer() {

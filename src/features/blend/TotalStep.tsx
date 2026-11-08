@@ -2,7 +2,7 @@
 
 import { WEIGHT_OPTIONS } from "@/features/products/product.options";
 import Chips from "@/shared/ui/Chips";
-import { blend, useBlendStore } from "./blend-store";
+import { blend, useBlendStore } from "./blend.store";
 import Step from "./Step";
 
 export default function TotalStep() {

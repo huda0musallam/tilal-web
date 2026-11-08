@@ -1,7 +1,7 @@
 "use client";
 
 import Chips from "@/shared/ui/Chips";
-import { blend, useBlendStore } from "./blend-store";
+import { blend, useBlendStore } from "./blend.store";
 import { GRIND_OPTIONS } from "./blend.options";
 import Step from "./Step";
 

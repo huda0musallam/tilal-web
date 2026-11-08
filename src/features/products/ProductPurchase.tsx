@@ -3,7 +3,7 @@
 import { useState, type RefObject } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "@/features/cart/cart.store";
-import { flyTo } from "@/features/fly/fly-store";
+import { flyTo } from "@/features/fly/fly.store";
 import { formatPrice } from "@/shared/lib/format-price";
 import Chips from "@/shared/ui/Chips";
 import { productPrice } from "./pricing";
