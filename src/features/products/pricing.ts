@@ -1,4 +1,4 @@
-import type { Cardamom, Product, Weight } from "@/types";
+import type { Cardamom, Product, Weight } from "./product.types";
 
 const CARDAMOM_PER_250: Record<Cardamom, number> = {
   none: 0,
@@ -12,14 +12,6 @@ export function productPrice(product: Product, weight: Weight, cardamom: Cardamo
   return base + extra;
 }
 
-export function formatPrice(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 0,
-  }).format(value);
-}
 export function cardamomCost(cardamom: Cardamom, grams: number) {
   return CARDAMOM_PER_250[cardamom] * (grams / 250);
 }

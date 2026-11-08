@@ -1,6 +1,6 @@
 "use client";
 
-import RouteError from "@/components/ui/RouteError";
+import RouteError from "@/shared/ui/RouteError";
 
 export default function BlendError({
   error,

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Clock, Coffee, ArrowLeft } from "lucide-react";
 import { BREW_METHODS } from "@/features/brewing/brewing";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/shared/ui/Reveal";
 import styles from "./brewing.module.css";
 
 export const metadata: Metadata = {

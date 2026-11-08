@@ -1,4 +1,4 @@
-import GridSkeleton from "@/components/ui/GridSkeleton";
+import GridSkeleton from "@/shared/ui/GridSkeleton";
 import styles from "./products.module.css";
 
 export default function Loading() {

@@ -4,10 +4,11 @@ import { AnimatePresence, motion } from "motion/react";
 import { Heart } from "lucide-react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { apiKeys, fetchProducts } from "@/lib/api";
+import { apiKeys } from "@/shared/api/api";
+import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";
-import type { Roast } from "@/types";
+import type { Roast } from "./product.types";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;

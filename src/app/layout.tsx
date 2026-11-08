@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Aref_Ruqaa, Tajawal } from "next/font/google";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import Header from "@/shared/layout/Header";
+import Footer from "@/shared/layout/Footer";
 import "./globals.css";
 import CartDrawer from "@/features/cart/CartDrawer";
 import FlyLayer from "@/features/fly/FlyLayer";

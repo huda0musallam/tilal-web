@@ -1,11 +1,5 @@
-import type { CartItem } from "@/types";
-import { formatPrice } from "@/features/products/pricing";
-const WHATSAPP_NUMBER = "905353991387";
-
-export function whatsappLink(message?: string) {
-  const base = `https://wa.me/${WHATSAPP_NUMBER}`;
-  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
-}
+import { formatPrice } from "@/shared/lib/format-price";
+import type { CartItem } from "./cart.types";
 
 export function buildOrderMessage(
   items: CartItem[],

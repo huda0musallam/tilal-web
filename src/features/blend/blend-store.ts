@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Cardamom, Roast, Weight } from "@/types";
+import type { Cardamom, Roast, Weight } from "@/features/products/product.types";
 
 export type Grind = "whole" | "arabic" | "filter" | "moka" | "turkish";
 

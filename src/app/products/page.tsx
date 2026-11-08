@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SWRConfig } from "swr";
-import { apiKeys, getProducts } from "@/lib/api";
+import { apiKeys } from "@/shared/api/api";
+import { getProducts } from "@/features/products/products.api";
 import ProductsExplorer from "@/features/products/ProductsExplorer";
 import styles from "./products.module.css";
 

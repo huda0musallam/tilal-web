@@ -6,8 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { cart, useCart, useCartStore } from "@/features/cart/cart-store";
-import { formatPrice } from "@/features/products/pricing";
-import { buildOrderMessage, whatsappLink } from "@/lib/whatsapp";
+import { formatPrice } from "@/shared/lib/format-price";
+import { whatsappLink } from "@/shared/lib/whatsapp";
+import { buildOrderMessage } from "./order-message";
 import styles from "./CartDrawer.module.css";
 import { useFavoritesStore } from "@/features/favorites/favorites-store";
 export default function CartDrawer() {

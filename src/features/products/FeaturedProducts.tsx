@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import useSWR from "swr";
-import { apiKeys, fetchProducts } from "@/lib/api";
+import { apiKeys } from "@/shared/api/api";
+import { fetchProducts } from "@/features/products/products.api";
 import ProductCard from "./ProductCard";
-import GridSkeleton from "@/components/ui/GridSkeleton";
+import GridSkeleton from "@/shared/ui/GridSkeleton";
 
 import styles from "./FeaturedProducts.module.css";
 

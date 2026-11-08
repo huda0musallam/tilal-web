@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SWRConfig } from "swr";
-import { apiKeys, getBeans } from "@/lib/api";
+import { apiKeys } from "@/shared/api/api";
+import { getBeans } from "@/features/blend/beans.api";
 import BlendBuilder from "@/features/blend/BlendBuilder";
 import styles from "./blend.module.css";
 

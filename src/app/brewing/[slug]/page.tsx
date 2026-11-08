@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowRight, Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
 import { BREW_METHODS, ROAST_LABEL, getMethod } from "@/features/brewing/brewing";
-import Reveal from "@/components/ui/Reveal";
+import Reveal from "@/shared/ui/Reveal";
 import styles from "./method.module.css";
 
 type Props = {

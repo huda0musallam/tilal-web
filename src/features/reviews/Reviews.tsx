@@ -1,7 +1,8 @@
 "use client";
 import { Star } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys, fetchReviews } from "@/lib/api";
+import { apiKeys } from "@/shared/api/api";
+import { fetchReviews } from "./reviews.api";
 
 import styles from "./Reviews.module.css";
 

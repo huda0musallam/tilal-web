@@ -1,4 +1,4 @@
-import type { Roast } from "@/types";
+import type { Roast } from "@/features/products/product.types";
 
 interface BrewMethod {
   slug: string;

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ShoppingBag, Heart, Menu, X } from "lucide-react";
-import HeaderLogo from "@/components/logo/HeaderLogo";
+import HeaderLogo from "@/shared/logo/HeaderLogo";
 import { cart, useCart } from "@/features/cart/cart-store";
 import { useFavoritesCount } from "@/features/favorites/favorites-store";
 import { useFlyStore } from "@/features/fly/fly-store";

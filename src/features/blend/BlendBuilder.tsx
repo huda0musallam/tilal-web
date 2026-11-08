@@ -4,11 +4,14 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, ShoppingBag } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys, fetchBeans } from "@/lib/api";
-import type { Bean, Cardamom, Roast, Weight } from "@/types";
+import { apiKeys } from "@/shared/api/api";
+import { fetchBeans } from "./beans.api";
+import type { Cardamom, Roast, Weight } from "@/features/products/product.types";
+import type { Bean } from "./bean.types";
 import { cart } from "@/features/cart/cart-store";
 import { flyTo } from "@/features/fly/fly-store";
-import { cardamomCost, formatPrice } from "@/features/products/pricing";
+import { cardamomCost } from "@/features/products/pricing";
+import { formatPrice } from "@/shared/lib/format-price";
 import { blend, useBlendStore, useShares, type Grind } from "./blend-store";
 import styles from "./BlendBuilder.module.css";
 
