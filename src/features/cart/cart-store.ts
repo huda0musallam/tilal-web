@@ -7,7 +7,6 @@ type CartState = {
   isOpen: boolean;
 };
 
-// ===== الـ store =====
 export const useCartStore = create<CartState>()(
   persist(
     (): CartState => ({
@@ -15,10 +14,10 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
     }),
     {
-      name: "tilal-cart", // اسم المفتاح بالـ localStorage
+      name: "tilal-cart",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ items: state.items }), // منحفظ المنتجات بس، مش إذا الدرج مفتوح
-      skipHydration: true, // منقرا السلة المحفوظة بعد ما توصل الصفحة للمتصفح
+      partialize: (state) => ({ items: state.items }),
+      skipHydration: true,
     },
   ),
 );
@@ -26,7 +25,6 @@ export const useCartStore = create<CartState>()(
 const set = useCartStore.setState;
 const get = useCartStore.getState;
 
-// ===== الأفعال =====
 export const cart = {
   add(item: Omit<CartItem, "qty">, qty = 1) {
     const { items } = get();
@@ -63,9 +61,7 @@ export const cart = {
   },
 };
 
-// ===== الـ hook اللي بتستخدمه الـ components =====
 export function useCart() {
-  // كل قيمة لحالها، عشان الـ component ما يعيد الرسم إلا إذا تغيرت
   const items = useCartStore((s) => s.items);
   const isOpen = useCartStore((s) => s.isOpen);
 
@@ -74,7 +70,6 @@ export function useCart() {
 
   return { items, isOpen, count, total };
 }
-// للهيدر: بيرجع رقم بس، فالـ component ما بيعيد الرسم إلا إذا العدد تغير
 export function useCartCount() {
   return useCartStore((s) => s.items.reduce((sum, i) => sum + i.qty, 0));
 }

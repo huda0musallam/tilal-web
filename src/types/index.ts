@@ -1,10 +1,7 @@
-// درجات التحميص
 export type Roast = "light" | "medium" | "dark";
 
-// الأوزان المتوفرة بالغرام
 export type Weight = "250" | "500" | "1000";
 
-// خيارات الهيل
 export type Cardamom = "none" | "normal" | "extra";
 
 export interface Product {
@@ -40,12 +37,11 @@ export interface Suggestion {
   rating: number;
   createdAt: string;
 }
-// عنصر بالسلة: منتج جاهز أو خلطة خاصة
 export interface CartItem {
-  key: string; // بيميز كل اختيار، مثلاً brazil-medium-500-extra
+  key: string;
   name: string;
   image: string;
-  details: string[]; // متل: "500 غ"، "زيادة هيل"
+  details: string[];
   unitPrice: number;
   qty: number;
 }

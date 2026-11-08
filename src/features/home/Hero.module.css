@@ -6,7 +6,6 @@
   overflow: hidden;
 }
 
-/* ===== الصورة ===== */
 .bg {
   position: absolute;
   inset: 0;
@@ -16,7 +15,7 @@
 .image {
   object-fit: cover;
   object-position: center;
-  transform: scaleX(-1); /* نعكس الصورة ليصير الفنجان على اليسار */
+  transform: scaleX(-1);
 }
 
 @keyframes zoom {
@@ -28,7 +27,6 @@
   }
 }
 
-/* الطبقة الكريمية: قوية من اليمين وبتختفي لليسار */
 .overlay {
   position: absolute;
   inset: 0;
@@ -40,7 +38,6 @@
   );
 }
 
-/* ===== النص ===== */
 .content {
   position: relative;
   z-index: 1;
@@ -80,7 +77,6 @@
   gap: 12px;
 }
 
-/* ===== سهم النزول ===== */
 .scrollHint {
   position: absolute;
   bottom: 24px;
@@ -107,7 +103,6 @@
   }
 }
 
-/* ===== الموبايل ===== */
 @media (max-width: 768px) {
   .hero {
     align-items: flex-start;
@@ -115,10 +110,9 @@
   }
 
   .image {
-    object-position: 72% center; /* نركز على الفنجان */
+    object-position: 72% center;
   }
 
-  /* الطبقة بتصير من فوق لتحت */
   .overlay {
     background: linear-gradient(
       to bottom,

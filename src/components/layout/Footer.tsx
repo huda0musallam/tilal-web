@@ -21,7 +21,6 @@ const METHODS = [
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      {/* خط التلال اللي بيفصل الفوتر */}
       <svg
         className={styles.hills}
         viewBox="0 0 1440 120"
@@ -40,13 +39,11 @@ export default function Footer() {
 
       <div className={styles.body}>
         <div className={`container ${styles.grid}`}>
-          {/* البراند */}
           <div className={styles.brand}>
             <StampLogo className={styles.stamp} ink="#F7F2EA" />
             <p className={styles.tagline}>قهوة محمّصة بالبيت بحب، من التلال لفنجانك.</p>
           </div>
 
-          {/* الصفحات */}
           <nav aria-label="روابط الموقع">
             <p className={styles.heading}>الموقع</p>
             <ul className={styles.list}>
@@ -60,7 +57,6 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* طرق التحضير */}
           <nav aria-label="طرق التحضير">
             <p className={styles.heading}>طرق التحضير</p>
             <ul className={styles.list}>
@@ -74,7 +70,6 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* التواصل */}
           <div>
             <p className={styles.heading}>تواصل معنا</p>
             <p className={styles.contactText}>اطلب أو اسأل عن أي شي، منحكي عالواتساب.</p>

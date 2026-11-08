@@ -9,7 +9,6 @@
     border-color 0.3s;
 }
 
-/* لما ننزل بالصفحة */
 .scrolled {
   background: rgba(247, 242, 234, 0.85);
   backdrop-filter: blur(10px);
@@ -41,7 +40,6 @@
   height: 50px;
 }
 
-/* الروابط */
 .nav {
   display: flex;
   gap: 32px;
@@ -55,7 +53,6 @@
   transition: color 0.2s;
 }
 
-/* الخط اللي تحت الرابط */
 .link::after {
   content: "";
   position: absolute;
@@ -78,7 +75,6 @@
   transform: scaleX(1);
 }
 
-/* السلة وزر القائمة */
 .actions {
   display: flex;
   align-items: center;
@@ -123,7 +119,6 @@
   display: none;
 }
 
-/* ===== الموبايل ===== */
 @media (max-width: 768px) {
   .inner {
     height: 72px;

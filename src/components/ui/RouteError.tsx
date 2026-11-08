@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default function RouteError({ error, retry }: Props) {
-  // منطبع الخطأ بالـ console عشان نعرف شو صار
   useEffect(() => {
     console.error(error);
   }, [error]);

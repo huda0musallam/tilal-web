@@ -14,7 +14,6 @@
   font-weight: 700;
 }
 
-/* الأطراف بتختفي تدريجياً */
 .marquee {
   overflow: hidden;
   mask-image: linear-gradient(to left, transparent, #000 8%, #000 92%, transparent);
@@ -29,12 +28,10 @@
   animation: scroll linear infinite;
 }
 
-/* بيوقف لما نمرر الماوس */
 .marquee:hover .track {
   animation-play-state: paused;
 }
 
-/* منحرك نص الطول بالضبط = طول نسخة وحدة */
 @keyframes scroll {
   from {
     transform: translateX(0);
@@ -44,7 +41,6 @@
   }
 }
 
-/* ===== الكرت ===== */
 .card {
   display: flex;
   flex-direction: column;

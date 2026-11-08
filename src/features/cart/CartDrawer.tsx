@@ -15,12 +15,10 @@ export default function CartDrawer() {
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
-  // منقرا السلة والمفضلة المحفوظين بعد ما توصل الصفحة للمتصفح
   useEffect(() => {
     useCartStore.persist.rehydrate();
     useFavoritesStore.persist.rehydrate();
   }, []);
-  // لما يفتح الدرج: نوقف تمرير الصفحة، ونسكره بزر Esc
   useEffect(() => {
     if (!isOpen) return;
     document.body.style.overflow = "hidden";
@@ -46,7 +44,6 @@ export default function CartDrawer() {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* الخلفية الغامقة */}
           <motion.div
             className={styles.backdrop}
             onClick={cart.close}
@@ -55,7 +52,6 @@ export default function CartDrawer() {
             exit={{ opacity: 0 }}
           />
 
-          {/* الدرج */}
           <motion.aside
             className={styles.drawer}
             role="dialog"
@@ -91,7 +87,6 @@ export default function CartDrawer() {
               </div>
             ) : (
               <>
-                {/* المنتجات */}
                 <ul className={styles.list}>
                   <AnimatePresence initial={false}>
                     {items.map((item) => (
@@ -155,7 +150,6 @@ export default function CartDrawer() {
                   </AnimatePresence>
                 </ul>
 
-                {/* المجموع والإرسال */}
                 <div className={styles.footer}>
                   <div className={styles.total}>
                     <span>المجموع</span>

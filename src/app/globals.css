@@ -1,24 +1,20 @@
-/* ===== هوية التلال ===== */
 :root {
-  /* الألوان */
-  --bg: #f7f2ea; /* الخلفية الأساسية */
-  --section: #efe3d1; /* خلفية الكروت والأقسام */
-  --sand: #dcc7a8; /* حدود وفواصل */
-  --nescafe: #b8865a; /* تفاصيل وأيقونات */
-  --olive: #4f5a2e; /* الأزرار الأساسية */
+  --bg: #f7f2ea;
+  --section: #efe3d1;
+  --sand: #dcc7a8;
+  --nescafe: #b8865a;
+  --olive: #4f5a2e;
   --olive-dark: #3e4724;
-  --coffee: #5a3726; /* النصوص الثانوية */
-  --espresso: #2a1a12; /* العناوين والنص الأساسي */
-  --logo: #3b2618; /* لون اللوجو */
+  --coffee: #5a3726;
+  --espresso: #2a1a12;
+  --logo: #3b2618;
 
-  /* المسافات والزوايا */
   --radius: 8px;
   --radius-lg: 16px;
   --container: 1200px;
   --gutter: 20px;
 }
 
-/* ===== Reset بسيط ===== */
 *,
 *::before,
 *::after {
@@ -78,7 +74,6 @@ button {
   cursor: pointer;
 }
 
-/* ===== أدوات عامة ===== */
 .container {
   width: 100%;
   max-width: var(--container);
@@ -125,7 +120,6 @@ button {
   outline: 2px solid var(--olive);
   outline-offset: 3px;
 }
-/* احترام إعدادات تقليل الحركة عند المستخدم */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

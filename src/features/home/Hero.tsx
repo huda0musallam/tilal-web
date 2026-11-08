@@ -6,13 +6,11 @@ import { motion, type Variants } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import styles from "./Hero.module.css";
 
-// كل سطر بيطلع من تحت لفوق مع ظهور تدريجي
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-// الأب بيخلي الأسطر تطلع ورا بعض
 const stagger: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
@@ -21,7 +19,6 @@ const stagger: Variants = {
 export default function Hero() {
   return (
     <section className={styles.hero}>
-      {/* الصورة بالخلفية */}
       <div className={styles.bg}>
         <Image
           src="/images/hero-hills.jpg"
@@ -33,10 +30,8 @@ export default function Hero() {
         />
       </div>
 
-      {/* الطبقة الكريمية اللي بتوضّح النص */}
       <div className={styles.overlay} />
 
-      {/* النص */}
       <div className={`container ${styles.content}`}>
         <motion.div className={styles.text} variants={stagger} initial="hidden" animate="show">
           <motion.p variants={fadeUp} className={styles.eyebrow}>
@@ -62,7 +57,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* سهم النزول */}
       <a href="#story" className={styles.scrollHint} aria-label="انزل لقصتنا">
         <ChevronDown size={22} />
       </a>

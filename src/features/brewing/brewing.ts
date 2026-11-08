@@ -9,7 +9,7 @@ export interface BrewMethod {
   time: string;
   ratio: string;
   grind: string;
-  roast: Roast; // التحميص المناسب، للرابط على المنتجات
+  roast: Roast;
   tools: string[];
   ingredients: string[];
   steps: string[];

@@ -5,7 +5,7 @@ export type Grind = "whole" | "arabic" | "filter" | "moka" | "turkish";
 
 type BlendState = {
   total: Weight;
-  shares: Record<string, number> | null; // null يعني لسه ما اخترنا ولا نوع
+  shares: Record<string, number> | null;
   roast: Roast;
   grind: Grind;
   cardamom: Cardamom;
@@ -22,7 +22,6 @@ export const useBlendStore = create<BlendState>()((): BlendState => ({
 const set = useBlendStore.setState;
 const get = useBlendStore.getState;
 
-// نوزع 100% على الأنواع المختارة بخطوات 10%
 function evenShares(ids: string[]) {
   const base = Math.floor(10 / ids.length) * 10;
   const extra = (100 - base * ids.length) / 10;
@@ -33,9 +32,7 @@ function evenShares(ids: string[]) {
   return result;
 }
 
-// ===== الأفعال =====
 export const blend = {
-  // أول مرة بس: منختار أول نوع بن بـ 100%
   init(firstBeanId?: string) {
     if (get().shares === null) {
       set({ shares: firstBeanId ? { [firstBeanId]: 100 } : {} });
@@ -74,7 +71,6 @@ export const blend = {
   },
 };
 
-// قيمة فاضية ثابتة: إذا رجّعنا {} جديد بكل مرة، React بيفكر إنها تغيرت وبيعيد الرسم بلا نهاية
 const EMPTY: Record<string, number> = {};
 
 export function useShares() {

@@ -20,7 +20,6 @@
   gap: 20px;
 }
 
-/* ===== الكرت ===== */
 .card {
   position: relative;
   display: block;
@@ -39,7 +38,6 @@
   transform: scale(1.06);
 }
 
-/* كرت بدون صورة */
 .placeholder {
   position: absolute;
   inset: 0;
@@ -50,7 +48,6 @@
   color: rgba(247, 242, 234, 0.5);
 }
 
-/* طبقة غامقة من تحت عشان النص الفاتح يبين */
 .overlay {
   position: absolute;
   inset: 0;
@@ -95,7 +92,6 @@
   transform: translateX(-4px);
 }
 
-/* ===== التابلت والموبايل ===== */
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

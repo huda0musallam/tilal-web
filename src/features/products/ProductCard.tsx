@@ -37,7 +37,7 @@ const CARDAMOM_DETAIL: Record<Cardamom, string> = {
 
 type Props = {
   product: Product;
-  index?: number; // لتأخير ظهور الكروت ورا بعض
+  index?: number;
 };
 
 export default function ProductCard({ product, index = 0 }: Props) {
@@ -45,7 +45,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const [cardamom, setCardamom] = useState<Cardamom>("none");
   const [added, setAdded] = useState(false);
   const liked = useIsFavorite(product.id);
-  const mediaRef = useRef<HTMLDivElement>(null); // من هون بتطير الصورة
+  const mediaRef = useRef<HTMLDivElement>(null);
 
   const price = productPrice(product, weight, cardamom);
 
@@ -68,7 +68,6 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
   function handleLike() {
     const nowLiked = favorites.toggle(product.id);
-    // منطيّر الصورة بس لما نضيف للمفضلة، مش لما نشيل
     if (nowLiked) flyTo("favorites", product.image, mediaRef.current);
   }
 

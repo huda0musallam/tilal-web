@@ -5,7 +5,6 @@ import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import CartDrawer from "@/features/cart/CartDrawer";
 import FlyLayer from "@/features/fly/FlyLayer";
-// خط العناوين
 const display = Aref_Ruqaa({
   subsets: ["arabic"],
   weight: ["400", "700"],
@@ -13,7 +12,6 @@ const display = Aref_Ruqaa({
   display: "swap",
 });
 
-// خط النصوص
 const body = Tajawal({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],

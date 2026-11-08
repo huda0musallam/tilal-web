@@ -26,7 +26,6 @@ const ORIGIN_FILTERS: { value: OriginFilter; label: string }[] = [
   { value: "colombia", label: "كولومبي" },
 ];
 
-// نتأكد إن القيمة اللي جاية من الرابط صحيحة
 function toRoast(value: string | null): RoastFilter {
   return value === "light" || value === "medium" || value === "dark" ? value : "all";
 }
@@ -35,7 +34,6 @@ function toOrigin(value: string | null): OriginFilter {
   return value === "brazil" || value === "colombia" ? value : "all";
 }
 
-// عدد المنتجات بالعربي
 function countLabel(n: number) {
   if (n === 1) return "منتج واحد";
   if (n === 2) return "منتجين";
@@ -51,7 +49,6 @@ export default function ProductsExplorer() {
   });
   const favoriteIds = useFavoriteIds();
 
-  // الرابط هو المصدر الوحيد للفلتر
   const searchParams = useSearchParams();
   const current: Filters = {
     roast: toRoast(searchParams.get("roast")),
@@ -59,7 +56,6 @@ export default function ProductsExplorer() {
     fav: searchParams.get("fav") === "1",
   };
 
-  // منغير الرابط بدون ما نعيد تحميل الصفحة، و Next.js بيحدّث useSearchParams لحاله
   function updateUrl(change: Partial<Filters>) {
     const next = { ...current, ...change };
     const params = new URLSearchParams();
@@ -83,7 +79,6 @@ export default function ProductsExplorer() {
 
   return (
     <>
-      {/* شريط الفلاتر */}
       <div className={styles.toolbar}>
         <div className={styles.filters} role="group" aria-label="درجة التحميص">
           {ROAST_FILTERS.map((f) => (
@@ -132,7 +127,6 @@ export default function ProductsExplorer() {
         </p>
       </div>
 
-      {/* المنتجات */}
       {filtered.length === 0 ? (
         <div className={styles.empty}>
           <p>

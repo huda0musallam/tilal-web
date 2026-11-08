@@ -14,7 +14,7 @@ type Flight = {
 
 type FlyState = {
   flights: Flight[];
-  bump: Record<FlyTarget, number>; // بيزيد كل ما توصل صورة، والأيقونة بتنط
+  bump: Record<FlyTarget, number>;
 };
 
 export const useFlyStore = create<FlyState>()((): FlyState => ({
@@ -31,12 +31,10 @@ function bump(target: FlyTarget) {
   set({ bump: { ...current, [target]: current[target] + 1 } });
 }
 
-// بتطيّر الصورة من العنصر fromEl لأيقونة الهدف بالهيدر
 export function flyTo(target: FlyTarget, image: string, fromEl: HTMLElement | null) {
   const toEl = document.querySelector<HTMLElement>(`[data-fly-target="${target}"]`);
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // إذا ما في مكان نطير منه أو إله، أو المستخدم مفعّل تقليل الحركة: بس منخلي الأيقونة تنط
   if (!fromEl || !toEl || reduceMotion) {
     bump(target);
     return;
@@ -57,7 +55,6 @@ export function flyTo(target: FlyTarget, image: string, fromEl: HTMLElement | nu
   set({ flights: [...get().flights, flight] });
 }
 
-// لما توصل الصورة: منشيلها ومنخلي الأيقونة تنط
 export function landed(id: number) {
   const flight = get().flights.find((f) => f.id === id);
   set({ flights: get().flights.filter((f) => f.id !== id) });

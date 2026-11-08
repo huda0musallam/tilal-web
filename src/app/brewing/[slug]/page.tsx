@@ -11,7 +11,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-// منقول لـ Next.js شو الروابط الموجودة، فبيجهزها مسبقاً
 export function generateStaticParams() {
   return BREW_METHODS.map((m) => ({ slug: m.slug }));
 }
@@ -26,12 +25,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// ===== المحتوى: بيقرا الرابط ويعرض الطريقة =====
 export default async function MethodPage({ params }: Props) {
   const { slug } = await params;
   const method = getMethod(slug);
 
-  // إذا الرابط غلط متل /brewing/abc بتطلع صفحة 404
   if (!method) notFound();
 
   const others = BREW_METHODS.filter((m) => m.slug !== method.slug);
@@ -45,7 +42,6 @@ export default async function MethodPage({ params }: Props) {
 
   return (
     <main>
-      {/* ===== الصورة الكبيرة ===== */}
       <section className={styles.hero}>
         <Image
           src={method.image}
@@ -67,7 +63,6 @@ export default async function MethodPage({ params }: Props) {
       </section>
 
       <div className="container">
-        {/* ===== معلومات سريعة ===== */}
         <dl className={styles.facts}>
           {facts.map(({ icon: Icon, label, value }) => (
             <div key={label} className={styles.fact}>
@@ -79,7 +74,6 @@ export default async function MethodPage({ params }: Props) {
         </dl>
 
         <div className={styles.content}>
-          {/* ===== الأدوات والمقادير ===== */}
           <aside className={styles.side}>
             <div className={styles.box}>
               <h2 className={styles.boxTitle}>الأدوات</h2>
@@ -111,7 +105,6 @@ export default async function MethodPage({ params }: Props) {
             </div>
           </aside>
 
-          {/* ===== الخطوات ===== */}
           <section>
             <h2 className={styles.stepsTitle}>الخطوات</h2>
             <ol className={styles.steps}>
@@ -133,7 +126,6 @@ export default async function MethodPage({ params }: Props) {
           </section>
         </div>
 
-        {/* ===== طرق تانية ===== */}
         <nav className={styles.others} aria-label="طرق تحضير تانية">
           <p className={styles.othersTitle}>جرّب كمان</p>
           <div className={styles.othersList}>

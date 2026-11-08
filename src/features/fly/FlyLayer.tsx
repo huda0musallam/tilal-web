@@ -10,7 +10,6 @@ export default function FlyLayer() {
   return (
     <div className={styles.layer} aria-hidden="true">
       {flights.map((f) => {
-        // الصورة بتطلع لفوق شوي وبعدين بتنزل على الأيقونة، متل قوس
         const midX = (f.from.x + f.to.x) / 2;
         const peakY = Math.max(8, Math.min(f.from.y, f.to.y) - 80);
 

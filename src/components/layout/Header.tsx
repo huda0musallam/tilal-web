@@ -18,7 +18,6 @@ const links = [
   { href: "/brewing", label: "طرق التحضير" },
 ];
 
-// نطة صغيرة للأيقونة لما توصلها صورة. key جديد = الأنيميشن بيعيد من الأول
 const bumpAnimation = { scale: [1, 1.35, 1] };
 
 export default function Header() {
@@ -31,14 +30,12 @@ export default function Header() {
   const cartBump = useFlyStore((s) => s.bump.cart);
   const favBump = useFlyStore((s) => s.bump.favorites);
 
-  // نراقب التمرير عشان نصغّر الهيدر
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // هل الرابط هو الصفحة الحالية؟
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
@@ -66,7 +63,6 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          {/* المفضلة: بتفتح صفحة المنتجات على فلتر المفضلة */}
           <Link
             href="/products?fav=1"
             className={styles.iconBtn}
@@ -84,7 +80,6 @@ export default function Header() {
             {favCount > 0 && <span className={styles.badge}>{favCount}</span>}
           </Link>
 
-          {/* السلة */}
           <button
             type="button"
             className={styles.iconBtn}
@@ -116,8 +111,6 @@ export default function Header() {
       </div>
     </header>
   );
-  // إذا كنا أصلاً بنفس الصفحة، Next.js ما بيعمل شي، فمنطلع لفوق بإيدنا
-  // إذا كبسنا على الصفحة اللي نحنا فيها، Next.js ما بيعمل شي، فمنطلع لفوق بإيدنا
   function handleNavClick(href: string) {
     setMenuOpen(false);
     if (pathname === href) {

@@ -2,7 +2,6 @@
 
 import RouteError from "@/components/ui/RouteError";
 
-// ملفات error لازم تكون client components
 export default function Error({
   error,
   unstable_retry,

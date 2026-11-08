@@ -1,7 +1,6 @@
 import GridSkeleton from "@/components/ui/GridSkeleton";
 import styles from "./products.module.css";
 
-// بيطلع تلقائياً لحد ما توصل المنتجات
 export default function Loading() {
   return (
     <main className={styles.page}>

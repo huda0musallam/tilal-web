@@ -32,7 +32,6 @@
   text-align: center;
 }
 
-/* ===== التحميل ===== */
 .skeleton {
   aspect-ratio: 3 / 4;
   border-radius: 20px;
@@ -50,7 +49,6 @@
   }
 }
 
-/* ===== التابلت والموبايل ===== */
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

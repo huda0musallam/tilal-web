@@ -21,11 +21,9 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function Reviews() {
-  // إذا لسه عم يحمّل أو صار خطأ، منخفي القسم
   const { data: reviews } = useSWR(apiKeys.reviews, fetchReviews);
   if (!reviews || reviews.length === 0) return null;
 
-  // منكرر الآراء مرتين عشان الشريط يضل مليان ويلف بدون فراغ
   const loop = [...reviews, ...reviews];
 
   return (

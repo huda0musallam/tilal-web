@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description: "بن برازيلي وكولومبي بثلاث درجات تحميص، مع خيار الهيل.",
 };
 
-// server component: بيبلش يجيب المنتجات، وبيعطيها لـ SWR كقيمة أولية
 export default function ProductsPage() {
   return (
     <main className={styles.page}>
@@ -20,7 +19,6 @@ export default function ProductsPage() {
           <p>اختار البن ودرجة التحميص، وحدد الوزن والهيل على ذوقك.</p>
         </header>
 
-        {/* بدون await: الـ component اللي بيقرا المفتاح بيستنى لحاله، و loading.tsx بيبين وقتها */}
         <SWRConfig value={{ fallback: { [apiKeys.products]: getProducts() } }}>
           <ProductsExplorer />
         </SWRConfig>

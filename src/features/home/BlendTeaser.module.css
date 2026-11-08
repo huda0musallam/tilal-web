@@ -13,7 +13,6 @@
   background: var(--olive);
 }
 
-/* ===== النص ===== */
 .label {
   margin-bottom: 8px;
   color: var(--sand);
@@ -41,7 +40,6 @@
   background: var(--section);
 }
 
-/* ===== الرسمة ===== */
 .visual {
   position: relative;
   display: grid;
@@ -75,7 +73,6 @@
   gap: 16px;
 }
 
-/* دائرة النسب */
 .ring {
   position: relative;
   display: grid;
@@ -86,7 +83,6 @@
   background: conic-gradient(var(--nescafe) 0 60%, var(--bg) 60% 100%);
 }
 
-/* الفتحة اللي بنص الدائرة */
 .ring::after {
   content: "";
   position: absolute;
@@ -134,7 +130,6 @@
   background: var(--bg);
 }
 
-/* ===== الموبايل ===== */
 @media (max-width: 900px) {
   .section {
     padding-block: 80px;

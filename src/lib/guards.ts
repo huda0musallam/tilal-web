@@ -57,7 +57,6 @@ export function isSuggestion(v: unknown): v is Suggestion {
   );
 }
 
-// بيحوّل guard لعنصر واحد لـ guard لقائمة
 function isListOf<T>(guard: (v: unknown) => v is T) {
   return (v: unknown): v is T[] => Array.isArray(v) && v.every(guard);
 }

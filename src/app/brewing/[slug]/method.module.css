@@ -1,4 +1,3 @@
-/* ===== الصورة الكبيرة ===== */
 .hero {
   position: relative;
   display: flex;
@@ -50,7 +49,6 @@
   font-size: 1.2rem;
 }
 
-/* ===== معلومات سريعة ===== */
 .facts {
   position: relative;
   z-index: 2;
@@ -88,7 +86,6 @@
   font-weight: 700;
 }
 
-/* ===== المحتوى ===== */
 .content {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
@@ -152,7 +149,6 @@
   justify-content: center;
 }
 
-/* ===== الخطوات ===== */
 .stepsTitle {
   margin-bottom: 24px;
 }
@@ -210,7 +206,6 @@
   color: var(--bg);
 }
 
-/* ===== طرق تانية ===== */
 .others {
   display: flex;
   flex-wrap: wrap;
@@ -248,7 +243,6 @@
   background: var(--section);
 }
 
-/* ===== التابلت والموبايل ===== */
 @media (max-width: 900px) {
   .facts {
     grid-template-columns: repeat(2, 1fr);
@@ -262,7 +256,7 @@
 
   .side {
     position: static;
-    order: 2; /* الخطوات أول على الموبايل */
+    order: 2;
   }
 }
 
@@ -271,7 +265,6 @@
     min-height: 320px;
   }
 }
-/* المكان اللي بيبين لحد ما يوصل المحتوى */
 .loading {
   min-height: 420px;
   background: var(--section);

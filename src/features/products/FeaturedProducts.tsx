@@ -9,7 +9,6 @@ import GridSkeleton from "@/components/ui/GridSkeleton";
 import styles from "./FeaturedProducts.module.css";
 
 export default function FeaturedProducts() {
-  // نفس مفتاح صفحة المنتجات، فلما تروح عليها بتفتح فوراً من الـ cache
   const { data, error, mutate } = useSWR(apiKeys.products, fetchProducts);
   const featured = data?.filter((p) => p.featured) ?? [];
 

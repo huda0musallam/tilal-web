@@ -46,10 +46,8 @@ const CARDAMOM_DETAIL: Record<Cardamom, string> = {
   extra: "زيادة هيل",
 };
 
-// لون ثابت لكل نوع بن بالدائرة
 const COLORS = ["#B8865A", "#4F5A2E", "#5A3726", "#D9B98F"];
 
-// صورة الكيس حسب التحميص
 const BAG_BY_ROAST: Record<Roast, string> = {
   light: "/images/bag-light.jpg",
   medium: "/images/bag-medium.jpg",
@@ -61,7 +59,6 @@ const labelOf = <T,>(options: Option<T>[], value: T) =>
 
 const colorOf = (beans: Bean[], bean: Bean) => COLORS[beans.indexOf(bean) % COLORS.length];
 
-// ===== مكونات صغيرة =====
 function Step({
   n,
   title,
@@ -115,7 +112,6 @@ function Chips<T extends string>({
   );
 }
 
-// ===== الخطوات: كل وحدة بتقرا من الـ store بس اللي بيخصها =====
 function TotalStep() {
   const total = useBlendStore((s) => s.total);
   return (
@@ -156,7 +152,6 @@ function BeansStep({ beans }: { beans: Bean[] }) {
         })}
       </div>
 
-      {/* سلايدر لكل نوع إذا في أكتر من نوع */}
       {selected.length > 1 && (
         <div className={styles.sliders}>
           <AnimatePresence initial={false}>
@@ -238,7 +233,6 @@ function CardamomStep() {
   );
 }
 
-// ===== الملخص: بيقرا كل شي لأنه بيعرض كل شي =====
 function Summary({ beans }: { beans: Bean[] }) {
   const total = useBlendStore((s) => s.total);
   const roast = useBlendStore((s) => s.roast);
@@ -246,18 +240,16 @@ function Summary({ beans }: { beans: Bean[] }) {
   const cardamom = useBlendStore((s) => s.cardamom);
   const shares = useShares();
   const [added, setAdded] = useState(false);
-  const ringRef = useRef<HTMLDivElement>(null); // من هون بتطير صورة الكيس
+  const ringRef = useRef<HTMLDivElement>(null);
 
   const grams = Number(total);
   const selected = beans.filter((b) => b.id in shares);
   const sum = selected.reduce((s, b) => s + shares[b.id], 0);
   const isValid = selected.length > 0 && sum === 100;
 
-  // السعر: كل نوع حسب غراماته + الهيل
   const beansCost = selected.reduce((s, b) => s + b.pricePerGram * grams * (shares[b.id] / 100), 0);
   const price = Math.round((beansCost + cardamomCost(cardamom, grams)) * 100) / 100;
 
-  // ألوان الدائرة
   const stops: string[] = [];
   let acc = 0;
   for (const b of selected) {
@@ -343,11 +335,9 @@ function Summary({ beans }: { beans: Bean[] }) {
   );
 }
 
-// ===== الصفحة: بتجيب البن وبترتب الخطوات، وما بتعيد الرسم لما الخلطة تتغير =====
 export default function BlendBuilder() {
   const { data: beans = [] } = useSWR(apiKeys.beans, fetchBeans, { suspense: true });
 
-  // أول مرة بس: منختار أول نوع بن
   useEffect(() => {
     blend.init(beans[0]?.id);
   }, [beans]);

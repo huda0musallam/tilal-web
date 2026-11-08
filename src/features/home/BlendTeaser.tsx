@@ -5,7 +5,6 @@ import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 import styles from "./BlendTeaser.module.css";
 
-// أماكن ثابتة لحبات البن النازلة
 const BEANS = [
   { left: "8%", delay: "0s", duration: "6s", size: 22, rotate: 20 },
   { left: "22%", delay: "2.2s", duration: "7s", size: 18, rotate: -30 },
@@ -42,7 +41,6 @@ export default function BlendTeaser() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          {/* النص */}
           <div className={styles.text}>
             <p className={styles.label}>اصنع خلطتك</p>
             <h2 className={styles.title}>قهوتك، على ذوقك</h2>
@@ -55,7 +53,6 @@ export default function BlendTeaser() {
             </Link>
           </div>
 
-          {/* الرسمة */}
           <div className={styles.visual} aria-hidden="true">
             {BEANS.map((b, i) => (
               <span
@@ -67,7 +64,6 @@ export default function BlendTeaser() {
                   animationDuration: b.duration,
                 }}
               >
-                {/* الدوران الأولي لكل حبة، والحركة نفسها بالـ CSS */}
                 <span style={{ display: "block", transform: `rotate(${b.rotate}deg)` }}>
                   <Bean size={b.size} />
                 </span>

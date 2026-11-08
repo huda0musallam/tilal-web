@@ -17,7 +17,6 @@ export default function SuggestionBox() {
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
 
-  // SWR بيدير حالة الإرسال: عم يبعت، فشل، أو نجح
   const {
     trigger,
     isMutating,
@@ -28,7 +27,6 @@ export default function SuggestionBox() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // التحقق من الحقول قبل الإرسال
     const next: Errors = {};
     if (message.trim().length < 3) next.message = "اكتب اقتراحك أو تعليقك أول.";
     if (rating === 0) next.rating = "اختار تقييم من نجمة لخمس نجوم.";
@@ -46,9 +44,7 @@ export default function SuggestionBox() {
       setName("");
       setMessage("");
       setRating(0);
-    } catch {
-      // رسالة الخطأ بتطلع لحالها من sendError
-    }
+    } catch {}
   }
 
   function writeAnother() {
@@ -56,7 +52,7 @@ export default function SuggestionBox() {
     reset();
   }
 
-  const shown = hovered || rating; // النجوم المضوية
+  const shown = hovered || rating;
 
   return (
     <section className={styles.section}>
@@ -94,7 +90,6 @@ export default function SuggestionBox() {
                 exit={{ opacity: 0 }}
                 className={styles.form}
               >
-                {/* الاسم */}
                 <div className={styles.field}>
                   <label htmlFor="s-name" className={styles.fieldLabel}>
                     اسمك <span className={styles.optional}>(اختياري)</span>
@@ -109,7 +104,6 @@ export default function SuggestionBox() {
                   />
                 </div>
 
-                {/* الاقتراح */}
                 <div className={styles.field}>
                   <label htmlFor="s-message" className={styles.fieldLabel}>
                     اقتراحك
@@ -134,7 +128,6 @@ export default function SuggestionBox() {
                   )}
                 </div>
 
-                {/* التقييم */}
                 <div className={styles.field}>
                   <span id="s-rating-label" className={styles.fieldLabel}>
                     تقييمك

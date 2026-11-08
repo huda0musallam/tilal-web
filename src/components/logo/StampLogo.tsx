@@ -1,4 +1,3 @@
-// الختم الكامل: للهيرو والفوتر والمنتجات
 type Props = { className?: string; ink?: string };
 
 export default function StampLogo({ className, ink = "#3B2618" }: Props) {
@@ -9,11 +8,9 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
       role="img"
       aria-label="ختم التلال - Tilal Coffee"
     >
-      {/* حلقات الختم */}
       <circle cx="600" cy="600" r="520" fill="none" stroke={ink} strokeWidth={18} />
       <circle cx="600" cy="600" r="485" fill="none" stroke={ink} strokeWidth={7} />
 
-      {/* التلال */}
       <path
         d="M250 350 L420 245 L505 300 L610 185 L770 300 L835 265 L970 360
            L820 320 L765 350 L610 245 L505 350 L420 295 Z"
@@ -28,7 +25,6 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
         strokeLinejoin="round"
       />
 
-      {/* الاسم بالعربي */}
       <text
         x="600"
         y="665"
@@ -40,7 +36,6 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
         التلال
       </text>
 
-      {/* الاسم بالإنجليزي */}
       <text
         x="600"
         y="770"
@@ -53,10 +48,8 @@ export default function StampLogo({ className, ink = "#3B2618" }: Props) {
         TILAL COFFEE
       </text>
 
-      {/* خط زخرفي */}
       <path d="M390 830 H520 M680 830 H810" stroke={ink} strokeWidth={8} strokeLinecap="round" />
 
-      {/* حبة البن والورق */}
       <path d="M455 900 C390 865 345 895 365 940 C385 985 445 1000 490 955 Z" fill={ink} />
       <path d="M745 900 C810 865 855 895 835 940 C815 985 755 1000 710 955 Z" fill={ink} />
       <path

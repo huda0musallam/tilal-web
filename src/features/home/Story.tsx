@@ -36,7 +36,6 @@ const stagger: Variants = {
 };
 
 export default function Story() {
-  // parallax: نتابع مكان القسم بالشاشة ونحرّك الصورة على أساسه
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -47,7 +46,6 @@ export default function Story() {
   return (
     <section id="story" className={styles.story}>
       <div className={`container ${styles.inner}`}>
-        {/* الصورة */}
         <div className={styles.visual} ref={ref}>
           <div className={styles.frame}>
             <motion.div className={styles.parallax} style={{ y }}>
@@ -63,7 +61,6 @@ export default function Story() {
           <StampLogo className={styles.stamp} />
         </div>
 
-        {/* النص */}
         <motion.div
           variants={stagger}
           initial="hidden"

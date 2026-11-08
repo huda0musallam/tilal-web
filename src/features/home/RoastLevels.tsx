@@ -83,7 +83,6 @@ export default function RoastLevels() {
                   <div className={styles.top}>
                     <h3 className={styles.name}>{roast.name}</h3>
 
-                    {/* حبات قوة التحميص */}
                     <div
                       className={styles.dots}
                       role="img"

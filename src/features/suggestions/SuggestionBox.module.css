@@ -20,7 +20,6 @@
   margin-bottom: 12px;
 }
 
-/* ===== الصندوق ===== */
 .box {
   padding: 32px;
   border: 1px solid var(--sand);
@@ -80,7 +79,6 @@
   font-size: 14px;
 }
 
-/* ===== النجوم ===== */
 .stars {
   display: flex;
   gap: 4px;
@@ -116,7 +114,6 @@
   cursor: wait;
 }
 
-/* ===== رسالة الشكر ===== */
 .thanks {
   display: grid;
   justify-items: center;
