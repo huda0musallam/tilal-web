@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import type { Cardamom, Roast, Weight } from "@/features/products/product.types";
-
-export type Grind = "whole" | "arabic" | "filter" | "moka" | "turkish";
+import type { Grind } from "./blend.types";
 
 type BlendState = {
   total: Weight;

@@ -5,21 +5,37 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
-import { cart, useCart, useCartStore } from "@/features/cart/cart-store";
+import useSWR from "swr";
+import { apiKeys } from "@/shared/api/api";
 import { formatPrice } from "@/shared/lib/format-price";
 import { whatsappLink } from "@/shared/lib/whatsapp";
+import { fetchProducts } from "@/features/products/products.api";
+import { fetchBeans } from "@/features/blend/beans.api";
+import { useFavoritesStore } from "@/features/favorites/favorites-store";
+import { cart, useCartCount, useCartLines, useCartOpen, useCartStore } from "./cart.store";
+import { cartTotal, lineTotal, resolveLines } from "./cart.logic";
 import { buildOrderMessage } from "./order-message";
 import styles from "./CartDrawer.module.css";
-import { useFavoritesStore } from "@/features/favorites/favorites-store";
+
 export default function CartDrawer() {
-  const { items, isOpen, count, total } = useCart();
+  const lines = useCartLines();
+  const isOpen = useCartOpen();
+  const count = useCartCount();
+  const products = useSWR(apiKeys.products, fetchProducts, {
+    onSuccess: (data) => cart.keepProducts(data.map((p) => p.id)),
+  });
+  const beans = useSWR(apiKeys.beans, fetchBeans, {
+    onSuccess: (data) => cart.keepBeans(data.map((b) => b.id)),
+  });
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const closeRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     useCartStore.persist.rehydrate();
     useFavoritesStore.persist.rehydrate();
   }, []);
+
   useEffect(() => {
     if (!isOpen) return;
     document.body.style.overflow = "hidden";
@@ -35,6 +51,14 @@ export default function CartDrawer() {
       window.removeEventListener("keydown", onKey);
     };
   }, [isOpen]);
+
+  const catalogReady = Boolean(products.data && beans.data);
+  const catalogFailed = Boolean(products.error || beans.error);
+  const items = resolveLines(lines, {
+    products: products.data ?? [],
+    beans: beans.data ?? [],
+  });
+  const total = cartTotal(items);
 
   const message = buildOrderMessage(items, total, {
     name: name.trim(),
@@ -78,7 +102,28 @@ export default function CartDrawer() {
               </button>
             </div>
 
-            {items.length === 0 ? (
+            {lines.length > 0 && !catalogReady ? (
+              <div className={styles.empty} role={catalogFailed ? "alert" : "status"}>
+                <ShoppingBag size={56} strokeWidth={1.2} />
+                {catalogFailed ? (
+                  <>
+                    <p>ما قدرنا نجيب تفاصيل سلتك هلق.</p>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      onClick={() => {
+                        products.mutate();
+                        beans.mutate();
+                      }}
+                    >
+                      جرّب مرة تانية
+                    </button>
+                  </>
+                ) : (
+                  <p>عم نجيب تفاصيل سلتك...</p>
+                )}
+              </div>
+            ) : items.length === 0 ? (
               <div className={styles.empty}>
                 <ShoppingBag size={56} strokeWidth={1.2} />
                 <p>سلتك فاضية لهلق.</p>
@@ -132,9 +177,7 @@ export default function CartDrawer() {
                               </button>
                             </div>
 
-                            <span className={styles.lineTotal}>
-                              {formatPrice(item.unitPrice * item.qty)}
-                            </span>
+                            <span className={styles.lineTotal}>{formatPrice(lineTotal(item))}</span>
                           </div>
                         </div>
 

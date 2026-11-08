@@ -5,16 +5,10 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Heart, ShoppingBag, Check } from "lucide-react";
 import type { Cardamom, Product, Weight } from "./product.types";
-import {
-  CARDAMOM_OPTIONS,
-  WEIGHT_OPTIONS,
-  cardamomDetail,
-  roastLabel,
-  weightLabel,
-} from "./product.options";
+import { CARDAMOM_OPTIONS, WEIGHT_OPTIONS, roastLabel } from "./product.options";
 import { productPrice } from "./pricing";
 import { formatPrice } from "@/shared/lib/format-price";
-import { cart } from "@/features/cart/cart-store";
+import { cart } from "@/features/cart/cart.store";
 import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
 import { flyTo } from "@/features/fly/fly-store";
 import styles from "./ProductCard.module.css";
@@ -34,17 +28,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const price = productPrice(product, weight, cardamom);
 
   function handleAdd() {
-    const details = product.cardamom
-      ? [weightLabel(weight), cardamomDetail(cardamom)]
-      : [weightLabel(weight)];
-
-    cart.add({
-      key: `${product.id}-${weight}-${cardamom}`,
-      name: product.name,
-      image: product.image,
-      details,
-      unitPrice: price,
-    });
+    cart.add({ productId: product.id, weight, cardamom, qty: 1 });
 
     flyTo("cart", product.image, mediaRef.current);
     setAdded(true);

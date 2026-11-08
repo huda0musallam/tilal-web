@@ -7,14 +7,12 @@ import useSWR from "swr";
 import { apiKeys } from "@/shared/api/api";
 import { fetchBeans } from "./beans.api";
 import type { Bean } from "./bean.types";
-import { cart } from "@/features/cart/cart-store";
+import { cart } from "@/features/cart/cart.store";
 import { flyTo } from "@/features/fly/fly-store";
-import { cardamomCost } from "@/features/products/pricing";
 import {
   CARDAMOM_OPTIONS,
   ROAST_OPTIONS,
   WEIGHT_OPTIONS,
-  cardamomDetail,
   cardamomLabel,
   roastImage,
   roastLabel,
@@ -22,21 +20,13 @@ import {
   type Option,
 } from "@/features/products/product.options";
 import { formatPrice } from "@/shared/lib/format-price";
-import { blend, useBlendStore, useShares, type Grind } from "./blend-store";
+import { blend, useBlendStore, useShares } from "./blend-store";
+import { GRIND_OPTIONS, grindLabel } from "./blend.options";
+import { blendPrice, selectedBeans, sharesSum } from "./blend.logic";
+import type { BlendChoice } from "./blend.types";
 import styles from "./BlendBuilder.module.css";
 
-const GRINDS: readonly Option<Grind>[] = [
-  { value: "whole", label: "حبوب كاملة" },
-  { value: "arabic", label: "عربية" },
-  { value: "filter", label: "فلتر / V60" },
-  { value: "moka", label: "موكا" },
-  { value: "turkish", label: "تركي ناعم" },
-];
-
 const COLORS = ["#B8865A", "#4F5A2E", "#5A3726", "#D9B98F"];
-
-const labelOf = <T extends string>(options: readonly Option<T>[], value: T) =>
-  options.find((o) => o.value === value)?.label ?? "";
 
 const colorOf = (beans: Bean[], bean: Bean) => COLORS[beans.indexOf(bean) % COLORS.length];
 
@@ -205,7 +195,7 @@ function GrindStep() {
   const grind = useBlendStore((s) => s.grind);
   return (
     <Step n={4} title="الطحنة" hint="إذا ما بتعرف، اختار حبوب كاملة وطحنها قبل التحضير.">
-      <Chips options={GRINDS} value={grind} onChange={blend.setGrind} label="الطحنة" />
+      <Chips options={GRIND_OPTIONS} value={grind} onChange={blend.setGrind} label="الطحنة" />
     </Step>
   );
 }
@@ -233,13 +223,10 @@ function Summary({ beans }: { beans: Bean[] }) {
   const [added, setAdded] = useState(false);
   const ringRef = useRef<HTMLDivElement>(null);
 
-  const grams = Number(total);
-  const selected = beans.filter((b) => b.id in shares);
-  const sum = selected.reduce((s, b) => s + shares[b.id], 0);
-  const isValid = selected.length > 0 && sum === 100;
-
-  const beansCost = selected.reduce((s, b) => s + b.pricePerGram * grams * (shares[b.id] / 100), 0);
-  const price = Math.round((beansCost + cardamomCost(cardamom, grams)) * 100) / 100;
+  const choice: BlendChoice = { total, shares, roast, grind, cardamom };
+  const selected = selectedBeans(beans, shares);
+  const isValid = selected.length > 0 && sharesSum(shares) === 100;
+  const price = blendPrice(choice, beans);
 
   const stops: string[] = [];
   let acc = 0;
@@ -251,25 +238,9 @@ function Summary({ beans }: { beans: Bean[] }) {
   if (acc < 100) stops.push(`var(--sand) ${acc}% 100%`);
   const ringStyle = { background: `conic-gradient(${stops.join(", ")})` };
 
-  const mixLabel = selected.map((b) => `${b.name} ${shares[b.id]}%`).join(" · ");
-
   function handleAdd() {
     if (!isValid) return;
-    cart.add({
-      key: `blend-${total}-${roast}-${grind}-${cardamom}-${selected
-        .map((b) => `${b.id}${shares[b.id]}`)
-        .join("-")}`,
-      name: "خلطتي الخاصة",
-      image: roastImage(roast),
-      details: [
-        weightLabel(total),
-        mixLabel,
-        `تحميص ${roastLabel(roast)}`,
-        `طحنة ${labelOf(GRINDS, grind)}`,
-        cardamomDetail(cardamom),
-      ],
-      unitPrice: price,
-    });
+    cart.add({ blend: choice, qty: 1 });
     flyTo("cart", roastImage(roast), ringRef.current);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
@@ -299,7 +270,7 @@ function Summary({ beans }: { beans: Bean[] }) {
         </div>
         <div>
           <dt>الطحنة</dt>
-          <dd>{labelOf(GRINDS, grind)}</dd>
+          <dd>{grindLabel(grind)}</dd>
         </div>
         <div>
           <dt>الهيل</dt>
