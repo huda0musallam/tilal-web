@@ -16,30 +16,6 @@
   display: none;
 }
 
-.chip {
-  padding: 8px 18px;
-  border: 1px solid var(--sand);
-  border-radius: 999px;
-  background: var(--bg);
-  color: var(--coffee);
-  font-weight: 500;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-}
-
-.chip:hover {
-  border-color: var(--nescafe);
-}
-
-.active,
-.active:hover {
-  border-color: var(--coffee);
-  background: var(--coffee);
-  color: var(--bg);
-}
-
 .count {
   margin-inline-start: 0;
   color: var(--coffee);
@@ -61,11 +37,6 @@
   gap: 16px;
   padding-block: 64px;
   text-align: center;
-}
-.favChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 @media (min-width: 640px) {
   .divider {

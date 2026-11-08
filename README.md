@@ -251,8 +251,9 @@ RootLayout                    (server) fonts, lang="ar", dir="rtl"
 │   │   └── ProductsCatalog   client
 │   │       └── DataSection
 │   │           └── ProductsExplorer      SWR: products   URL: roast, origin, fav
-│   │               │                     store: favorite ids
+│   │               │                     store: favorite ids (only when the favorites filter is on)
 │   │               ├── Chips             options, value, onChange, label, size?
+│   │               ├── FavoritesFilterChip   active, onToggle       store: favorites count
 │   │               └── ProductCard       product, index?
 │   │                   ├── FavoriteButton    product, sourceRef     store: is favorite
 │   │                   └── ProductPurchase   product, sourceRef     state: weight, cardamom, added
@@ -283,20 +284,20 @@ RootLayout                    (server) fonts, lang="ar", dir="rtl"
 
 ### Who owns each piece of state
 
-| State                                                    | Owner                                 | Used by                                                       |
-| -------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------- |
-| Cart `lines` (ids, options, qty)                         | `cart.store.ts` (Zustand, saved)      | `useCartItems` (drawer, checkout), the count in `Header`      |
-| Cart `isOpen`                                            | `cart.store.ts` (Zustand, not saved)  | `CartDrawer`, opened by the bag icon in `Header`              |
-| Favorite `ids`                                           | `favorites.store.ts` (Zustand, saved) | `FavoriteButton`, `ProductsExplorer`, the count in `Header`   |
-| Blend `total`, `shares`, `roast`, `grind`, `cardamom`    | `blend.store.ts` (Zustand)            | Each blend step reads its own value, `BlendSummary` reads all |
-| Fly `flights` and `bump`                                 | `fly.store.ts` (Zustand)              | `FlyLayer` draws the flights, `Header` bounces the icons      |
-| Products, one product, beans, reviews                    | SWR keys from `apiKeys`               | The components in the tree above                              |
-| Suggestion sending and error                             | `useSWRMutation` in `SuggestionBox`   | The send button and the error message                         |
-| `roast`, `origin`, `fav` filter                          | The URL search params                 | `ProductsExplorer` reads them with `useSearchParams`          |
-| `weight`, `cardamom`, `added`                            | `ProductPurchase`                     | That card or product page only                                |
-| Checkout fields and errors                               | react-hook-form in `CheckoutForm`     | The form                                                      |
-| `name`, `message`, `rating`, `hovered`, `errors`, `sent` | `SuggestionBox`                       | The form and the thank-you message                            |
-| `scrolled`, `menuOpen`                                   | `Header`                              | The smaller header on scroll, and the mobile menu             |
+| State                                                    | Owner                                 | Used by                                                                                                                                                                                                 |
+| -------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cart `lines` (ids, options, qty)                         | `cart.store.ts` (Zustand, saved)      | `useCartItems` (drawer, checkout), the count in `Header`                                                                                                                                                |
+| Cart `isOpen`                                            | `cart.store.ts` (Zustand, not saved)  | `CartDrawer`, opened by the bag icon in `Header`                                                                                                                                                        |
+| Favorite `ids`                                           | `favorites.store.ts` (Zustand, saved) | `FavoriteButton` in `ProductCard` reads whether its own product is a favorite, `ProductsExplorer` reads the ids only when the favorites filter is on, `FavoritesFilterChip` and `Header` read the count |
+| Blend `total`, `shares`, `roast`, `grind`, `cardamom`    | `blend.store.ts` (Zustand)            | Each blend step reads its own value, `BlendSummary` reads all                                                                                                                                           |
+| Fly `flights` and `bump`                                 | `fly.store.ts` (Zustand)              | `FlyLayer` draws the flights, `Header` bounces the icons                                                                                                                                                |
+| Products, one product, beans, reviews                    | SWR keys from `apiKeys`               | The components in the tree above                                                                                                                                                                        |
+| Suggestion sending and error                             | `useSWRMutation` in `SuggestionBox`   | The send button and the error message                                                                                                                                                                   |
+| `roast`, `origin`, `fav` filter                          | The URL search params                 | `ProductsExplorer` reads them with `useSearchParams`                                                                                                                                                    |
+| `weight`, `cardamom`, `added`                            | `ProductPurchase`                     | That card or product page only                                                                                                                                                                          |
+| Checkout fields and errors                               | react-hook-form in `CheckoutForm`     | The form                                                                                                                                                                                                |
+| `name`, `message`, `rating`, `hovered`, `errors`, `sent` | `SuggestionBox`                       | The form and the thank-you message                                                                                                                                                                      |
+| `scrolled`, `menuOpen`                                   | `Header`                              | The smaller header on scroll, and the mobile menu                                                                                                                                                       |
 
 These are not state. They are worked out on every render from the state above: the cart items
 with names and prices (`resolveLines`), the cart count and total, the favorites count, the

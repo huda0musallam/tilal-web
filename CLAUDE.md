@@ -145,6 +145,9 @@ data, not written again in code.
   subscribe and do not redraw.
 - Read state with narrow selectors that return a primitive: `useCartCount()`,
   `useIsFavorite(id)`. The header must use `useCartCount()`, not the whole cart.
+- A component that only needs a count or one value must not subscribe to a whole list. On the
+  products page, reading all favorite ids in ProductsExplorer re-rendered every card on each
+  heart click.
 - Never return a new object or array from a selector. Use a module-level constant for empty
   defaults.
 - Always annotate the state creator return type, for example `(): CartState => ({ ... })`.

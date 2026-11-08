@@ -27,6 +27,8 @@ export const useFavoritesStore = create<FavoritesState>()(
   }),
 );
 
+const NO_IDS: readonly string[] = [];
+
 const set = useFavoritesStore.setState;
 const get = useFavoritesStore.getState;
 
@@ -47,4 +49,5 @@ export const favorites = {
 
 export const useIsFavorite = (id: string) => useFavoritesStore((s) => s.ids.includes(id));
 export const useFavoritesCount = () => useFavoritesStore((s) => s.ids.length);
-export const useFavoriteIds = () => useFavoritesStore((s) => s.ids);
+export const useFavoriteIds = (enabled: boolean) =>
+  useFavoritesStore((s) => (enabled ? s.ids : NO_IDS));

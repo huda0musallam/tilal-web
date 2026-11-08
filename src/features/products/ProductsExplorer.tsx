@@ -1,12 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { Heart } from "lucide-react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { apiKeys } from "@/shared/api/client";
 import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites.store";
+import FavoritesFilterChip from "./FavoritesFilterChip";
 import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
 import type { Option } from "@/shared/lib/option";
@@ -36,19 +36,20 @@ export default function ProductsExplorer() {
   const { data: products = [] } = useSWR(apiKeys.products, fetchProducts, {
     suspense: true,
   });
-  const favoriteIds = useFavoriteIds();
+  const searchParams = useSearchParams();
+  const favOnly = searchParams.get("fav") === "1";
+  const favoriteIds = useFavoriteIds(favOnly);
 
   const originFilters: Option<string>[] = [
     { value: "all", label: "كل الأنواع" },
     ...originOptions(products),
   ];
 
-  const searchParams = useSearchParams();
   const originParam = searchParams.get("origin");
   const current: Filters = {
     roast: toRoast(searchParams.get("roast")),
     origin: originFilters.find((o) => o.value === originParam)?.value ?? "all",
-    fav: searchParams.get("fav") === "1",
+    fav: favOnly,
   };
 
   function updateUrl(change: Partial<Filters>) {
@@ -97,15 +98,10 @@ export default function ProductsExplorer() {
 
         <span className={styles.divider} aria-hidden="true" />
 
-        <button
-          type="button"
-          onClick={() => updateUrl({ fav: !current.fav })}
-          aria-pressed={current.fav}
-          className={`${styles.chip} ${styles.favChip} ${current.fav ? styles.active : ""}`}
-        >
-          <Heart size={16} fill={current.fav ? "currentColor" : "none"} />
-          المفضلة ({favoriteIds.length})
-        </button>
+        <FavoritesFilterChip
+          active={current.fav}
+          onToggle={() => updateUrl({ fav: !current.fav })}
+        />
 
         <p className={styles.count} aria-live="polite">
           {countLabel(filtered.length)}
