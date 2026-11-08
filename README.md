@@ -332,7 +332,6 @@ shadcn/ui in src/shared/ui/shadcn (each also takes the native props of its eleme
 ├── Input                                 className?, type?
 ├── Textarea                              className?
 ├── Label                                 client   className?
-├── Separator                             client   className?, orientation?, decorative?
 ├── RadioGroup                            client   className?
 ├── RadioGroupItem                        client   className?
 ├── Field                                 client   className?, orientation?
@@ -341,10 +340,7 @@ shadcn/ui in src/shared/ui/shadcn (each also takes the native props of its eleme
 ├── FieldGroup                            client   className?
 ├── FieldLabel                            client   className?   renders Label
 ├── FieldDescription                      client   className?
-├── FieldError                            client   className?, children?, errors?
-├── FieldContent                          client   className?   (not used yet)
-├── FieldTitle                            client   className?   (not used yet)
-└── FieldSeparator                        client   className?, children?   renders Separator (not used yet)
+└── FieldError                            client   className?, children?, errors?
 ```
 
 ### Who owns each piece of state

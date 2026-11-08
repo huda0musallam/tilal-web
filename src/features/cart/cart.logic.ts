@@ -3,9 +3,9 @@ import { productPrice } from "@/features/products/pricing";
 import { cardamomDetail, roastImage, weightLabel } from "@/features/products/product.options";
 import type { BlendLine, CartItem, CartLine, Catalog } from "./cart.types";
 
-export const isBlendLine = (line: CartLine): line is BlendLine => "blend" in line;
+const isBlendLine = (line: CartLine): line is BlendLine => "blend" in line;
 
-export function lineKey(line: CartLine) {
+function lineKey(line: CartLine) {
   if (!isBlendLine(line)) return `${line.productId}-${line.weight}-${line.cardamom}`;
   const { total, roast, grind, cardamom, shares } = line.blend;
   const mix = Object.keys(shares)
@@ -37,7 +37,7 @@ export function cartCount(lines: readonly CartLine[]) {
   return count;
 }
 
-export function resolveLine(line: CartLine, catalog: Catalog): CartItem | null {
+function resolveLine(line: CartLine, catalog: Catalog): CartItem | null {
   const key = lineKey(line);
 
   if (isBlendLine(line)) {

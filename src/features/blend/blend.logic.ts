@@ -30,7 +30,7 @@ export function blendPrice(choice: BlendChoice, beans: readonly Bean[]) {
   return Math.round((beansCost + cardamomCost(choice.cardamom, grams)) * 100) / 100;
 }
 
-export function mixLabel(beans: readonly Bean[], shares: Shares) {
+function mixLabel(beans: readonly Bean[], shares: Shares) {
   return selectedBeans(beans, shares)
     .map((b) => `${b.name} ${shares[b.id]}%`)
     .join(" · ");

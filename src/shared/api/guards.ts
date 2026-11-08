@@ -1,4 +1,4 @@
-export type UnknownRecord = Record<string, unknown>;
+type UnknownRecord = Record<string, unknown>;
 
 export const isRecord = (v: unknown): v is UnknownRecord => typeof v === "object" && v !== null;
 export const isString = (v: unknown): v is string => typeof v === "string";
