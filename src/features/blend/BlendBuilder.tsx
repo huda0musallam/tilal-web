@@ -6,30 +6,26 @@ import { Check, ShoppingBag } from "lucide-react";
 import useSWR from "swr";
 import { apiKeys } from "@/shared/api/api";
 import { fetchBeans } from "./beans.api";
-import type { Cardamom, Roast, Weight } from "@/features/products/product.types";
 import type { Bean } from "./bean.types";
 import { cart } from "@/features/cart/cart-store";
 import { flyTo } from "@/features/fly/fly-store";
 import { cardamomCost } from "@/features/products/pricing";
+import {
+  CARDAMOM_OPTIONS,
+  ROAST_OPTIONS,
+  WEIGHT_OPTIONS,
+  cardamomDetail,
+  cardamomLabel,
+  roastImage,
+  roastLabel,
+  weightLabel,
+  type Option,
+} from "@/features/products/product.options";
 import { formatPrice } from "@/shared/lib/format-price";
 import { blend, useBlendStore, useShares, type Grind } from "./blend-store";
 import styles from "./BlendBuilder.module.css";
 
-type Option<T> = { value: T; label: string };
-
-const TOTALS: Option<Weight>[] = [
-  { value: "250", label: "250 غ" },
-  { value: "500", label: "500 غ" },
-  { value: "1000", label: "1 كغ" },
-];
-
-const ROASTS: Option<Roast>[] = [
-  { value: "light", label: "شقرا" },
-  { value: "medium", label: "وسط" },
-  { value: "dark", label: "غامقة" },
-];
-
-const GRINDS: Option<Grind>[] = [
+const GRINDS: readonly Option<Grind>[] = [
   { value: "whole", label: "حبوب كاملة" },
   { value: "arabic", label: "عربية" },
   { value: "filter", label: "فلتر / V60" },
@@ -37,27 +33,9 @@ const GRINDS: Option<Grind>[] = [
   { value: "turkish", label: "تركي ناعم" },
 ];
 
-const CARDAMOMS: Option<Cardamom>[] = [
-  { value: "none", label: "بدون" },
-  { value: "normal", label: "هيل" },
-  { value: "extra", label: "زيادة هيل" },
-];
-
-const CARDAMOM_DETAIL: Record<Cardamom, string> = {
-  none: "بدون هيل",
-  normal: "مع هيل",
-  extra: "زيادة هيل",
-};
-
 const COLORS = ["#B8865A", "#4F5A2E", "#5A3726", "#D9B98F"];
 
-const BAG_BY_ROAST: Record<Roast, string> = {
-  light: "/images/bag-light.webp",
-  medium: "/images/bag-medium.webp",
-  dark: "/images/bag-dark.webp",
-};
-
-const labelOf = <T,>(options: Option<T>[], value: T) =>
+const labelOf = <T extends string>(options: readonly Option<T>[], value: T) =>
   options.find((o) => o.value === value)?.label ?? "";
 
 const colorOf = (beans: Bean[], bean: Bean) => COLORS[beans.indexOf(bean) % COLORS.length];
@@ -93,7 +71,7 @@ function Chips<T extends string>({
   onChange,
   label,
 }: {
-  options: Option<T>[];
+  options: readonly Option<T>[];
   value: T;
   onChange: (v: T) => void;
   label: string;
@@ -119,7 +97,12 @@ function TotalStep() {
   const total = useBlendStore((s) => s.total);
   return (
     <Step n={1} title="الكمية الكلية">
-      <Chips options={TOTALS} value={total} onChange={blend.setTotal} label="الكمية الكلية" />
+      <Chips
+        options={WEIGHT_OPTIONS}
+        value={total}
+        onChange={blend.setTotal}
+        label="الكمية الكلية"
+      />
     </Step>
   );
 }
@@ -213,7 +196,7 @@ function RoastStep() {
   const roast = useBlendStore((s) => s.roast);
   return (
     <Step n={3} title="درجة التحميص">
-      <Chips options={ROASTS} value={roast} onChange={blend.setRoast} label="درجة التحميص" />
+      <Chips options={ROAST_OPTIONS} value={roast} onChange={blend.setRoast} label="درجة التحميص" />
     </Step>
   );
 }
@@ -231,7 +214,12 @@ function CardamomStep() {
   const cardamom = useBlendStore((s) => s.cardamom);
   return (
     <Step n={5} title="الهيل">
-      <Chips options={CARDAMOMS} value={cardamom} onChange={blend.setCardamom} label="الهيل" />
+      <Chips
+        options={CARDAMOM_OPTIONS}
+        value={cardamom}
+        onChange={blend.setCardamom}
+        label="الهيل"
+      />
     </Step>
   );
 }
@@ -272,17 +260,17 @@ function Summary({ beans }: { beans: Bean[] }) {
         .map((b) => `${b.id}${shares[b.id]}`)
         .join("-")}`,
       name: "خلطتي الخاصة",
-      image: BAG_BY_ROAST[roast],
+      image: roastImage(roast),
       details: [
-        labelOf(TOTALS, total),
+        weightLabel(total),
         mixLabel,
-        `تحميص ${labelOf(ROASTS, roast)}`,
+        `تحميص ${roastLabel(roast)}`,
         `طحنة ${labelOf(GRINDS, grind)}`,
-        CARDAMOM_DETAIL[cardamom],
+        cardamomDetail(cardamom),
       ],
       unitPrice: price,
     });
-    flyTo("cart", BAG_BY_ROAST[roast], ringRef.current);
+    flyTo("cart", roastImage(roast), ringRef.current);
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
@@ -292,7 +280,7 @@ function Summary({ beans }: { beans: Bean[] }) {
       <h2 className={styles.summaryTitle}>خلطتك</h2>
 
       <div ref={ringRef} className={styles.ring} style={ringStyle}>
-        <span className={styles.ringText}>{labelOf(TOTALS, total)}</span>
+        <span className={styles.ringText}>{weightLabel(total)}</span>
       </div>
 
       <ul className={styles.legend}>
@@ -307,7 +295,7 @@ function Summary({ beans }: { beans: Bean[] }) {
       <dl className={styles.details}>
         <div>
           <dt>التحميص</dt>
-          <dd>{labelOf(ROASTS, roast)}</dd>
+          <dd>{roastLabel(roast)}</dd>
         </div>
         <div>
           <dt>الطحنة</dt>
@@ -315,7 +303,7 @@ function Summary({ beans }: { beans: Bean[] }) {
         </div>
         <div>
           <dt>الهيل</dt>
-          <dd>{labelOf(CARDAMOMS, cardamom)}</dd>
+          <dd>{cardamomLabel(cardamom)}</dd>
         </div>
       </dl>
 

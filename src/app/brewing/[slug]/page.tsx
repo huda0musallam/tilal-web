@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowRight, Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
-import { BREW_METHODS, ROAST_LABEL, getMethod } from "@/features/brewing/brewing";
+import { BREW_METHODS, getMethod } from "@/features/brewing/brewing";
+import { roastLabel } from "@/features/products/product.options";
 import Reveal from "@/shared/ui/Reveal";
 import styles from "./method.module.css";
 
@@ -37,7 +38,7 @@ export default async function MethodPage({ params }: Props) {
     { icon: Clock, label: "الوقت", value: method.time },
     { icon: Scale, label: "المقادير", value: method.ratio },
     { icon: Coffee, label: "الطحنة", value: method.grind },
-    { icon: Flame, label: "التحميص المناسب", value: ROAST_LABEL[method.roast] },
+    { icon: Flame, label: "التحميص المناسب", value: roastLabel(method.roast) },
   ];
 
   return (
@@ -100,7 +101,7 @@ export default async function MethodPage({ params }: Props) {
             <div className={styles.cta}>
               <p>القهوة المناسبة لهالطريقة</p>
               <Link href={`/products?roast=${method.roast}`} className="btn btn-primary">
-                شوف القهوة ال{ROAST_LABEL[method.roast]}
+                شوف القهوة ال{roastLabel(method.roast)}
               </Link>
             </div>
           </aside>

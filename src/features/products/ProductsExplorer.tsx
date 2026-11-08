@@ -9,30 +9,15 @@ import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
+import { ROAST_OPTIONS, originOptions, type Option } from "./product.options";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;
-type OriginFilter = "all" | "brazil" | "colombia";
 
-const ROAST_FILTERS: { value: RoastFilter; label: string }[] = [
-  { value: "all", label: "الكل" },
-  { value: "light", label: "شقرا" },
-  { value: "medium", label: "وسط" },
-  { value: "dark", label: "غامقة" },
-];
-
-const ORIGIN_FILTERS: { value: OriginFilter; label: string }[] = [
-  { value: "all", label: "كل الأنواع" },
-  { value: "brazil", label: "برازيلي" },
-  { value: "colombia", label: "كولومبي" },
-];
+const ROAST_FILTERS: Option<RoastFilter>[] = [{ value: "all", label: "الكل" }, ...ROAST_OPTIONS];
 
 function toRoast(value: string | null): RoastFilter {
-  return value === "light" || value === "medium" || value === "dark" ? value : "all";
-}
-
-function toOrigin(value: string | null): OriginFilter {
-  return value === "brazil" || value === "colombia" ? value : "all";
+  return ROAST_OPTIONS.find((o) => o.value === value)?.value ?? "all";
 }
 
 function countLabel(n: number) {
@@ -42,7 +27,7 @@ function countLabel(n: number) {
   return `${n} منتج`;
 }
 
-type Filters = { roast: RoastFilter; origin: OriginFilter; fav: boolean };
+type Filters = { roast: RoastFilter; origin: string; fav: boolean };
 
 export default function ProductsExplorer() {
   const { data: products = [] } = useSWR(apiKeys.products, fetchProducts, {
@@ -50,10 +35,16 @@ export default function ProductsExplorer() {
   });
   const favoriteIds = useFavoriteIds();
 
+  const originFilters: Option<string>[] = [
+    { value: "all", label: "كل الأنواع" },
+    ...originOptions(products),
+  ];
+
   const searchParams = useSearchParams();
+  const originParam = searchParams.get("origin");
   const current: Filters = {
     roast: toRoast(searchParams.get("roast")),
-    origin: toOrigin(searchParams.get("origin")),
+    origin: originFilters.find((o) => o.value === originParam)?.value ?? "all",
     fav: searchParams.get("fav") === "1",
   };
 
@@ -98,7 +89,7 @@ export default function ProductsExplorer() {
         <span className={styles.divider} aria-hidden="true" />
 
         <div className={styles.filters} role="group" aria-label="نوع البن">
-          {ORIGIN_FILTERS.map((f) => (
+          {originFilters.map((f) => (
             <button
               key={f.value}
               type="button"

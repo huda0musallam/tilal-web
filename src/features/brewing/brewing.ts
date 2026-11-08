@@ -16,12 +16,6 @@ interface BrewMethod {
   tip: string;
 }
 
-export const ROAST_LABEL: Record<Roast, string> = {
-  light: "شقرا",
-  medium: "وسط",
-  dark: "غامقة",
-};
-
 export const BREW_METHODS: BrewMethod[] = [
   {
     slug: "v60",

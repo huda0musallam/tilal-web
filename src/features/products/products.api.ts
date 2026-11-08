@@ -1,8 +1,9 @@
 import { apiKeys, fetchJson } from "@/shared/api/api";
 import { isListOf, isNumber, isOneOf, isRecord, isString } from "@/shared/api/guards";
-import type { Product, Roast } from "./product.types";
+import { ROAST_OPTIONS } from "./product.options";
+import type { Product } from "./product.types";
 
-const isRoast = isOneOf<Roast>(["light", "medium", "dark"]);
+const isRoast = isOneOf(ROAST_OPTIONS.map((o) => o.value));
 
 function isProduct(v: unknown): v is Product {
   if (!isRecord(v)) return false;

@@ -4,37 +4,20 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Heart, ShoppingBag, Check } from "lucide-react";
-import type { Cardamom, Product, Roast, Weight } from "./product.types";
+import type { Cardamom, Product, Weight } from "./product.types";
+import {
+  CARDAMOM_OPTIONS,
+  WEIGHT_OPTIONS,
+  cardamomDetail,
+  roastLabel,
+  weightLabel,
+} from "./product.options";
 import { productPrice } from "./pricing";
 import { formatPrice } from "@/shared/lib/format-price";
 import { cart } from "@/features/cart/cart-store";
 import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
 import { flyTo } from "@/features/fly/fly-store";
 import styles from "./ProductCard.module.css";
-
-const ROAST_LABELS: Record<Roast, string> = {
-  light: "شقرا",
-  medium: "وسط",
-  dark: "غامقة",
-};
-
-const WEIGHTS: { value: Weight; label: string }[] = [
-  { value: "250", label: "250 غ" },
-  { value: "500", label: "500 غ" },
-  { value: "1000", label: "1 كغ" },
-];
-
-const CARDAMOM_OPTIONS: { value: Cardamom; label: string }[] = [
-  { value: "none", label: "بدون" },
-  { value: "normal", label: "هيل" },
-  { value: "extra", label: "زيادة هيل" },
-];
-
-const CARDAMOM_DETAIL: Record<Cardamom, string> = {
-  none: "بدون هيل",
-  normal: "مع هيل",
-  extra: "زيادة هيل",
-};
 
 type Props = {
   product: Product;
@@ -51,8 +34,9 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const price = productPrice(product, weight, cardamom);
 
   function handleAdd() {
-    const weightLabel = WEIGHTS.find((w) => w.value === weight)?.label ?? weight;
-    const details = product.cardamom ? [weightLabel, CARDAMOM_DETAIL[cardamom]] : [weightLabel];
+    const details = product.cardamom
+      ? [weightLabel(weight), cardamomDetail(cardamom)]
+      : [weightLabel(weight)];
 
     cart.add({
       key: `${product.id}-${weight}-${cardamom}`,
@@ -88,7 +72,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
           sizes="(max-width: 900px) 100vw, 33vw"
           className={styles.image}
         />
-        <span className={styles.badge}>{ROAST_LABELS[product.roast]}</span>
+        <span className={styles.badge}>{roastLabel(product.roast)}</span>
 
         <motion.button
           type="button"
@@ -119,7 +103,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
         <fieldset className={styles.group}>
           <legend className={styles.legend}>الوزن</legend>
           <div className={styles.options}>
-            {WEIGHTS.map((w) => (
+            {WEIGHT_OPTIONS.map((w) => (
               <button
                 key={w.value}
                 type="button"

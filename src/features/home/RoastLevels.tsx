@@ -4,34 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "motion/react";
 import { ArrowLeft } from "lucide-react";
+import { ROAST_LEVELS, ROAST_OPTIONS } from "@/features/products/product.options";
+import type { Roast } from "@/features/products/product.types";
 import styles from "./RoastLevels.module.css";
 
-const roasts = [
-  {
-    id: "light",
-    name: "شقرا",
-    level: 1,
-    image: "/images/bag-light.webp",
+const ROAST_COPY: Record<Roast, { alt: string; text: string }> = {
+  light: {
     alt: "كيس قهوة التلال الأخضر، تحميص شقرا",
     text: "خفيفة ومنعشة، فيها حموضة لطيفة ونكهة فواكه. بتحلى بالـ V60 والقهوة الباردة.",
   },
-  {
-    id: "medium",
-    name: "وسط",
-    level: 2,
-    image: "/images/bag-medium.webp",
+  medium: {
     alt: "كيس قهوة التلال الكرافت، تحميص وسط",
     text: "متوازنة، فيها حلاوة كراميل وشوكولا. بتمشي مع كل طرق التحضير.",
   },
-  {
-    id: "dark",
-    name: "غامقة",
-    level: 3,
-    image: "/images/bag-dark.webp",
+  dark: {
     alt: "كيس قهوة التلال البني، تحميص غامق",
     text: "قوية وجسمها كامل ومرارتها خفيفة. مثالية للقهوة العربية والموكا.",
   },
-];
+};
+
+const LEVELS = ROAST_OPTIONS.map((o) => o.level);
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32 },
@@ -66,13 +58,13 @@ export default function RoastLevels() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {roasts.map((roast) => (
-            <motion.article key={roast.id} variants={fadeUp}>
-              <Link href={`/products?roast=${roast.id}`} className={styles.card}>
+          {ROAST_OPTIONS.map((roast) => (
+            <motion.article key={roast.value} variants={fadeUp}>
+              <Link href={`/products?roast=${roast.value}`} className={styles.card}>
                 <div className={styles.media}>
                   <Image
                     src={roast.image}
-                    alt={roast.alt}
+                    alt={ROAST_COPY[roast.value].alt}
                     fill
                     sizes="(max-width: 900px) 100vw, 33vw"
                     className={styles.image}
@@ -81,14 +73,14 @@ export default function RoastLevels() {
 
                 <div className={styles.body}>
                   <div className={styles.top}>
-                    <h3 className={styles.name}>{roast.name}</h3>
+                    <h3 className={styles.name}>{roast.label}</h3>
 
                     <div
                       className={styles.dots}
                       role="img"
-                      aria-label={`قوة التحميص ${roast.level} من 3`}
+                      aria-label={`قوة التحميص ${roast.level} من ${ROAST_LEVELS}`}
                     >
-                      {[1, 2, 3].map((n) => (
+                      {LEVELS.map((n) => (
                         <span
                           key={n}
                           className={`${styles.dot} ${n <= roast.level ? styles.filled : ""}`}
@@ -97,7 +89,7 @@ export default function RoastLevels() {
                     </div>
                   </div>
 
-                  <p className={styles.text}>{roast.text}</p>
+                  <p className={styles.text}>{ROAST_COPY[roast.value].text}</p>
 
                   <span className={styles.more}>
                     شوف المنتجات
