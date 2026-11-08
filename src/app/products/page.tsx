@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SWRConfig } from "swr";
 import { apiKeys } from "@/shared/api/client";
 import { getProducts } from "@/features/products/products.api";
-import ProductsExplorer from "@/features/products/ProductsExplorer";
+import ProductsCatalog from "@/features/products/ProductsCatalog";
 import styles from "./products.module.css";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function ProductsPage() {
         </header>
 
         <SWRConfig value={{ fallback: { [apiKeys.products]: getProducts() } }}>
-          <ProductsExplorer />
+          <ProductsCatalog />
         </SWRConfig>
       </div>
     </main>

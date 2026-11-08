@@ -12,6 +12,7 @@ import type { Roast } from "./product.types";
 import type { Option } from "@/shared/lib/option";
 import { ROAST_OPTIONS, originOptions } from "./product.options";
 import Chips from "@/shared/ui/Chips";
+import EmptyState from "@/shared/ui/EmptyState";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;
@@ -62,6 +63,10 @@ export default function ProductsExplorer() {
 
   function resetFilters() {
     updateUrl({ roast: "all", origin: "all", fav: false });
+  }
+
+  if (products.length === 0) {
+    return <EmptyState title="ما في منتجات بالمحل هلق. ارجعلنا كمان شوي." />;
   }
 
   const filtered = products.filter(

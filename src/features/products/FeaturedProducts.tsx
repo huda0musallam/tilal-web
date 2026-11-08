@@ -1,18 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import useSWR from "swr";
+import { mutate } from "swr";
 import { apiKeys } from "@/shared/api/client";
-import { fetchProducts } from "@/features/products/products.api";
-import ProductCard from "./ProductCard";
+import DataSection from "@/shared/ui/DataSection";
 import GridSkeleton from "@/shared/ui/GridSkeleton";
-
+import FeaturedList from "./FeaturedList";
+import { fetchProducts } from "./products.api";
 import styles from "./FeaturedProducts.module.css";
 
-export default function FeaturedProducts() {
-  const { data, error, mutate } = useSWR(apiKeys.products, fetchProducts);
-  const featured = data?.filter((p) => p.featured) ?? [];
+const retry = () => mutate(apiKeys.products, fetchProducts(apiKeys.products));
 
+export default function FeaturedProducts() {
   return (
     <section className={styles.section}>
       <div className="container">
@@ -21,29 +19,13 @@ export default function FeaturedProducts() {
           <h2>الأكثر طلباً</h2>
         </div>
 
-        {error ? (
-          <div className={styles.error} role="alert">
-            <p>ما قدرنا نجيب المنتجات هلق، جرّب كمان شوي.</p>
-            <button type="button" className="btn btn-outline" onClick={() => mutate()}>
-              جرّب مرة تانية
-            </button>
-          </div>
-        ) : !data ? (
-          <GridSkeleton count={3} />
-        ) : (
-          <>
-            <div className={styles.grid}>
-              {featured.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} />
-              ))}
-            </div>
-            <div className={styles.more}>
-              <Link href="/products" className="btn btn-outline">
-                شوف كل المنتجات
-              </Link>
-            </div>
-          </>
-        )}
+        <DataSection
+          loading={<GridSkeleton count={3} />}
+          errorMessage="ما قدرنا نجيب المنتجات هلق"
+          retry={retry}
+        >
+          <FeaturedList />
+        </DataSection>
       </div>
     </section>
   );

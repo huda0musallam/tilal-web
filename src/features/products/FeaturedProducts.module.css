@@ -14,57 +14,8 @@
   font-weight: 700;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-  max-width: 420px;
-  margin-inline: auto;
-}
-
-.more {
-  margin-top: 48px;
-  text-align: center;
-}
-
-.error {
-  display: grid;
-  justify-items: center;
-  gap: 16px;
-  text-align: center;
-}
-
-.skeleton {
-  aspect-ratio: 3 / 4;
-  border-radius: 20px;
-  background: var(--sand);
-  animation: pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
 @media (min-width: 640px) {
   .section {
     padding-block: 112px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: none;
-    margin-inline: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }

@@ -1,4 +1,4 @@
-import { fetchJson } from "@/shared/api/client";
+import { apiKeys, fetchJson } from "@/shared/api/client";
 import { isListOf, isNumber, isRecord, isString } from "@/shared/api/guards";
 import type { Review } from "./review.types";
 
@@ -11,3 +11,4 @@ function isReview(v: unknown): v is Review {
 const isReviewList = isListOf(isReview);
 
 export const fetchReviews = (url: string) => fetchJson(url, isReviewList);
+export const getReviews = () => fetchReviews(apiKeys.reviews);
