@@ -1,7 +1,7 @@
 import type { Suggestion } from "@/types";
 import { isBeanList, isProductList, isReviewList, isSuggestion } from "./guards";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tilal-api.onrender.com";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tilal-api.onrender.com";
 
 export const apiKeys = {
   products: `${API_URL}/products`,
@@ -32,7 +32,6 @@ export const fetchReviews = (url: string) => fetchJson(url, isReviewList);
 
 export const getProducts = () => fetchProducts(apiKeys.products);
 export const getBeans = () => fetchBeans(apiKeys.beans);
-export const getReviews = () => fetchReviews(apiKeys.reviews);
 
 export function postSuggestion(url: string, { arg }: { arg: Omit<Suggestion, "id"> }) {
   return fetchJson(url, isSuggestion, {

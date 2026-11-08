@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 Guidance for AI coding assistants working on this repository. See also `README.md` (how the
-project works), `DESIGN.md` (visual identity) and `AGENTS.md` (Next.js notes).
+project works) and `DESIGN.md` (visual identity).
 
 ## Project
 
@@ -26,6 +26,9 @@ A Husky pre-commit hook runs lint-staged: ESLint with `--max-warnings=0` and Pre
 files. Run `npm run typecheck` and `npm run lint` before saying a change is done.
 
 ## Stack
+
+This is Next.js 16. Its APIs, conventions and file structure can differ from what you remember.
+Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js code.
 
 - Next.js 16, App Router, with `cacheComponents` enabled
 - React 19, TypeScript (strict)

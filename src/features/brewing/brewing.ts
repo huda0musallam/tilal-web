@@ -1,6 +1,6 @@
 import type { Roast } from "@/types";
 
-export interface BrewMethod {
+interface BrewMethod {
   slug: string;
   name: string;
   tagline: string;

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type FlyTarget = "cart" | "favorites";
+type FlyTarget = "cart" | "favorites";
 
 type Box = { x: number; y: number; size: number };
 

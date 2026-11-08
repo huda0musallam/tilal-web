@@ -1,6 +1,6 @@
 import type { CartItem } from "@/types";
 import { formatPrice } from "@/features/products/pricing";
-export const WHATSAPP_NUMBER = "905353991387";
+const WHATSAPP_NUMBER = "905353991387";
 
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;

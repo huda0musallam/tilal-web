@@ -9,7 +9,7 @@ const isOptionalString = (v: unknown) => v === undefined || isString(v);
 
 const ROASTS: readonly string[] = ["light", "medium", "dark"];
 
-export function isProduct(v: unknown): v is Product {
+function isProduct(v: unknown): v is Product {
   if (!isRecord(v)) return false;
   const prices = v.prices;
   if (!isRecord(prices)) return false;
@@ -30,7 +30,7 @@ export function isProduct(v: unknown): v is Product {
   );
 }
 
-export function isBean(v: unknown): v is Bean {
+function isBean(v: unknown): v is Bean {
   return (
     isRecord(v) &&
     isString(v.id) &&
@@ -40,7 +40,7 @@ export function isBean(v: unknown): v is Bean {
   );
 }
 
-export function isReview(v: unknown): v is Review {
+function isReview(v: unknown): v is Review {
   return (
     isRecord(v) && isString(v.id) && isString(v.name) && isString(v.text) && isNumber(v.rating)
   );
