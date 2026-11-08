@@ -223,63 +223,128 @@ File names:
 
 ## Component tree
 
-Pages under `src/app/` are Server Components. Everything marked `client` runs in the browser.
+Pages under `src/app/` are Server Components. Everything marked `client` is a file with
+`"use client"`, and a component with no marker runs wherever its parent runs. Each component's
+props are listed by name, with `?` for optional ones. A component that takes none lists none.
 `store:` is what the component reads from a Zustand store, `SWR:` is the data it reads from SWR,
 `URL:` is what it reads from the search params.
 
 ```
-RootLayout                    (server) fonts, lang="ar", dir="rtl"
-├── Header                    client   state: scrolled, menuOpen
-│   │                                  store: cart count, favorites count, fly bumps
-│   ├── HeaderLogo            className?
-│   └── Suspense → ActiveNavLinks   onNavigate         URL: pathname
-│                  └── NavLinks     activePath, onNavigate
-├── {children}                the page for the current route:
-│   ├── HomePage              (server) SWRConfig fallback: products, reviews
-│   │   ├── Hero, Story, RoastLevels, BlendTeaser, BrewingPreview
-│   │   ├── FeaturedProducts  client
-│   │   │   └── DataSection   loading, errorMessage, retry
-│   │   │       └── FeaturedList          SWR: products
-│   │   │           └── ProductCard       product, index?
-│   │   ├── Reviews           client
-│   │   │   └── DataSection
-│   │   │       └── ReviewsMarquee        SWR: reviews
+RootLayout                                (server) children   fonts, lang="ar", dir="rtl"
+├── Header                                client   state: scrolled, menuOpen
+│   │                                              store: cart count, favorites count, fly bumps
+│   ├── HeaderLogo                        className?
+│   └── Suspense
+│       ├── ActiveNavLinks                client   onNavigate   URL: pathname
+│       │   └── NavLinks                  activePath, onNavigate
+│       └── NavLinks                      activePath, onNavigate   (the Suspense fallback)
+├── {children}                            the page for the current route:
+│   ├── Home                              (server) SWRConfig fallback: products, reviews
+│   │   ├── Hero                          client
+│   │   ├── Story                         client
+│   │   │   └── StampLogo                 className?, ink?
+│   │   ├── RoastLevels                   client
+│   │   ├── FeaturedProducts              client
+│   │   │   └── DataSection               client   loading, errorMessage, retry, children
+│   │   │       ├── GridSkeleton          count?   (the loading prop)
+│   │   │       └── FeaturedList          client   SWR: products
+│   │   │           ├── EmptyState        title, children?
+│   │   │           └── ProductCard       client   product, index?, eager?
+│   │   ├── BlendTeaser                   client
+│   │   │   └── Bean                      size
+│   │   ├── BrewingPreview                client
+│   │   ├── Reviews                       client
+│   │   │   └── DataSection               client   loading, errorMessage, retry, children
+│   │   │       ├── ReviewsSkeleton       (the loading prop)
+│   │   │       └── ReviewsMarquee        client   SWR: reviews
+│   │   │           ├── EmptyState        title, children?
 │   │   │           └── Stars             rating
-│   │   └── SuggestionBox     client   state: name, message, rating, hovered, errors, sent
-│   │                                  SWR mutation: suggestions
-│   ├── ProductsPage          (server) SWRConfig fallback: products
-│   │   └── ProductsCatalog   client
-│   │       └── DataSection
-│   │           └── ProductsExplorer      SWR: products   URL: roast, origin, fav
-│   │               │                     store: favorite ids (only when the favorites filter is on)
+│   │   └── SuggestionBox                 client   state: name, message, rating, hovered, errors, sent
+│   │                                              SWR mutation: suggestions
+│   ├── ProductsPage                      (server) SWRConfig fallback: products
+│   │   └── ProductsCatalog               client
+│   │       └── DataSection               client   loading, errorMessage, retry, children
+│   │           ├── CatalogSkeleton       (the loading prop)
+│   │           │   └── GridSkeleton      count?
+│   │           └── ProductsExplorer      client   SWR: products   URL: roast, origin, fav
+│   │               │                              store: favorite ids (only when the favorites filter is on)
 │   │               ├── Chips             options, value, onChange, label, size?
-│   │               ├── FavoritesFilterChip   active, onToggle       store: favorites count
-│   │               └── ProductCard       product, index?
-│   │                   ├── FavoriteButton    product, sourceRef     store: is favorite
-│   │                   └── ProductPurchase   product, sourceRef     state: weight, cardamom, added
-│   ├── ProductPage           (server) params, SWRConfig fallback: product
-│   │   └── ProductDetails    client   id   SWR: product
-│   │       ├── FavoriteButton
-│   │       └── ProductPurchase
-│   ├── BlendPage             (server) SWRConfig fallback: beans
-│   │   └── BlendBuilder      client   SWR: beans
-│   │       ├── TotalStep         store: total
-│   │       ├── BeansStep         beans          store: shares, total
-│   │       ├── RoastStep         store: roast
-│   │       ├── GrindStep         store: grind
-│   │       ├── CardamomStep      store: cardamom
-│   │       └── BlendSummary      beans          store: total, shares, roast, grind, cardamom
-│   │                                            state: added
-│   │       (each step uses Step: n, title, hint?, children, and Chips)
-│   ├── CheckoutPage          (server)
-│   │   └── Checkout          client   useCartItems()
-│   │       ├── CheckoutForm  items, total   react-hook-form + Zod, state: sentLink
-│   │       └── OrderSummary  items, total
-│   ├── BrewingPage / MethodPage   (server) Reveal
-│   └── NotFound              (server) StampLogo
-├── Footer                    (server) StampLogo
-├── CartDrawer                client   store: isOpen, count   useCartItems()
-└── FlyLayer                  client   store: flights
+│   │               ├── FavoritesFilterChip  client   active, onToggle   store: favorites count
+│   │               ├── EmptyState        title, children?
+│   │               └── ProductCard       client   product, index?, eager?
+│   │                   ├── FavoriteButton   client   product, sourceRef   store: is favorite
+│   │                   └── ProductPurchase  client   product, sourceRef   state: weight, cardamom, added
+│   │                       └── Chips     options, value, onChange, label, size?
+│   ├── ProductPage                       (server) params   SWRConfig fallback: product
+│   │   └── ProductDetails                client   id   SWR: product
+│   │       ├── FavoriteButton            client   product, sourceRef   store: is favorite
+│   │       └── ProductPurchase           client   product, sourceRef   state: weight, cardamom, added
+│   │           └── Chips                 options, value, onChange, label, size?
+│   ├── BlendPage                         (server) SWRConfig fallback: beans
+│   │   └── BlendBuilder                  client   SWR: beans
+│   │       ├── EmptyState                title, children?
+│   │       ├── TotalStep                 client   store: total
+│   │       ├── BeansStep                 client   beans   store: shares, total
+│   │       ├── RoastStep                 client   store: roast
+│   │       ├── GrindStep                 client   store: grind
+│   │       ├── CardamomStep              client   store: cardamom
+│   │       ├── Step                      n, title, hint?, children   (rendered by each step above)
+│   │       ├── Chips                     options, value, onChange, label, size?   (every step but BeansStep)
+│   │       └── BlendSummary              client   beans   store: total, shares, roast, grind, cardamom
+│   │                                              state: added
+│   ├── CheckoutPage                      (server)
+│   │   └── Checkout                      client   useCartItems()
+│   │       ├── EmptyState                title, children?
+│   │       ├── Button                    className?, variant?, size?, asChild?
+│   │       ├── CheckoutForm              client   items, total   react-hook-form + Zod, state: sentLink
+│   │       │                                      renders the shadcn/ui fields listed below
+│   │       └── OrderSummary              items, total
+│   ├── BrewingPage                       (server)
+│   │   └── Reveal                        client   children, delay?, as?, className?
+│   ├── MethodPage                        (server) params
+│   │   └── Reveal                        client   children, delay?, as?, className?
+│   └── NotFound                          (server)
+│       └── StampLogo                     className?, ink?
+├── Footer                                (server)
+│   └── StampLogo                         className?, ink?
+├── CartDrawer                            client   store: isOpen, count   useCartItems()
+└── FlyLayer                              client   store: flights
+
+Inside every DataSection:
+DataSection                               client   loading, errorMessage, retry, children
+└── ErrorBoundary                         client   fallback, children   state: hasError
+    ├── SectionError                      client   message, onRetry   state: busy, failedAgain
+    └── Suspense                          shows the loading prop, then children
+
+Route files that Next.js renders in place of a page:
+├── Loading                               (server) in blend, brewing/[slug], products/[id]
+├── Error                                 client   error, unstable_retry   app/error.tsx
+│   └── RouteError                        client   error, retry
+├── ProductsError                         client   error, unstable_retry   products/error.tsx
+│   └── RouteError                        client   error, retry
+├── ProductError                          client   error, unstable_retry   products/[id]/error.tsx
+│   └── RouteError                        client   error, retry
+└── BlendError                            client   error, unstable_retry   blend/error.tsx
+    └── RouteError                        client   error, retry
+
+shadcn/ui in src/shared/ui/shadcn (each also takes the native props of its element):
+├── Button                                className?, variant?, size?, asChild?
+├── Input                                 className?, type?
+├── Textarea                              className?
+├── Label                                 client   className?
+├── Separator                             client   className?, orientation?, decorative?
+├── RadioGroup                            client   className?
+├── RadioGroupItem                        client   className?
+├── Field                                 client   className?, orientation?
+├── FieldSet                              client   className?
+├── FieldLegend                           client   className?, variant?
+├── FieldGroup                            client   className?
+├── FieldLabel                            client   className?   renders Label
+├── FieldDescription                      client   className?
+├── FieldError                            client   className?, children?, errors?
+├── FieldContent                          client   className?   (not used yet)
+├── FieldTitle                            client   className?   (not used yet)
+└── FieldSeparator                        client   className?, children?   renders Separator (not used yet)
 ```
 
 ### Who owns each piece of state
