@@ -110,7 +110,7 @@ export default async function MethodPage({ params }: MethodPageProps) {
             <h2 className={styles.stepsTitle}>الخطوات</h2>
             <ol className={styles.steps}>
               {method.steps.map((step, i) => (
-                <Reveal key={i} as="li" delay={i * 0.08} className={styles.step}>
+                <Reveal key={step} as="li" delay={i * 0.08} className={styles.step}>
                   <span className={styles.stepNum}>{i + 1}</span>
                   <p>{step}</p>
                 </Reveal>

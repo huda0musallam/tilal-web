@@ -7,13 +7,13 @@ import Bean from "./Bean";
 import styles from "./BlendTeaser.module.css";
 
 const BEANS = [
-  { left: "8%", delay: "0s", duration: "6s", size: 22, rotate: 20 },
-  { left: "22%", delay: "2.2s", duration: "7s", size: 18, rotate: -30 },
-  { left: "36%", delay: "1s", duration: "5.5s", size: 26, rotate: 45 },
-  { left: "52%", delay: "3.4s", duration: "6.5s", size: 20, rotate: -10 },
-  { left: "66%", delay: "0.6s", duration: "7.5s", size: 24, rotate: 60 },
-  { left: "80%", delay: "2.8s", duration: "6s", size: 18, rotate: -45 },
-  { left: "92%", delay: "1.6s", duration: "5s", size: 22, rotate: 15 },
+  { id: "bean-a", left: "8%", delay: "0s", duration: "6s", size: 22, rotate: 20 },
+  { id: "bean-b", left: "22%", delay: "2.2s", duration: "7s", size: 18, rotate: -30 },
+  { id: "bean-c", left: "36%", delay: "1s", duration: "5.5s", size: 26, rotate: 45 },
+  { id: "bean-d", left: "52%", delay: "3.4s", duration: "6.5s", size: 20, rotate: -10 },
+  { id: "bean-e", left: "66%", delay: "0.6s", duration: "7.5s", size: 24, rotate: 60 },
+  { id: "bean-f", left: "80%", delay: "2.8s", duration: "6s", size: 18, rotate: -45 },
+  { id: "bean-g", left: "92%", delay: "1.6s", duration: "5s", size: 22, rotate: 15 },
 ];
 
 export default function BlendTeaser() {
@@ -40,9 +40,9 @@ export default function BlendTeaser() {
           </div>
 
           <div className={styles.visual} aria-hidden="true">
-            {BEANS.map((b, i) => (
+            {BEANS.map((b) => (
               <span
-                key={i}
+                key={b.id}
                 className={styles.bean}
                 style={{
                   left: b.left,

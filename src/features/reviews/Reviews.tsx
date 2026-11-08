@@ -10,7 +10,10 @@ export default function Reviews() {
   const { data: reviews } = useSWR(apiKeys.reviews, fetchReviews);
   if (!reviews || reviews.length === 0) return null;
 
-  const loop = [...reviews, ...reviews];
+  const loop = [
+    ...reviews.map((review) => ({ key: review.id, review, copy: false })),
+    ...reviews.map((review) => ({ key: `${review.id}-copy`, review, copy: true })),
+  ];
 
   return (
     <section className={styles.section}>
@@ -21,12 +24,8 @@ export default function Reviews() {
 
       <div className={styles.marquee}>
         <div className={styles.track} style={{ animationDuration: `${reviews.length * 7}s` }}>
-          {loop.map((review, i) => (
-            <figure
-              key={`${review.id}-${i}`}
-              className={styles.card}
-              aria-hidden={i >= reviews.length ? true : undefined}
-            >
+          {loop.map(({ key, review, copy }) => (
+            <figure key={key} className={styles.card} aria-hidden={copy ? true : undefined}>
               <Stars rating={review.rating} />
               <blockquote className={styles.text}>{review.text}</blockquote>
               <figcaption className={styles.name}>{review.name}</figcaption>
