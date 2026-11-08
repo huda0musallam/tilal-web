@@ -39,6 +39,11 @@
   font-weight: 400;
 }
 
+.sm .active,
+.sm .active:hover {
+  background: var(--coffee);
+}
+
 .md {
   gap: 8px;
 }
