@@ -2,33 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
-import useSWR from "swr";
-import { apiKeys } from "@/shared/api/client";
+import { ArrowLeft, X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { formatPrice } from "@/shared/lib/format-price";
-import { whatsappLink } from "@/shared/lib/whatsapp";
-import { fetchProducts } from "@/features/products/products.api";
-import { fetchBeans } from "@/features/blend/beans.api";
 import { useFavoritesStore } from "@/features/favorites/favorites-store";
-import { cart, useCartCount, useCartLines, useCartOpen, useCartStore } from "./cart.store";
-import { cartTotal, lineTotal, resolveLines } from "./cart.logic";
-import { buildOrderMessage } from "./order-message";
+import { cart, useCartCount, useCartOpen, useCartStore } from "./cart.store";
+import { lineTotal } from "./cart.logic";
+import { useCartItems } from "./use-cart-items";
 import styles from "./CartDrawer.module.css";
 
 export default function CartDrawer() {
-  const lines = useCartLines();
   const isOpen = useCartOpen();
   const count = useCartCount();
-  const products = useSWR(apiKeys.products, fetchProducts, {
-    onSuccess: (data) => cart.keepProducts(data.map((p) => p.id)),
-  });
-  const beans = useSWR(apiKeys.beans, fetchBeans, {
-    onSuccess: (data) => cart.keepBeans(data.map((b) => b.id)),
-  });
-  const [name, setName] = useState("");
-  const [notes, setNotes] = useState("");
+  const { hasLines, ready, failed, items, total, retry } = useCartItems();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -51,19 +38,6 @@ export default function CartDrawer() {
       window.removeEventListener("keydown", onKey);
     };
   }, [isOpen]);
-
-  const catalogReady = Boolean(products.data && beans.data);
-  const catalogFailed = Boolean(products.error || beans.error);
-  const items = resolveLines(lines, {
-    products: products.data ?? [],
-    beans: beans.data ?? [],
-  });
-  const total = cartTotal(items);
-
-  const message = buildOrderMessage(items, total, {
-    name: name.trim(),
-    notes: notes.trim(),
-  });
 
   return (
     <AnimatePresence>
@@ -102,20 +76,13 @@ export default function CartDrawer() {
               </button>
             </div>
 
-            {lines.length > 0 && !catalogReady ? (
-              <div className={styles.empty} role={catalogFailed ? "alert" : "status"}>
+            {hasLines && !ready ? (
+              <div className={styles.empty} role={failed ? "alert" : "status"}>
                 <ShoppingBag size={56} strokeWidth={1.2} />
-                {catalogFailed ? (
+                {failed ? (
                   <>
                     <p>ما قدرنا نجيب تفاصيل سلتك هلق.</p>
-                    <button
-                      type="button"
-                      className="btn btn-outline"
-                      onClick={() => {
-                        products.mutate();
-                        beans.mutate();
-                      }}
-                    >
+                    <button type="button" className="btn btn-outline" onClick={retry}>
                       جرّب مرة تانية
                     </button>
                   </>
@@ -200,32 +167,14 @@ export default function CartDrawer() {
                     <strong>{formatPrice(total)}</strong>
                   </div>
 
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="اسمك (اختياري)"
-                    aria-label="اسمك"
-                    className={styles.input}
-                  />
-                  <textarea
-                    rows={2}
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    placeholder="ملاحظات، متل العنوان أو نوع الطحنة (اختياري)"
-                    aria-label="ملاحظات"
-                    className={styles.input}
-                  />
-
-                  <a
-                    href={whatsappLink(message)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/checkout"
                     className={`btn btn-primary ${styles.send}`}
+                    onClick={cart.close}
                   >
-                    <MessageCircle size={18} />
-                    أرسل الطلب عبر واتساب
-                  </a>
+                    كمّل الطلب
+                    <ArrowLeft size={18} />
+                  </Link>
 
                   <button type="button" className={styles.clear} onClick={cart.clear}>
                     فضّي السلة

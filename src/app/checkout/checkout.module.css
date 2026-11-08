@@ -1,0 +1,24 @@
+.page {
+  padding-block: 32px 80px;
+}
+
+.head {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.label {
+  margin-bottom: 4px;
+  color: var(--olive);
+  font-weight: 700;
+}
+
+.title {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding-block: 56px 112px;
+  }
+}
