@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import type { Cardamom, Roast, Weight } from "@/features/products/product.types";
-import type { Grind } from "./blend.types";
+import type { Bean } from "./bean.types";
+import { defaultShares } from "./blend.logic";
+import type { Grind, Shares } from "./blend.types";
 
 type BlendState = {
   total: Weight;
-  shares: Record<string, number> | null;
+  shares: Shares | null;
   roast: Roast;
   grind: Grind;
   cardamom: Cardamom;
@@ -19,12 +21,11 @@ export const useBlendStore = create<BlendState>()((): BlendState => ({
 }));
 
 const set = useBlendStore.setState;
-const get = useBlendStore.getState;
 
 function evenShares(ids: string[]) {
   const base = Math.floor(10 / ids.length) * 10;
   const extra = (100 - base * ids.length) / 10;
-  const result: Record<string, number> = {};
+  const result: Shares = {};
   ids.forEach((id, i) => {
     result[id] = base + (i < extra ? 10 : 0);
   });
@@ -32,12 +33,6 @@ function evenShares(ids: string[]) {
 }
 
 export const blend = {
-  init(firstBeanId?: string) {
-    if (get().shares === null) {
-      set({ shares: firstBeanId ? { [firstBeanId]: 100 } : {} });
-    }
-  },
-
   setTotal(total: Weight) {
     set({ total });
   },
@@ -54,24 +49,22 @@ export const blend = {
     set({ cardamom });
   },
 
-  toggleBean(id: string) {
-    const current = get().shares ?? {};
+  toggleBean(id: string, current: Shares) {
     const ids =
       id in current ? Object.keys(current).filter((x) => x !== id) : [...Object.keys(current), id];
     set({ shares: ids.length > 0 ? evenShares(ids) : {} });
   },
 
-  setShare(id: string, value: number) {
-    set({ shares: { ...(get().shares ?? {}), [id]: value } });
+  setShare(id: string, value: number, current: Shares) {
+    set({ shares: { ...current, [id]: value } });
   },
 
-  distribute() {
-    set({ shares: evenShares(Object.keys(get().shares ?? {})) });
+  distribute(current: Shares) {
+    set({ shares: evenShares(Object.keys(current)) });
   },
 };
 
-const EMPTY: Record<string, number> = {};
-
-export function useShares() {
-  return useBlendStore((s) => s.shares ?? EMPTY);
+export function useShares(beans: readonly Bean[]): Shares {
+  const stored = useBlendStore((s) => s.shares);
+  return stored ?? defaultShares(beans);
 }

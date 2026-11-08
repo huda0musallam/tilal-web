@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, ShoppingBag } from "lucide-react";
 import useSWR from "swr";
@@ -98,7 +98,7 @@ function TotalStep() {
 }
 
 function BeansStep({ beans }: { beans: Bean[] }) {
-  const shares = useShares();
+  const shares = useShares(beans);
   const grams = Number(useBlendStore((s) => s.total));
 
   const selected = beans.filter((b) => b.id in shares);
@@ -113,7 +113,7 @@ function BeansStep({ beans }: { beans: Bean[] }) {
             <button
               key={b.id}
               type="button"
-              onClick={() => blend.toggleBean(b.id)}
+              onClick={() => blend.toggleBean(b.id, shares)}
               aria-pressed={isOn}
               className={`${styles.bean} ${isOn ? styles.beanOn : ""}`}
             >
@@ -155,7 +155,7 @@ function BeansStep({ beans }: { beans: Bean[] }) {
                   max={100}
                   step={10}
                   value={shares[b.id]}
-                  onChange={(e) => blend.setShare(b.id, Number(e.target.value))}
+                  onChange={(e) => blend.setShare(b.id, Number(e.target.value), shares)}
                   className={styles.range}
                 />
               </motion.div>
@@ -165,7 +165,11 @@ function BeansStep({ beans }: { beans: Bean[] }) {
           {sum !== 100 && (
             <div className={styles.warning} role="alert">
               <span>المجموع هلق {sum}%، لازم يكون 100%.</span>
-              <button type="button" className={styles.link} onClick={blend.distribute}>
+              <button
+                type="button"
+                className={styles.link}
+                onClick={() => blend.distribute(shares)}
+              >
                 وزّع بالتساوي
               </button>
             </div>
@@ -219,7 +223,7 @@ function Summary({ beans }: { beans: Bean[] }) {
   const roast = useBlendStore((s) => s.roast);
   const grind = useBlendStore((s) => s.grind);
   const cardamom = useBlendStore((s) => s.cardamom);
-  const shares = useShares();
+  const shares = useShares(beans);
   const [added, setAdded] = useState(false);
   const ringRef = useRef<HTMLDivElement>(null);
 
@@ -299,10 +303,6 @@ function Summary({ beans }: { beans: Bean[] }) {
 
 export default function BlendBuilder() {
   const { data: beans = [] } = useSWR(apiKeys.beans, fetchBeans, { suspense: true });
-
-  useEffect(() => {
-    blend.init(beans[0]?.id);
-  }, [beans]);
 
   return (
     <div className={styles.layout}>

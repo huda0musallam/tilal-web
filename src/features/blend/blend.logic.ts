@@ -6,6 +6,11 @@ import type { BlendChoice, Shares } from "./blend.types";
 
 export const BLEND_NAME = "خلطتي الخاصة";
 
+export function defaultShares(beans: readonly Bean[]): Shares {
+  const first = beans[0];
+  return first ? { [first.id]: 100 } : {};
+}
+
 export function selectedBeans(beans: readonly Bean[], shares: Shares) {
   return beans.filter((b) => b.id in shares);
 }

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ShoppingBag, Heart, Menu, X } from "lucide-react";
 import HeaderLogo from "@/shared/logo/HeaderLogo";
-import { cart, useCart } from "@/features/cart/cart.store";
+import { cart, useCartCount } from "@/features/cart/cart.store";
 import { useFavoritesCount } from "@/features/favorites/favorites-store";
 import { useFlyStore } from "@/features/fly/fly-store";
 import styles from "./Header.module.css";
@@ -25,7 +25,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { count: cartCount } = useCart();
+  const cartCount = useCartCount();
   const favCount = useFavoritesCount();
   const cartBump = useFlyStore((s) => s.bump.cart);
   const favBump = useFlyStore((s) => s.bump.favorites);

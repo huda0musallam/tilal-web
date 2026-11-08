@@ -80,8 +80,3 @@ export const cart = {
 export const useCartLines = () => useCartStore((s) => s.lines);
 export const useCartOpen = () => useCartStore((s) => s.isOpen);
 export const useCartCount = () => useCartStore((s) => cartCount(s.lines));
-
-export function useCart() {
-  const count = useCartCount();
-  return { count };
-}
