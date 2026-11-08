@@ -77,15 +77,16 @@ Rules:
 
 - Warm, with brown, beige and green, and side light like morning light.
 - No cold or blue tones.
-- File names are lowercase with dashes: `bag-light.jpg`.
+- Images are WebP at about quality 80. File names are lowercase with dashes: `bag-light.webp`.
+- Only keep images the site uses.
 - Every image has an `alt` that says what is in it, in Arabic.
 
-| Image   | File                                                                      |
-| ------- | ------------------------------------------------------------------------- |
-| Hero    | `hero-hills.jpg`                                                          |
-| Story   | `story-roaster.jpg`                                                       |
-| Bags    | `bag-light.jpg` (green), `bag-medium.jpg` (kraft), `bag-dark.jpg` (brown) |
-| Brewing | `brew-v60.jpg`, `brew-moka.jpg`, `brew-cold.jpg`, `hero-dallah.jpg`       |
+| Image   | File                                                                         |
+| ------- | ---------------------------------------------------------------------------- |
+| Hero    | `hero-hills.webp`                                                            |
+| Story   | `story-roaster.webp`                                                         |
+| Bags    | `bag-light.webp` (green), `bag-medium.webp` (kraft), `bag-dark.webp` (brown) |
+| Brewing | `brew-v60.webp`, `brew-moka.webp`, `brew-cold-brew.webp`, `hero-dallah.webp` |
 
 ## Logo
 

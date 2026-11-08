@@ -50,7 +50,7 @@ export default function Story() {
           <div className={styles.frame}>
             <motion.div className={styles.parallax} style={{ y }}>
               <Image
-                src="/images/story-roaster.jpg"
+                src="/images/story-roaster.webp"
                 alt="حبوب بن محمصة طازة نازلة من المحمصة والبخار طالع منها"
                 fill
                 sizes="(max-width: 900px) 100vw, 50vw"

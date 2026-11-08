@@ -49,9 +49,9 @@ const CARDAMOM_DETAIL: Record<Cardamom, string> = {
 const COLORS = ["#B8865A", "#4F5A2E", "#5A3726", "#D9B98F"];
 
 const BAG_BY_ROAST: Record<Roast, string> = {
-  light: "/images/bag-light.jpg",
-  medium: "/images/bag-medium.jpg",
-  dark: "/images/bag-dark.jpg",
+  light: "/images/bag-light.webp",
+  medium: "/images/bag-medium.webp",
+  dark: "/images/bag-dark.webp",
 };
 
 const labelOf = <T,>(options: Option<T>[], value: T) =>

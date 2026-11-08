@@ -21,7 +21,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.bg}>
         <Image
-          src="/images/hero-hills.jpg"
+          src="/images/hero-hills.webp"
           alt="فنجان قهوة طالع منه البخار على صخرة، وقدامه تلال خضرا وضباب الصبح"
           fill
           priority
