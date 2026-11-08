@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/api";
+import { apiKeys } from "@/shared/api/client";
 import { fetchReviews } from "./reviews.api";
 
 import Stars from "./Stars";

@@ -1,4 +1,4 @@
-import { apiKeys, fetchJson } from "@/shared/api/api";
+import { apiKeys, fetchJson } from "@/shared/api/client";
 import { isListOf, isNumber, isOneOf, isRecord, isString } from "@/shared/api/guards";
 import { ROAST_OPTIONS } from "./product.options";
 import type { Product } from "./product.types";

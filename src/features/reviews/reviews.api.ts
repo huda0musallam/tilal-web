@@ -1,4 +1,4 @@
-import { fetchJson } from "@/shared/api/api";
+import { fetchJson } from "@/shared/api/client";
 import { isListOf, isNumber, isRecord, isString } from "@/shared/api/guards";
 import type { Review } from "./review.types";
 

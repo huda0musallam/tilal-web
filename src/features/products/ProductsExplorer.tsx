@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Heart } from "lucide-react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { apiKeys } from "@/shared/api/api";
+import { apiKeys } from "@/shared/api/client";
 import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";

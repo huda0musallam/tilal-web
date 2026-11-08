@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X, Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/api";
+import { apiKeys } from "@/shared/api/client";
 import { formatPrice } from "@/shared/lib/format-price";
 import { whatsappLink } from "@/shared/lib/whatsapp";
 import { fetchProducts } from "@/features/products/products.api";

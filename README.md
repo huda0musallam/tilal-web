@@ -47,6 +47,22 @@ To use a local API instead, run `tilal-api` on port 3001 and create a `.env.loca
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
+## Testing loading, error and empty states
+
+The API client in `src/shared/api/client.ts` reads test modes from the end of
+`NEXT_PUBLIC_API_URL`. The server does not change: the client waits, throws or returns an empty
+list before it calls the API. Put the mode in `.env.local` and restart `npm run dev`:
+
+| `NEXT_PUBLIC_API_URL`                             | What happens                                  |
+| ------------------------------------------------- | --------------------------------------------- |
+| `https://tilal-api.onrender.com/delay/3000`       | Every request waits 3 seconds (loading state) |
+| `https://tilal-api.onrender.com/fail/500`         | Every request fails with status 500 (errors)  |
+| `https://tilal-api.onrender.com/empty`            | Every list comes back empty (empty states)    |
+| `https://tilal-api.onrender.com/delay/2000/empty` | Modes can be combined                         |
+
+Failed requests throw an `ApiError` that has the HTTP `status`. Delete `.env.local` (or the mode
+part of the URL) to go back to normal.
+
 ## Features
 
 - **Products:** six products, Brazilian and Colombian beans in three roast levels (light, medium,

@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/api";
+import { apiKeys } from "@/shared/api/client";
 import { fetchBeans } from "./beans.api";
 import BeansStep from "./BeansStep";
 import BlendSummary from "./BlendSummary";
