@@ -13,6 +13,7 @@
   width: 1px;
   height: 28px;
   background: var(--sand);
+  display: none;
 }
 
 .chip {
@@ -40,15 +41,18 @@
 }
 
 .count {
-  margin-inline-start: auto;
+  margin-inline-start: 0;
   color: var(--coffee);
   font-size: 14px;
+  width: 100%;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 28px;
+  max-width: 420px;
+  margin-inline: auto;
 }
 
 .empty {
@@ -58,31 +62,29 @@
   padding-block: 64px;
   text-align: center;
 }
-
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .divider {
-    display: none;
-  }
-
-  .count {
-    width: 100%;
-    margin-inline-start: 0;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-    margin-inline: auto;
-  }
-}
 .favChip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+@media (min-width: 640px) {
+  .divider {
+    display: block;
+  }
+
+  .count {
+    margin-inline-start: auto;
+    width: auto;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: none;
+    margin-inline: 0;
+  }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

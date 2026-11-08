@@ -1,8 +1,8 @@
 .hero {
   position: relative;
   display: flex;
-  align-items: center;
-  min-height: calc(100svh - 88px);
+  align-items: flex-start;
+  min-height: calc(100svh - 72px);
   overflow: hidden;
 }
 
@@ -14,7 +14,7 @@
 
 .image {
   object-fit: cover;
-  object-position: center;
+  object-position: 72% center;
   transform: scaleX(-1);
 }
 
@@ -31,17 +31,17 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to left,
+    to bottom,
     rgba(247, 242, 234, 0.95) 0%,
-    rgba(247, 242, 234, 0.8) 35%,
-    rgba(247, 242, 234, 0) 65%
+    rgba(247, 242, 234, 0.85) 40%,
+    rgba(247, 242, 234, 0) 70%
   );
 }
 
 .content {
   position: relative;
   z-index: 1;
-  padding-block: 64px;
+  padding-block: 40px;
 }
 
 .text {
@@ -103,26 +103,26 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .hero {
-    align-items: flex-start;
-    min-height: calc(100svh - 72px);
+    align-items: center;
+    min-height: calc(100svh - 88px);
   }
 
   .image {
-    object-position: 72% center;
+    object-position: center;
   }
 
   .overlay {
     background: linear-gradient(
-      to bottom,
+      to left,
       rgba(247, 242, 234, 0.95) 0%,
-      rgba(247, 242, 234, 0.85) 40%,
-      rgba(247, 242, 234, 0) 70%
+      rgba(247, 242, 234, 0.8) 35%,
+      rgba(247, 242, 234, 0) 65%
     );
   }
 
   .content {
-    padding-block: 40px;
+    padding-block: 64px;
   }
 }

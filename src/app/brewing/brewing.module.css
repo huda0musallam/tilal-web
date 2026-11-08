@@ -1,5 +1,5 @@
 .page {
-  padding-block: 56px 112px;
+  padding-block: 32px 80px;
 }
 
 .head {
@@ -20,13 +20,15 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
+  max-width: 720px;
+  margin-inline: auto;
 }
 
 .card {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 1fr;
   height: 100%;
   overflow: hidden;
   border: 1px solid var(--sand);
@@ -44,8 +46,9 @@
 
 .media {
   position: relative;
-  min-height: 220px;
+  min-height: 0;
   overflow: hidden;
+  aspect-ratio: 16 / 10;
 }
 
 .image {
@@ -109,25 +112,25 @@
   transform: translateX(-4px);
 }
 
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 720px;
-    margin-inline: auto;
-  }
-}
-
-@media (max-width: 560px) {
+@media (min-width: 640px) {
   .page {
-    padding-block: 32px 80px;
+    padding-block: 56px 112px;
   }
 
   .card {
-    grid-template-columns: 1fr;
+    grid-template-columns: 220px 1fr;
   }
 
   .media {
-    min-height: 0;
-    aspect-ratio: 16 / 10;
+    min-height: 220px;
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: none;
+    margin-inline: 0;
   }
 }

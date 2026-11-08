@@ -1,5 +1,5 @@
 .page {
-  padding-block: 56px 112px;
+  padding-block: 32px 80px;
 }
 
 .head {
@@ -31,7 +31,7 @@
 
 .skeletonGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 28px;
 }
 
@@ -52,18 +52,18 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 640px) {
+  .page {
+    padding-block: 56px 112px;
+  }
+
   .skeletonGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 640px) {
-  .page {
-    padding-block: 32px 80px;
-  }
-
+@media (min-width: 1024px) {
   .skeletonGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 }

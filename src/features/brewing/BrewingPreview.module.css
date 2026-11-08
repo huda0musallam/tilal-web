@@ -1,5 +1,5 @@
 .section {
-  padding-block: 112px;
+  padding-block: 80px;
   background: var(--section);
 }
 
@@ -16,14 +16,16 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
+  max-width: 420px;
+  margin-inline: auto;
 }
 
 .card {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 20px;
   background: var(--coffee);
@@ -92,24 +94,24 @@
   transform: translateX(-4px);
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 640px) {
+  .section {
+    padding-block: 112px;
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .section {
-    padding-block: 80px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-    margin-inline: auto;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .card {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

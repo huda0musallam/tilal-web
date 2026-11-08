@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  height: 88px;
+  height: 72px;
   transition: height 0.3s;
 }
 
@@ -31,7 +31,7 @@
 
 .logo {
   display: block;
-  height: 64px;
+  height: 52px;
   width: auto;
   transition: height 0.3s;
 }
@@ -42,15 +42,30 @@
 
 .nav {
   display: flex;
-  gap: 32px;
+  gap: 0;
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  flex-direction: column;
+  padding: 8px var(--gutter) 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--sand);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s,
+    visibility 0.25s;
 }
 
 .link {
   position: relative;
-  padding-block: 4px;
+  padding-block: 12px;
   font-weight: 500;
   color: var(--coffee);
   transition: color 0.2s;
+  border-bottom: 1px solid var(--section);
 }
 
 .link::after {
@@ -63,6 +78,7 @@
   background: var(--nescafe);
   transform: scaleX(0);
   transition: transform 0.25s;
+  display: none;
 }
 
 .link:hover,
@@ -116,38 +132,52 @@
 }
 
 .menuBtn {
-  display: none;
+  display: grid;
 }
 
-@media (max-width: 768px) {
+.navOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.iconInner {
+  display: grid;
+}
+@media (min-width: 768px) {
   .inner {
-    height: 72px;
+    height: 88px;
   }
 
   .logo {
-    height: 52px;
-  }
-
-  .menuBtn {
-    display: grid;
+    height: 64px;
   }
 
   .nav {
-    position: absolute;
-    top: 100%;
-    inset-inline: 0;
-    flex-direction: column;
-    gap: 0;
-    padding: 8px var(--gutter) 16px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--sand);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition:
-      opacity 0.25s,
-      transform 0.25s,
-      visibility 0.25s;
+    gap: 32px;
+    position: static;
+    top: auto;
+    inset-inline: auto;
+    flex-direction: row;
+    padding: 0;
+    background: none;
+    border-bottom: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .link {
+    padding-block: 4px;
+    border-bottom: none;
+  }
+
+  .link::after {
+    display: block;
+  }
+
+  .menuBtn {
+    display: none;
   }
 
   .navOpen {
@@ -155,16 +185,4 @@
     visibility: visible;
     transform: none;
   }
-
-  .link {
-    padding-block: 12px;
-    border-bottom: 1px solid var(--section);
-  }
-
-  .link::after {
-    display: none;
-  }
-}
-.iconInner {
-  display: grid;
 }

@@ -1,14 +1,14 @@
 .story {
-  padding-block: 112px;
+  padding-block: 80px;
   background: var(--section);
   scroll-margin-top: 68px;
 }
 
 .inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
-  gap: 72px;
+  gap: 64px;
 }
 
 .visual {
@@ -17,7 +17,7 @@
 
 .frame {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 24px;
 }
@@ -33,9 +33,9 @@
 
 .stamp {
   position: absolute;
-  bottom: -44px;
-  inset-inline-end: -44px;
-  width: 140px;
+  bottom: -28px;
+  inset-inline-end: 16px;
+  width: 96px;
   height: auto;
   padding: 6px;
   border-radius: 50%;
@@ -96,23 +96,23 @@
   font-size: 0.95rem;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .story {
-    padding-block: 80px;
+    padding-block: 112px;
   }
 
   .inner {
-    grid-template-columns: 1fr;
-    gap: 64px;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
   }
 
   .frame {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
   }
 
   .stamp {
-    width: 96px;
-    bottom: -28px;
-    inset-inline-end: 16px;
+    bottom: -44px;
+    inset-inline-end: -44px;
+    width: 140px;
   }
 }

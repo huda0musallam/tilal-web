@@ -1,5 +1,5 @@
 .page {
-  padding-block: 56px 112px;
+  padding-block: 32px 80px;
 }
 
 .head {
@@ -40,8 +40,8 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 640px) {
   .page {
-    padding-block: 32px 80px;
+    padding-block: 56px 112px;
   }
 }

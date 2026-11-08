@@ -1,14 +1,14 @@
 .section {
-  padding-block: 112px;
+  padding-block: 80px;
 }
 
 .panel {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 48px;
   overflow: hidden;
-  padding: 56px;
+  padding: 36px 24px;
   border-radius: 28px;
   background: var(--olive);
 }
@@ -44,7 +44,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  height: 360px;
+  height: 300px;
   overflow: hidden;
 }
 
@@ -130,17 +130,17 @@
   background: var(--bg);
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .section {
-    padding-block: 80px;
+    padding-block: 112px;
   }
 
   .panel {
-    grid-template-columns: 1fr;
-    padding: 36px 24px;
+    grid-template-columns: 1.1fr 1fr;
+    padding: 56px;
   }
 
   .visual {
-    height: 300px;
+    height: 360px;
   }
 }

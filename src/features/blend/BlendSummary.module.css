@@ -6,7 +6,7 @@
 }
 
 .summary {
-  position: sticky;
+  position: static;
   top: 96px;
   display: grid;
   justify-items: center;
@@ -111,8 +111,8 @@
   text-align: center;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .summary {
-    position: static;
+    position: sticky;
   }
 }

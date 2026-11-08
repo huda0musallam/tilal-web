@@ -1,5 +1,5 @@
 .section {
-  padding-block: 112px;
+  padding-block: 80px;
 }
 
 .head {
@@ -16,8 +16,10 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 28px;
+  max-width: 420px;
+  margin-inline: auto;
 }
 
 .card {
@@ -104,14 +106,14 @@
   transform: translateX(-4px);
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .section {
-    padding-block: 80px;
+    padding-block: 112px;
   }
 
   .grid {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-    margin-inline: auto;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: none;
+    margin-inline: 0;
   }
 }

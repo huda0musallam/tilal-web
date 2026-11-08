@@ -1,5 +1,5 @@
 .step {
-  padding: 24px;
+  padding: 20px;
   border: 1px solid var(--sand);
   border-radius: 20px;
   background: var(--bg);
@@ -33,8 +33,8 @@
   font-size: 14px;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .step {
-    padding: 20px;
+    padding: 24px;
   }
 }

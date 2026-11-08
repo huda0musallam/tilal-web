@@ -1,13 +1,13 @@
 .section {
-  padding-block: 112px;
+  padding-block: 80px;
   background: var(--section);
 }
 
 .inner {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr;
   align-items: center;
-  gap: 64px;
+  gap: 32px;
 }
 
 .label {
@@ -21,7 +21,7 @@
 }
 
 .box {
-  padding: 32px;
+  padding: 24px;
   border: 1px solid var(--sand);
   border-radius: 24px;
   background: var(--bg);
@@ -129,17 +129,17 @@
   font-weight: 700;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .section {
-    padding-block: 80px;
+    padding-block: 112px;
   }
 
   .inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
   }
 
   .box {
-    padding: 24px;
+    padding: 32px;
   }
 }
