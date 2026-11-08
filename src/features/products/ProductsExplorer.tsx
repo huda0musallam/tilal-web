@@ -135,7 +135,7 @@ export default function ProductsExplorer() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
               >
-                <ProductCard product={product} index={i} />
+                <ProductCard product={product} index={i} eager={i < 3} />
               </motion.div>
             ))}
           </AnimatePresence>

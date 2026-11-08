@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import { apiKeys } from "@/shared/api/client";
 import { fetchBeans } from "@/features/blend/beans.api";
+import { favorites } from "@/features/favorites/favorites.store";
 import { fetchProducts } from "@/features/products/products.api";
 import { cartTotal, resolveLines } from "./cart.logic";
 import { cart, useCartLines } from "./cart.store";
@@ -10,7 +11,11 @@ import { cart, useCartLines } from "./cart.store";
 export function useCartItems() {
   const lines = useCartLines();
   const products = useSWR(apiKeys.products, fetchProducts, {
-    onSuccess: (data) => cart.keepProducts(data.map((p) => p.id)),
+    onSuccess: (data) => {
+      const ids = data.map((p) => p.id);
+      cart.keepProducts(ids);
+      favorites.keep(ids);
+    },
   });
   const beans = useSWR(apiKeys.beans, fetchBeans, {
     onSuccess: (data) => cart.keepBeans(data.map((b) => b.id)),

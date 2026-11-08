@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   agentRules: false,
+  experimental: {
+    inlineCss: true,
+  },
 };
 
 export default nextConfig;

@@ -40,16 +40,6 @@
   transform: scale(1.06);
 }
 
-.placeholder {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding-bottom: 30%;
-  background: var(--olive);
-  color: rgba(247, 242, 234, 0.5);
-}
-
 .overlay {
   position: absolute;
   inset: 0;

@@ -1,5 +1,15 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { isRecord, isString } from "@/shared/api/guards";
+
+function parseIds(v: unknown): string[] {
+  if (!Array.isArray(v)) return [];
+  const ids: string[] = [];
+  for (const id of v) {
+    if (isString(id) && !ids.includes(id)) ids.push(id);
+  }
+  return ids;
+}
 
 type FavoritesState = {
   ids: string[];
@@ -9,6 +19,10 @@ export const useFavoritesStore = create<FavoritesState>()(
   persist((): FavoritesState => ({ ids: [] }), {
     name: "tilal-favorites",
     storage: createJSONStorage(() => localStorage),
+    merge: (persisted, current) => ({
+      ...current,
+      ids: isRecord(persisted) ? parseIds(persisted.ids) : [],
+    }),
     skipHydration: true,
   }),
 );
@@ -17,6 +31,12 @@ const set = useFavoritesStore.setState;
 const get = useFavoritesStore.getState;
 
 export const favorites = {
+  keep(productIds: readonly string[]) {
+    const ids = get().ids;
+    const kept = ids.filter((id) => productIds.includes(id));
+    if (kept.length !== ids.length) set({ ids: kept });
+  },
+
   toggle(id: string): boolean {
     const ids = get().ids;
     const isOn = ids.includes(id);

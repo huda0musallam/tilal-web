@@ -154,8 +154,9 @@ data, not written again in code.
 - The cart saves only `{ productId, weight, cardamom, qty }` or `{ blend, qty }`. Names, prices
   and images come from the API when shown, and lines for products that no longer exist are
   dropped.
-- Never trust `localStorage`. `persist` uses `merge` with a guard (`parseLines`) that drops any
-  line with a bad option or a quantity that is not a whole number of 1 or more.
+- Never trust `localStorage`. Every persisted store uses `merge` with a guard: `parseLines` in
+  the cart drops any line with a bad option or a quantity that is not a whole number of 1 or
+  more, and the favorites store keeps only unique string ids.
 - The cart and favorites stores use `persist` with `skipHydration: true`. `CartDrawer` calls
   `persist.rehydrate()` for both once on mount, to avoid a hydration mismatch.
 
@@ -177,6 +178,8 @@ data, not written again in code.
 - The site is RTL. Use logical properties: `inset-inline-start`, `margin-inline`,
   `padding-inline`. Use `left` and `right` only for physical positions.
 - Arrows that mean "forward" point left (`ArrowLeft`); "back" points right (`ArrowRight`).
+- `experimental.inlineCss` is on, so production pages inline their CSS. Without it the browser
+  warns about preloaded CSS from prefetched routes that is not used.
 - Tailwind is loaded without preflight, and only scans `src/shared/ui/shadcn` and
   `src/features/checkout` (`src/app/tailwind.css`). The site reset in `globals.css` is in
   `@layer base` so Tailwind utilities can win over it. Do not use Tailwind classes in CSS Module

@@ -173,7 +173,7 @@ The page shell never waits for the API. Every part that needs data is wrapped on
 | Products page: the list    | `DataSection`              | `CatalogSkeleton`   | "No products in the shop right now"  |
 | Products page: the filters | (inside the list)          |                     | "No products match" / "No favorites" |
 | Product page               | `loading.tsx`, `error.tsx` | placeholder         | 404 page                             |
-| Blend page                 | `loading.tsx`, `error.tsx` | `GridSkeleton`      | "No beans for the blend right now"   |
+| Blend page                 | `loading.tsx`, `error.tsx` | placeholder         | "No beans for the blend right now"   |
 | Cart drawer and checkout   | `useCartItems`             | "Loading your cart" | "Your cart is empty"                 |
 
 The home page and the products page use the same SWR key for products, so going from one to the
@@ -311,22 +311,22 @@ There are no callback chains. Components call store actions directly, and only t
 that read the changed value redraw. Cart actions call pure functions from `cart.logic.ts`
 (`addLine`, `setQty`, `removeLine`), which take a cart and return a new one.
 
-| User action                                    | What runs                                                      | What changes                                    |
-| ---------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
-| Picks a weight or cardamom option              | `setWeight` / `setCardamom` in `ProductPurchase`               | That product's state and price                  |
-| Adds a product to the cart                     | `cart.add({ productId, weight, cardamom, qty })`, `flyTo()`    | `lines`, a flight, then the cart bump           |
-| Clicks the heart on a product                  | `favorites.toggle()`, then `flyTo("favorites", ...)` if added  | `favorites ids`, a flight, then the heart bump  |
-| Picks a roast, origin or favorites filter      | `updateUrl()` in `ProductsExplorer`                            | The URL                                         |
-| Picks a blend weight, roast, grind or cardamom | `blend.setTotal`, `setRoast`, `setGrind`, `setCardamom`        | `blendStore`                                    |
-| Picks or removes a bean, moves a slider        | `blend.toggleBean()`, `blend.setShare()`, `blend.distribute()` | `blendStore.shares`                             |
-| Adds the blend to the cart                     | `cart.add({ blend, qty })`, `flyTo()` from `BlendSummary`      | `lines`, a flight, then the cart bump           |
-| Changes a quantity, removes or clears          | `cart.setQty()` / `cart.remove()` / `cart.clear()`             | `lines`                                         |
-| Opens or closes the cart                       | `cart.open()` / `cart.close()`, Esc, backdrop                  | `isOpen`                                        |
-| The products or beans arrive                   | SWR `onSuccess` in `useCartItems`                              | Lines whose product or bean is gone are removed |
-| Sends the order                                | `handleSubmit` checks the Zod schema, then opens `wa.me`       | Nothing in the site                             |
-| Sends a suggestion                             | `trigger()` from `useSWRMutation`                              | POST `/suggestions`, then `sent`                |
-| Clicks Try again in a section                  | `mutate(key, fetcher(key))`, then the boundary resets          | That section only                               |
-| Clicks Try again on a route                    | `unstable_retry()` in `error.tsx`                              | The page fetches again                          |
+| User action                                    | What runs                                                      | What changes                                                       |
+| ---------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Picks a weight or cardamom option              | `setWeight` / `setCardamom` in `ProductPurchase`               | That product's state and price                                     |
+| Adds a product to the cart                     | `cart.add({ productId, weight, cardamom, qty })`, `flyTo()`    | `lines`, a flight, then the cart bump                              |
+| Clicks the heart on a product                  | `favorites.toggle()`, then `flyTo("favorites", ...)` if added  | `favorites ids`, a flight, then the heart bump                     |
+| Picks a roast, origin or favorites filter      | `updateUrl()` in `ProductsExplorer`                            | The URL                                                            |
+| Picks a blend weight, roast, grind or cardamom | `blend.setTotal`, `setRoast`, `setGrind`, `setCardamom`        | `blendStore`                                                       |
+| Picks or removes a bean, moves a slider        | `blend.toggleBean()`, `blend.setShare()`, `blend.distribute()` | `blendStore.shares`                                                |
+| Adds the blend to the cart                     | `cart.add({ blend, qty })`, `flyTo()` from `BlendSummary`      | `lines`, a flight, then the cart bump                              |
+| Changes a quantity, removes or clears          | `cart.setQty()` / `cart.remove()` / `cart.clear()`             | `lines`                                                            |
+| Opens or closes the cart                       | `cart.open()` / `cart.close()`, Esc, backdrop                  | `isOpen`                                                           |
+| The products or beans arrive                   | SWR `onSuccess` in `useCartItems`                              | Cart lines and favorites whose product or bean is gone are removed |
+| Sends the order                                | `handleSubmit` checks the Zod schema, then opens `wa.me`       | Nothing in the site                                                |
+| Sends a suggestion                             | `trigger()` from `useSWRMutation`                              | POST `/suggestions`, then `sent`                                   |
+| Clicks Try again in a section                  | `mutate(key, fetcher(key))`, then the boundary resets          | That section only                                                  |
+| Clicks Try again on a route                    | `unstable_retry()` in `error.tsx`                              | The page fetches again                                             |
 
 ### Saved cart data
 
@@ -338,7 +338,8 @@ The cart is saved in `localStorage` as `tilal-cart`:
 
 When the site loads it, `parseLines` in `cart.guards.ts` checks every line. A line with an
 unknown weight or option, or a quantity that is not a whole number of 1 or more, is dropped. Data
-that is not valid JSON gives an empty cart.
+that is not valid JSON gives an empty cart. Favorites (`tilal-favorites`) go through the same
+kind of check: only unique string ids are kept.
 
 ## Deployment
 

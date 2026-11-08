@@ -13,9 +13,10 @@ import styles from "./ProductCard.module.css";
 interface ProductCardProps {
   product: Product;
   index?: number;
+  eager?: boolean;
 }
 
-export default function ProductCard({ product, index = 0 }: ProductCardProps) {
+export default function ProductCard({ product, index = 0, eager = false }: ProductCardProps) {
   const mediaRef = useRef<HTMLDivElement>(null);
   const href = `/products/${encodeURIComponent(product.id)}`;
 
@@ -33,6 +34,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             src={product.image}
             alt={`كيس قهوة التلال، ${product.name}`}
             fill
+            loading={eager ? "eager" : "lazy"}
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className={styles.image}
           />
