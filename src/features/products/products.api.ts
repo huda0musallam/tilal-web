@@ -1,4 +1,4 @@
-import { apiKeys, fetchJson } from "@/shared/api/client";
+import { ApiError, apiKeys, fetchJson } from "@/shared/api/client";
 import { isListOf, isNumber, isOneOf, isRecord, isString } from "@/shared/api/guards";
 import { ROAST_OPTIONS } from "./product.options";
 import type { Product } from "./product.types";
@@ -29,3 +29,14 @@ const isProductList = isListOf(isProduct);
 
 export const fetchProducts = (url: string) => fetchJson(url, isProductList);
 export const getProducts = () => fetchProducts(apiKeys.products);
+
+export async function fetchProduct(url: string) {
+  try {
+    return await fetchJson(url, isProduct);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null;
+    throw error;
+  }
+}
+
+export const getProduct = (id: string) => fetchProduct(apiKeys.product(id));

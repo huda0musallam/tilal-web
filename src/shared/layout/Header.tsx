@@ -1,27 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ShoppingBag, Heart, Menu, X } from "lucide-react";
 import HeaderLogo from "@/shared/logo/HeaderLogo";
 import { cart, useCartCount } from "@/features/cart/cart.store";
 import { useFavoritesCount } from "@/features/favorites/favorites-store";
 import { useFlyStore } from "@/features/fly/fly-store";
+import ActiveNavLinks from "./ActiveNavLinks";
+import NavLinks from "./NavLinks";
 import styles from "./Header.module.css";
-
-const links = [
-  { href: "/", label: "الرئيسية" },
-  { href: "/products", label: "المنتجات" },
-  { href: "/blend", label: "اصنع خلطتك" },
-  { href: "/brewing", label: "طرق التحضير" },
-];
 
 const bumpAnimation = { scale: [1, 1.35, 1] };
 
 export default function Header() {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -36,8 +29,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
-
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.inner}`}>
@@ -49,17 +40,9 @@ export default function Header() {
           className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
           aria-label="القائمة الرئيسية"
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => handleNavClick(link.href)}
-              aria-current={isActive(link.href) ? "page" : undefined}
-              className={`${styles.link} ${isActive(link.href) ? styles.active : ""}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          <Suspense fallback={<NavLinks activePath={null} onNavigate={handleNavClick} />}>
+            <ActiveNavLinks onNavigate={handleNavClick} />
+          </Suspense>
         </nav>
 
         <div className={styles.actions}>
@@ -113,7 +96,7 @@ export default function Header() {
   );
   function handleNavClick(href: string) {
     setMenuOpen(false);
-    if (pathname === href) {
+    if (window.location.pathname === href) {
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     }

@@ -1,0 +1,34 @@
+.page {
+  padding-block: 32px 80px;
+}
+
+.skeleton {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.skeletonMedia {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  background: var(--section);
+}
+
+.skeletonText {
+  height: 320px;
+  border-radius: var(--radius-lg);
+  background: var(--section);
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding-block: 56px 112px;
+  }
+}
+
+@media (min-width: 900px) {
+  .skeleton {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+}

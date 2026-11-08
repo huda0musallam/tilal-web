@@ -1,0 +1,88 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--section);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  color: var(--coffee);
+  font-weight: 500;
+}
+
+.back:hover {
+  color: var(--olive);
+}
+
+.name {
+  font-size: 2.2rem;
+}
+
+.notes {
+  font-size: 1.1rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--section);
+}
+
+.facts dt {
+  color: var(--coffee);
+  font-size: 13px;
+}
+
+.facts dd {
+  color: var(--espresso);
+  font-weight: 700;
+}
+
+.level {
+  margin-inline-start: 8px;
+  color: var(--coffee);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 56px;
+  }
+
+  .name {
+    font-size: 2.8rem;
+  }
+}

@@ -36,6 +36,7 @@ const { base: API_URL, modes } = parseApiUrl(process.env.NEXT_PUBLIC_API_URL || 
 
 export const apiKeys = {
   products: `${API_URL}/products`,
+  product: (id: string) => `${API_URL}/products/${encodeURIComponent(id)}`,
   beans: `${API_URL}/beans`,
   reviews: `${API_URL}/reviews`,
   suggestions: `${API_URL}/suggestions`,
@@ -75,6 +76,9 @@ export async function fetchJson<T>(
     data = await res.json();
   }
 
+  if (modes.empty && isRead && !guard(data)) {
+    throw new ApiError(404, `ما لقينا شي على ${url}`);
+  }
   if (!guard(data)) {
     throw new ApiError(422, `البيانات اللي وصلت من ${url} مش بالشكل المتوقع`);
   }

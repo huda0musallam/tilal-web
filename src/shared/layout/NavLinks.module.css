@@ -1,0 +1,42 @@
+.link {
+  position: relative;
+  padding-block: 12px;
+  font-weight: 500;
+  color: var(--coffee);
+  transition: color 0.2s;
+  border-bottom: 1px solid var(--section);
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--nescafe);
+  transform: scaleX(0);
+  transition: transform 0.25s;
+  display: none;
+}
+
+.link:hover,
+.active {
+  color: var(--espresso);
+}
+
+.link:hover::after,
+.active::after {
+  transform: scaleX(1);
+}
+
+@media (min-width: 768px) {
+  .link {
+    padding-block: 4px;
+    border-bottom: none;
+  }
+
+  .link::after {
+    display: block;
+  }
+}

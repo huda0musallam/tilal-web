@@ -1,17 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useRef } from "react";
 import { motion } from "motion/react";
-import { Heart, ShoppingBag, Check } from "lucide-react";
-import type { Cardamom, Product, Weight } from "./product.types";
-import { CARDAMOM_OPTIONS, WEIGHT_OPTIONS, roastLabel } from "./product.options";
-import { productPrice } from "./pricing";
-import { formatPrice } from "@/shared/lib/format-price";
-import { cart } from "@/features/cart/cart.store";
-import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
-import { flyTo } from "@/features/fly/fly-store";
-import Chips from "@/shared/ui/Chips";
+import FavoriteButton from "./FavoriteButton";
+import ProductPurchase from "./ProductPurchase";
+import { roastLabel } from "./product.options";
+import type { Product } from "./product.types";
 import styles from "./ProductCard.module.css";
 
 interface ProductCardProps {
@@ -20,26 +16,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const [weight, setWeight] = useState<Weight>("250");
-  const [cardamom, setCardamom] = useState<Cardamom>("none");
-  const [added, setAdded] = useState(false);
-  const liked = useIsFavorite(product.id);
   const mediaRef = useRef<HTMLDivElement>(null);
-
-  const price = productPrice(product, weight, cardamom);
-
-  function handleAdd() {
-    cart.add({ productId: product.id, weight, cardamom, qty: 1 });
-
-    flyTo("cart", product.image, mediaRef.current);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
-  }
-
-  function handleLike() {
-    const nowLiked = favorites.toggle(product.id);
-    if (nowLiked) flyTo("favorites", product.image, mediaRef.current);
-  }
+  const href = `/products/${encodeURIComponent(product.id)}`;
 
   return (
     <motion.article
@@ -50,72 +28,30 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.12 }}
     >
       <div className={styles.media} ref={mediaRef}>
-        <Image
-          src={product.image}
-          alt={`كيس قهوة التلال، ${product.name}`}
-          fill
-          sizes="(max-width: 900px) 100vw, 33vw"
-          className={styles.image}
-        />
+        <Link href={href} tabIndex={-1} aria-hidden="true" className={styles.mediaLink}>
+          <Image
+            src={product.image}
+            alt={`كيس قهوة التلال، ${product.name}`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className={styles.image}
+          />
+        </Link>
         <span className={styles.badge}>{roastLabel(product.roast)}</span>
-
-        <motion.button
-          type="button"
-          className={`${styles.like} ${liked ? styles.liked : ""}`}
-          onClick={handleLike}
-          whileTap={{ scale: 0.85 }}
-          aria-pressed={liked}
-          aria-label={liked ? `شيل ${product.name} من المفضلة` : `أضف ${product.name} للمفضلة`}
-        >
-          <motion.span
-            key={liked ? "on" : "off"}
-            initial={{ scale: 0.6 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            style={{ display: "grid" }}
-          >
-            <Heart size={20} fill={liked ? "currentColor" : "none"} />
-          </motion.span>
-        </motion.button>
+        <FavoriteButton product={product} sourceRef={mediaRef} />
       </div>
 
       <div className={styles.body}>
         <div>
-          <h3 className={styles.name}>{product.name}</h3>
+          <h3 className={styles.name}>
+            <Link href={href} className={styles.nameLink}>
+              {product.name}
+            </Link>
+          </h3>
           <p className={styles.notes}>{product.notes}</p>
         </div>
 
-        <fieldset className={styles.group}>
-          <legend className={styles.legend}>الوزن</legend>
-          <Chips
-            options={WEIGHT_OPTIONS}
-            value={weight}
-            onChange={setWeight}
-            label="الوزن"
-            size="sm"
-          />
-        </fieldset>
-
-        {product.cardamom && (
-          <fieldset className={styles.group}>
-            <legend className={styles.legend}>الهيل</legend>
-            <Chips
-              options={CARDAMOM_OPTIONS}
-              value={cardamom}
-              onChange={setCardamom}
-              label="الهيل"
-              size="sm"
-            />
-          </fieldset>
-        )}
-
-        <div className={styles.footer}>
-          <span className={styles.price}>{formatPrice(price)}</span>
-          <button type="button" className={`btn btn-primary ${styles.add}`} onClick={handleAdd}>
-            {added ? <Check size={18} /> : <ShoppingBag size={18} />}
-            {added ? "انضافت" : "أضف للسلة"}
-          </button>
-        </div>
+        <ProductPurchase product={product} sourceRef={mediaRef} />
       </div>
     </motion.article>
   );
