@@ -1,21 +1,29 @@
 # Tilal Coffee (التلال)
 
-`tilal-web` is the website for Tilal, a home coffee roaster. Customers browse the coffee, build
-their own blend, read brewing guides and send their order through WhatsApp. The interface is in
-Arabic and reads right to left.
+`tilal-web` is the website for Tilal, a home coffee roaster. Customers browse the coffee, open a
+product page, build their own blend, read brewing guides and send their order through WhatsApp.
+The interface is in Arabic and reads right to left.
 
-The data comes from a separate API. Its code is in
-[`tilal-api`](https://github.com/huda0musallam/tilal-api), and it runs on Render at
-`https://tilal-api.onrender.com`. Render deploys the API again every time `tilal-api` is pushed
-to GitHub. This repository is the frontend only.
+## Links
+
+- Frontend (this repository): https://github.com/huda0musallam/tilal-web
+- API code: https://github.com/huda0musallam/tilal-api
+- Live API: https://tilal-api.onrender.com (for example
+  [`/products`](https://tilal-api.onrender.com/products))
+
+This repository is the frontend only. Render deploys the API again every time `tilal-api` is
+pushed to GitHub.
 
 ## Technologies
 
 - Next.js 16 (App Router) with Cache Components
-- React 19 and TypeScript (strict)
+- React 19 and TypeScript (strict, no `any`, no `as`, no `!`)
 - SWR for data from the API
 - Zustand for client state (cart, favorites, blend builder and the fly animation)
-- CSS Modules for styling, with no UI library
+- CSS Modules for the site's own styles
+- Tailwind CSS 4 and shadcn/ui for the checkout form only (Tailwind runs without its base
+  reset, so it does not change the rest of the site)
+- react-hook-form and Zod for the checkout form
 - Motion for animation, Lucide for icons
 - ESLint and Prettier, with Husky and lint-staged to check staged files before each commit
 - json-server on Render for the API
@@ -36,7 +44,7 @@ npm run format:check   # check formatting without changing files
 ```
 
 Before each commit, lint-staged runs ESLint and Prettier on the staged files. The commit stops if
-ESLint finds a warning or an error.
+ESLint finds a warning or an error, so a line like `const unused: any = 1;` cannot be committed.
 
 The site uses the live API at `https://tilal-api.onrender.com` by default. The free server sleeps
 when nobody uses it, so the first request can take up to a minute.
@@ -46,6 +54,8 @@ To use a local API instead, run `tilal-api` on port 3001 and create a `.env.loca
 ```
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
+
+`.env.local` wins over the default URL in the code. Delete it when you want the live API again.
 
 ## Testing loading, error and empty states
 
@@ -60,37 +70,51 @@ list before it calls the API. Put the mode in `.env.local` and restart `npm run 
 | `https://tilal-api.onrender.com/empty`            | Every list comes back empty (empty states)    |
 | `https://tilal-api.onrender.com/delay/2000/empty` | Modes can be combined                         |
 
-Failed requests throw an `ApiError` that has the HTTP `status`. Delete `.env.local` (or the mode
-part of the URL) to go back to normal.
+Failed requests throw an `ApiError` that has the HTTP `status`. In `empty` mode a single product
+returns 404, so the product page shows "not found". Delete `.env.local` (or the mode part of the
+URL) to go back to normal.
+
+What to expect:
+
+- **delay:** each data section shows its own placeholder, and the rest of the page is already
+  there.
+- **fail:** each data section shows "we couldn't load…" with **Try again**. The header, hero,
+  story and suggestion box keep working.
+- **empty:** "there are no products in the shop right now", "no reviews yet" and "no beans for
+  the blend right now".
 
 ## Features
 
 - **Products:** six products, Brazilian and Colombian beans in three roast levels (light, medium,
   dark). They load from the API.
-- **Filters:** filter by roast level, by bean origin and by favorites. The filter is kept in the
-  URL, so `/products?roast=dark` opens with dark roast selected. The roast cards on the home page
-  link to these filters.
-- **Product options:** each card has a weight (250 g, 500 g, 1 kg) and a cardamom option (none,
-  normal, extra). The price changes with both.
+- **Product page:** `/products/[id]` loads one product by its id, with its options, price,
+  favorite button and add to cart. An unknown id shows the 404 page.
+- **Filters:** filter by roast level, by bean origin and by favorites. The origin filter is built
+  from the products the API returns. The filter is kept in the URL, so `/products?roast=dark`
+  opens with dark roast selected. The roast cards on the home page link to these filters.
+- **Product options:** a weight (250 g, 500 g, 1 kg) and a cardamom option (none, normal,
+  extra). The price changes with both. All option lists live in `product.options.ts`.
 - **Build your blend:** pick the total weight, one or more beans and their share in steps of 10%,
   the roast, the grind and the cardamom. A ring chart and the price update as you choose. The
   shares must add up to 100% before the blend can go in the cart.
 - **Brewing guides:** V60, Moka pot, Cold brew and Arabic coffee with cardamom. Each guide has
   tools, ingredients, numbered steps and a tip.
-- **Cart:** a side drawer, opened from the bag icon in the header. Add products or blends,
-  change quantities, remove a line or clear the cart. The same product with the same options
-  adds to the quantity instead of a new line.
-- **Favorites:** the heart button on each product card. The heart in the header shows the count
-  and opens the products page on the favorites filter.
+- **Cart:** a side drawer, opened from the bag icon in the header. Change quantities, remove a
+  line or clear the cart. The same product with the same options adds to the quantity instead of
+  a new line. **Continue the order** opens the checkout page.
+- **Checkout:** `/checkout` asks for name, phone, pickup or delivery, the address (only for
+  delivery) and notes. The form is checked with one Zod schema, shows the errors in Arabic under
+  each field, then opens WhatsApp with the full order.
+- **Favorites:** the heart button on each product. The heart in the header shows the count and
+  opens the products page on the favorites filter.
 - **Fly animation:** adding to the cart or to favorites sends a small copy of the bag image to
   the icon in the header, and the icon bounces. It is skipped when "reduce motion" is on.
-- **Order:** "Send the order through WhatsApp" opens WhatsApp with a message that lists every
-  line, the total, and the optional name and notes.
-- **Reviews:** an auto-scrolling strip that starts full and pauses on hover.
+- **Reviews:** an auto-scrolling strip that pauses on hover.
 - **Suggestion box:** name (optional), message and a star rating. It checks the fields, then
   sends them to the API.
 - **Persistence:** the cart and the favorites are saved in `localStorage` (`tilal-cart` and
-  `tilal-favorites`), so they survive a page refresh. Blend choices stay while the site is open.
+  `tilal-favorites`). The cart saves only ids, options and quantities. Names, prices and images
+  come from the API when the cart is shown. Blend choices stay while the site is open.
 
 ## Pages
 
@@ -99,7 +123,9 @@ part of the URL) to go back to normal.
 | `/`               | Hero, story, roast levels, featured products, blend teaser, brewing guides, reviews, suggestion box |
 | `/products`       | All products with roast, origin and favorites filters                                               |
 | `/products?fav=1` | Only the saved favorites (opened by the heart in the header)                                        |
+| `/products/[id]`  | One product, for example `/products/brazil-dark`                                                    |
 | `/blend`          | Build your own blend                                                                                |
+| `/checkout`       | The order form                                                                                      |
 | `/brewing`        | All brewing methods                                                                                 |
 | `/brewing/[slug]` | One brewing method: `v60`, `moka`, `cold-brew`, `arabic`                                            |
 | any other         | "We lost the way between the hills" with links back to the site                                     |
@@ -108,57 +134,92 @@ The header, footer, cart drawer and fly layer are on every page.
 
 ## Data from the API
 
-| Endpoint       | Method | Used by                          |
-| -------------- | ------ | -------------------------------- |
-| `/products`    | GET    | Featured products, products page |
-| `/beans`       | GET    | Blend builder                    |
-| `/reviews`     | GET    | Reviews strip                    |
-| `/suggestions` | POST   | Suggestion box                   |
+| Endpoint        | Method | Used by                                          |
+| --------------- | ------ | ------------------------------------------------ |
+| `/products`     | GET    | Featured products, products page, cart, checkout |
+| `/products/:id` | GET    | Product page                                     |
+| `/beans`        | GET    | Blend builder, cart, checkout                    |
+| `/reviews`      | GET    | Reviews strip                                    |
+| `/suggestions`  | POST   | Suggestion box                                   |
 
-All URLs, SWR keys and fetchers are in `src/lib/api.ts`. No component calls `fetch` directly.
-The brewing guides are not in the API. They live in `src/features/brewing/brewing.ts` because
-they rarely change.
-Every response is checked with a type guard from `src/lib/guards.ts` before it is used. There is
-no `any`, no `as` and no `!` in the code. A response with the wrong shape shows the error message
-instead of breaking the page.
+- The base URL, the SWR keys (`apiKeys`), `fetchJson` and `ApiError` are in
+  `src/shared/api/client.ts`.
+- Each feature has its own fetcher next to its types, for example
+  `features/products/products.api.ts`. No component calls `fetch` directly.
+- Every response is checked with a type guard before it is used. The small guards (`isRecord`,
+  `isString`, `isListOf`…) are in `src/shared/api/guards.ts`. A response with the wrong shape
+  shows the error message instead of breaking the page.
+- The brewing guides are not in the API. They live in `src/features/brewing/brewing.ts` because
+  they rarely change.
 
-### Products page and blend page
+### Loading, errors and empty results
 
-1. The page is a Server Component. It starts the request without `await` and passes the promise
-   to `<SWRConfig fallback>`.
-2. The Client Component reads the same key with `useSWR(key, fetcher, { suspense: true })`.
-3. While the data loads, the route's `loading.tsx` shows placeholder cards.
-4. If the request fails, the route's `error.tsx` shows the error and **Try again**
-   (`unstable_retry`).
-5. After the page loads, SWR keeps the data in its cache and checks for newer data in the
-   background.
+The page shell never waits for the API. Every part that needs data is wrapped on its own:
 
-### Home page
+1. The page (a Server Component) starts the request without `await` and passes the promise to
+   `<SWRConfig fallback>`. The browser gets the data with the page, so there is no second
+   request.
+2. A Client Component reads the same key with `useSWR(key, fetcher, { suspense: true })`.
+3. `DataSection` (`src/shared/ui/DataSection.tsx`) wraps it in an `ErrorBoundary` and a
+   `Suspense`. Suspense shows the placeholder while the data loads. The error boundary shows
+   `SectionError` with **Try again** if the request fails.
+4. **Try again** fetches the data again into the SWR cache, then resets the boundary.
+5. When the list is empty, the component shows `EmptyState` instead of an empty grid.
 
-Each section that needs data fetches it with `useSWR` in the browser and shows its own state, so
-the hero and the story still show if the API is down.
-
-The products area shows exactly one of these views:
-
-- **Loading:** placeholder cards.
-- **Error:** "We couldn't load the products right now" with **Try again** (`mutate()`).
-- **Products:** the featured products and a link to all products.
-
-The reviews strip shows nothing while it loads, if the request fails, or if there are no reviews.
+| Where                      | Wrapped in                 | Loading             | Empty                                |
+| -------------------------- | -------------------------- | ------------------- | ------------------------------------ |
+| Home: featured products    | `DataSection`              | `GridSkeleton`      | "No products in the shop right now"  |
+| Home: reviews              | `DataSection`              | `ReviewsSkeleton`   | "No reviews yet"                     |
+| Products page: the list    | `DataSection`              | `CatalogSkeleton`   | "No products in the shop right now"  |
+| Products page: the filters | (inside the list)          |                     | "No products match" / "No favorites" |
+| Product page               | `loading.tsx`, `error.tsx` | placeholder         | 404 page                             |
+| Blend page                 | `loading.tsx`, `error.tsx` | `GridSkeleton`      | "No beans for the blend right now"   |
+| Cart drawer and checkout   | `useCartItems`             | "Loading your cart" | "Your cart is empty"                 |
 
 The home page and the products page use the same SWR key for products, so going from one to the
 other opens from the cache.
 
-### Products list
+## Structure
 
-The products page shows exactly one of these views:
+```
+.claude/skills/   React skills for AI coding assistants (from Vercel)
+.husky/           pre-commit hook that runs lint-staged
+CLAUDE.md         rules for AI coding assistants
+DESIGN.md         visual identity
+components.json   shadcn/ui settings (components go to src/shared/ui/shadcn)
+postcss.config.mjs  Tailwind
+public/images/    WebP photos used by the site
+src/
+  app/            routes only: pages, loading.tsx, error.tsx, not-found.tsx, layout,
+                  globals.css (site styles) and tailwind.css (Tailwind and the shadcn theme)
+  features/       one folder per feature. Each owns its components, styles, types, API fetcher,
+                  logic and store
+    home/           Hero, Story, RoastLevels, BlendTeaser, Bean
+    products/       product cards, list, filters, product page, options, pricing, types, API
+    blend/          the blend builder steps, summary, store, logic, options, types, API
+    brewing/        BrewingPreview and the brewing guide data
+    cart/           CartDrawer, cart types, logic, guards, store and useCartItems
+    checkout/       the checkout page, form, summary, Zod schema and WhatsApp message
+    favorites/      the favorites store
+    fly/            FlyLayer and the fly store
+    reviews/        the reviews strip, its skeleton, Stars, types and API
+    suggestions/    the suggestion box, types and API
+  shared/         code used by two or more features
+    api/            client.ts (URLs, SWR keys, fetchJson, ApiError, test modes) and guards.ts
+    layout/         Header, NavLinks, ActiveNavLinks, Footer
+    logo/           StampLogo, HeaderLogo
+    lib/            cn, formatPrice, Option type, WhatsApp link
+    ui/             Chips, DataSection, ErrorBoundary, SectionError, EmptyState, GridSkeleton,
+                    Reveal, RouteError
+      shadcn/         shadcn/ui components (button, input, label, textarea, radio-group, field)
+```
 
-- **Loading:** `loading.tsx`.
-- **Error:** `error.tsx` with **Try again**.
-- **No favorites:** "There are no favorites yet" when the favorites filter is on and nothing is
-  saved, with **Clear filters**.
-- **No results:** "No products match this choice" with **Clear filters**.
-- **Products:** the matching products and their count.
+File names:
+
+- `Name.tsx` is one component, with `Name.module.css` next to it when it has styles. Each
+  component has an `interface NameProps`.
+- `x.types.ts` types, `x.api.ts` fetchers, `x.logic.ts` pure functions, `x.store.ts` Zustand,
+  `x.options.ts` option lists, `x.guards.ts` type guards, `x.schema.ts` Zod, `use-x.ts` hooks.
 
 ## Component tree
 
@@ -167,80 +228,79 @@ Pages under `src/app/` are Server Components. Everything marked `client` runs in
 `URL:` is what it reads from the search params.
 
 ```
-RootLayout                  (server) fonts, lang="ar", dir="rtl"
-├── Header                  client   state: scrolled, menuOpen
-│   │                                store: cart count, favorites count, fly bumps
-│   └── HeaderLogo          className?
-├── {children}              the page for the current route:
-│   ├── HomePage            (server, no props)
-│   │   ├── Hero            client   (no props)
-│   │   ├── Story           client   (no props)
-│   │   │   └── StampLogo   className?, ink?
-│   │   ├── RoastLevels     client   (no props)
-│   │   ├── FeaturedProducts client  (no props)   SWR: products
-│   │   │   ├── GridSkeleton    count?
-│   │   │   └── ProductCard     product, index?   state: weight, cardamom, added
-│   │   │                                         store: is favorite
-│   │   ├── BlendTeaser     client   (no props)
-│   │   ├── BrewingPreview  client   (no props)
-│   │   ├── Reviews         client   (no props)   SWR: reviews
-│   │   └── SuggestionBox   client   (no props)   state: name, message, rating, hovered, errors, sent
-│   │                                             SWR mutation: suggestions
-│   ├── ProductsPage        (server) SWRConfig fallback: products
-│   │   └── ProductsExplorer client  (no props)   SWR: products   URL: roast, origin, fav
-│   │       │                                     store: favorite ids
-│   │       └── ProductCard     product, index?   state: weight, cardamom, added
-│   │                                             store: is favorite
-│   ├── BlendPage           (server) SWRConfig fallback: beans
-│   │   └── BlendBuilder    client   (no props)   SWR: beans
-│   │       ├── TotalStep       store: total
-│   │       ├── BeansStep       beans             store: shares, total
-│   │       ├── RoastStep       store: roast
-│   │       ├── GrindStep       store: grind
-│   │       ├── CardamomStep    store: cardamom
-│   │       └── Summary         beans             store: total, shares, roast, grind, cardamom
-│   │                                             state: added
-│   │       (each step uses Step: n, title, hint?, children
-│   │        and Chips: options, value, onChange, label)
-│   ├── BrewingPage         (server, no props)
-│   │   └── Reveal          children, delay?, as?, className?
-│   ├── MethodPage          (server) params
-│   │   └── Reveal          children, delay?, as?, className?
-│   └── NotFound            (server, no props)
-│       └── StampLogo       className?
-├── Footer                  (server, no props)
-│   └── StampLogo           className?, ink?
-├── CartDrawer              client   state: name, notes   store: items, isOpen
-└── FlyLayer                client   (no props)   store: flights
-
-Route files:
-├── loading.tsx             products, blend, brewing/[slug]   uses GridSkeleton or a placeholder
-└── error.tsx               root, products, blend             client, uses RouteError: error, retry
+RootLayout                    (server) fonts, lang="ar", dir="rtl"
+├── Header                    client   state: scrolled, menuOpen
+│   │                                  store: cart count, favorites count, fly bumps
+│   ├── HeaderLogo            className?
+│   └── Suspense → ActiveNavLinks   onNavigate         URL: pathname
+│                  └── NavLinks     activePath, onNavigate
+├── {children}                the page for the current route:
+│   ├── HomePage              (server) SWRConfig fallback: products, reviews
+│   │   ├── Hero, Story, RoastLevels, BlendTeaser, BrewingPreview
+│   │   ├── FeaturedProducts  client
+│   │   │   └── DataSection   loading, errorMessage, retry
+│   │   │       └── FeaturedList          SWR: products
+│   │   │           └── ProductCard       product, index?
+│   │   ├── Reviews           client
+│   │   │   └── DataSection
+│   │   │       └── ReviewsMarquee        SWR: reviews
+│   │   │           └── Stars             rating
+│   │   └── SuggestionBox     client   state: name, message, rating, hovered, errors, sent
+│   │                                  SWR mutation: suggestions
+│   ├── ProductsPage          (server) SWRConfig fallback: products
+│   │   └── ProductsCatalog   client
+│   │       └── DataSection
+│   │           └── ProductsExplorer      SWR: products   URL: roast, origin, fav
+│   │               │                     store: favorite ids
+│   │               ├── Chips             options, value, onChange, label, size?
+│   │               └── ProductCard       product, index?
+│   │                   ├── FavoriteButton    product, sourceRef     store: is favorite
+│   │                   └── ProductPurchase   product, sourceRef     state: weight, cardamom, added
+│   ├── ProductPage           (server) params, SWRConfig fallback: product
+│   │   └── ProductDetails    client   id   SWR: product
+│   │       ├── FavoriteButton
+│   │       └── ProductPurchase
+│   ├── BlendPage             (server) SWRConfig fallback: beans
+│   │   └── BlendBuilder      client   SWR: beans
+│   │       ├── TotalStep         store: total
+│   │       ├── BeansStep         beans          store: shares, total
+│   │       ├── RoastStep         store: roast
+│   │       ├── GrindStep         store: grind
+│   │       ├── CardamomStep      store: cardamom
+│   │       └── BlendSummary      beans          store: total, shares, roast, grind, cardamom
+│   │                                            state: added
+│   │       (each step uses Step: n, title, hint?, children, and Chips)
+│   ├── CheckoutPage          (server)
+│   │   └── Checkout          client   useCartItems()
+│   │       ├── CheckoutForm  items, total   react-hook-form + Zod, state: sentLink
+│   │       └── OrderSummary  items, total
+│   ├── BrewingPage / MethodPage   (server) Reveal
+│   └── NotFound              (server) StampLogo
+├── Footer                    (server) StampLogo
+├── CartDrawer                client   store: isOpen, count   useCartItems()
+└── FlyLayer                  client   store: flights
 ```
 
 ### Who owns each piece of state
 
-| State                                                    | Owner                               | Used by                                                                           |
-| -------------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------- |
-| Cart `items`                                             | `cartStore` (Zustand, saved)        | `CartDrawer`, and as the count in `Header`                                        |
-| Cart `isOpen`                                            | `cartStore` (Zustand, not saved)    | `CartDrawer`, opened by the bag icon in `Header`                                  |
-| Favorite `ids`                                           | `favoritesStore` (Zustand, saved)   | `ProductCard` (is this one a favorite), `ProductsExplorer`, the count in `Header` |
-| Blend `total`, `shares`, `roast`, `grind`, `cardamom`    | `blendStore` (Zustand)              | Each blend step reads its own value, `Summary` reads all                          |
-| Fly `flights`                                            | `flyStore` (Zustand)                | `FlyLayer` draws each flying image                                                |
-| Fly `bump`                                               | `flyStore` (Zustand)                | `Header` makes the cart or heart icon bounce                                      |
-| Products                                                 | SWR key `/products`                 | `FeaturedProducts`, `ProductsExplorer`                                            |
-| Beans                                                    | SWR key `/beans`                    | `BlendBuilder` → `BeansStep`, `Summary`                                           |
-| Reviews                                                  | SWR key `/reviews`                  | `Reviews`                                                                         |
-| Suggestion sending and error                             | `useSWRMutation` in `SuggestionBox` | The send button and the error message                                             |
-| `roast`, `origin`, `fav` filter                          | The URL search params               | `ProductsExplorer` reads them with `useSearchParams`                              |
-| `weight`, `cardamom`, `added`                            | `ProductCard`                       | That card only                                                                    |
-| `name`, `message`, `rating`, `hovered`, `errors`, `sent` | `SuggestionBox`                     | The form and the thank-you message                                                |
-| `name`, `notes`                                          | `CartDrawer`                        | The WhatsApp order message                                                        |
-| `scrolled`, `menuOpen`                                   | `Header`                            | The smaller header on scroll, and the mobile menu                                 |
-| `added`                                                  | `Summary`                           | The "Your blend was added" label                                                  |
+| State                                                    | Owner                                 | Used by                                                       |
+| -------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------- |
+| Cart `lines` (ids, options, qty)                         | `cart.store.ts` (Zustand, saved)      | `useCartItems` (drawer, checkout), the count in `Header`      |
+| Cart `isOpen`                                            | `cart.store.ts` (Zustand, not saved)  | `CartDrawer`, opened by the bag icon in `Header`              |
+| Favorite `ids`                                           | `favorites.store.ts` (Zustand, saved) | `FavoriteButton`, `ProductsExplorer`, the count in `Header`   |
+| Blend `total`, `shares`, `roast`, `grind`, `cardamom`    | `blend.store.ts` (Zustand)            | Each blend step reads its own value, `BlendSummary` reads all |
+| Fly `flights` and `bump`                                 | `fly.store.ts` (Zustand)              | `FlyLayer` draws the flights, `Header` bounces the icons      |
+| Products, one product, beans, reviews                    | SWR keys from `apiKeys`               | The components in the tree above                              |
+| Suggestion sending and error                             | `useSWRMutation` in `SuggestionBox`   | The send button and the error message                         |
+| `roast`, `origin`, `fav` filter                          | The URL search params                 | `ProductsExplorer` reads them with `useSearchParams`          |
+| `weight`, `cardamom`, `added`                            | `ProductPurchase`                     | That card or product page only                                |
+| Checkout fields and errors                               | react-hook-form in `CheckoutForm`     | The form                                                      |
+| `name`, `message`, `rating`, `hovered`, `errors`, `sent` | `SuggestionBox`                       | The form and the thank-you message                            |
+| `scrolled`, `menuOpen`                                   | `Header`                              | The smaller header on scroll, and the mobile menu             |
 
-The cart count and total, the favorites count, the product price, the blend price, the share sum
-and the filtered product list are not state. They are worked out on every render.
+These are not state. They are worked out on every render from the state above: the cart items
+with names and prices (`resolveLines`), the cart count and total, the favorites count, the
+product price, the blend price, the share sum, the origin filter list and the filtered products.
 
 The filter is not copied into `useState`. The URL is the only place it lives, so the heart link
 in the header can change it even when the products page is already open.
@@ -248,59 +308,37 @@ in the header can change it even when the products page is already open.
 ### How changes happen
 
 There are no callback chains. Components call store actions directly, and only the components
-that read the changed value redraw.
+that read the changed value redraw. Cart actions call pure functions from `cart.logic.ts`
+(`addLine`, `setQty`, `removeLine`), which take a cart and return a new one.
 
-| User action                                    | What runs                                                     | What changes                                        |
-| ---------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------- |
-| Picks a weight or cardamom option              | `setWeight` / `setCardamom` in `ProductCard`                  | That card's state and price                         |
-| Adds a product to the cart                     | `cart.add()`, then `flyTo("cart", ...)`                       | `cartStore.items`, a flight, then the cart bump     |
-| Clicks the heart on a card                     | `favorites.toggle()`, then `flyTo("favorites", ...)` if added | `favoritesStore.ids`, a flight, then the heart bump |
-| Clicks the heart in the header                 | A link to `/products?fav=1`                                   | The URL                                             |
-| Picks a roast, origin or favorites filter      | `updateUrl()` in `ProductsExplorer`                           | The URL                                             |
-| Clicks Clear filters                           | `resetFilters()`                                              | The URL                                             |
-| Picks a blend weight, roast, grind or cardamom | `blend.setTotal`, `setRoast`, `setGrind`, `setCardamom`       | `blendStore`                                        |
-| Picks or removes a bean                        | `blend.toggleBean()`                                          | `blendStore.shares`, split evenly                   |
-| Moves a share slider                           | `blend.setShare()`                                            | `blendStore.shares`                                 |
-| Clicks Split evenly                            | `blend.distribute()`                                          | `blendStore.shares`                                 |
-| Adds the blend to the cart                     | `cart.add()`, then `flyTo("cart", ...)` from `Summary`        | `cartStore.items`, a flight, then the cart bump     |
-| A flying image reaches the header              | `landed()` in `FlyLayer`                                      | Removes the flight, `flyStore.bump`                 |
-| Changes a quantity or removes                  | `cart.setQty()` / `cart.remove()`                             | `cartStore.items`                                   |
-| Clears the cart                                | `cart.clear()`                                                | `cartStore.items`                                   |
-| Opens or closes the cart                       | `cart.open()` / `cart.close()`, Esc, backdrop                 | `cartStore.isOpen`                                  |
-| Sends the order                                | A `wa.me` link built by `buildOrderMessage()`                 | Nothing in the site                                 |
-| Sends a suggestion                             | `trigger()` from `useSWRMutation`                             | POST `/suggestions`, then `sent`                    |
-| Clicks Try again on a page                     | `unstable_retry()` in `error.tsx`                             | The page fetches again                              |
-| Clicks Try again on the home page              | `mutate()` from `useSWR`                                      | The section fetches again                           |
+| User action                                    | What runs                                                      | What changes                                    |
+| ---------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
+| Picks a weight or cardamom option              | `setWeight` / `setCardamom` in `ProductPurchase`               | That product's state and price                  |
+| Adds a product to the cart                     | `cart.add({ productId, weight, cardamom, qty })`, `flyTo()`    | `lines`, a flight, then the cart bump           |
+| Clicks the heart on a product                  | `favorites.toggle()`, then `flyTo("favorites", ...)` if added  | `favorites ids`, a flight, then the heart bump  |
+| Picks a roast, origin or favorites filter      | `updateUrl()` in `ProductsExplorer`                            | The URL                                         |
+| Picks a blend weight, roast, grind or cardamom | `blend.setTotal`, `setRoast`, `setGrind`, `setCardamom`        | `blendStore`                                    |
+| Picks or removes a bean, moves a slider        | `blend.toggleBean()`, `blend.setShare()`, `blend.distribute()` | `blendStore.shares`                             |
+| Adds the blend to the cart                     | `cart.add({ blend, qty })`, `flyTo()` from `BlendSummary`      | `lines`, a flight, then the cart bump           |
+| Changes a quantity, removes or clears          | `cart.setQty()` / `cart.remove()` / `cart.clear()`             | `lines`                                         |
+| Opens or closes the cart                       | `cart.open()` / `cart.close()`, Esc, backdrop                  | `isOpen`                                        |
+| The products or beans arrive                   | SWR `onSuccess` in `useCartItems`                              | Lines whose product or bean is gone are removed |
+| Sends the order                                | `handleSubmit` checks the Zod schema, then opens `wa.me`       | Nothing in the site                             |
+| Sends a suggestion                             | `trigger()` from `useSWRMutation`                              | POST `/suggestions`, then `sent`                |
+| Clicks Try again in a section                  | `mutate(key, fetcher(key))`, then the boundary resets          | That section only                               |
+| Clicks Try again on a route                    | `unstable_retry()` in `error.tsx`                              | The page fetches again                          |
 
-## Structure
+### Saved cart data
 
-```
-.husky/         pre-commit hook that runs lint-staged
-.prettierrc.json
-.prettierignore
-CLAUDE.md       rules for AI coding assistants
-DESIGN.md       visual identity
-README.md
-src/
-  app/          routes: pages, loading.tsx, error.tsx, not-found.tsx, layout and global styles
-  features/     one folder per feature, with its components, styles, store and logic
-    home/         Hero, Story, RoastLevels, BlendTeaser
-    products/     ProductCard, ProductsExplorer, FeaturedProducts, pricing
-    blend/        BlendBuilder and the blend store
-    brewing/      BrewingPreview and the brewing guide data
-    cart/         CartDrawer and the cart store
-    favorites/    the favorites store
-    fly/          FlyLayer and the fly store
-    reviews/      Reviews strip
-    suggestions/  Suggestion box
-  components/   shared pieces: Header, Footer, logos, Reveal, RouteError, GridSkeleton
-  lib/          API client and SWR keys, WhatsApp link and order message
-  types/        shared types
-public/
-  images/       hero, story, bags and brewing photos
+The cart is saved in `localStorage` as `tilal-cart`:
+
+```json
+{ "lines": [{ "productId": "brazil-dark", "weight": "500", "cardamom": "extra", "qty": 2 }] }
 ```
 
-Every component has a matching `.module.css` file next to it.
+When the site loads it, `parseLines` in `cart.guards.ts` checks every line. A line with an
+unknown weight or option, or a quantity that is not a whole number of 1 or more, is dropped. Data
+that is not valid JSON gives an empty cart.
 
 ## Deployment
 

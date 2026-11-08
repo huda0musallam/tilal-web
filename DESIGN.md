@@ -26,11 +26,15 @@ has no variable.
 | `--white`        | `#FFFFFF` | Input backgrounds and text on buttons         |
 | `--placeholder`  | `#9C8572` | Input placeholders                            |
 
-Helper colors:
+Colors without a variable, used in one place only:
 
-- `#A63D2A`: errors and the filled heart
-- `#E8E1CF`: secondary text on dark backgrounds (olive and photos)
-- `#6B7A45`: the back hill in the footer wave
+- `#6B7A45`: the back hill in the footer wave (SVG)
+- `#D9B98F`: the fourth bean color in the blend ring
+- The logo and the falling beans keep their colors inside their SVG
+
+shadcn/ui reads the same colors through `src/app/tailwind.css`: `primary` is `--olive`,
+`secondary` and `muted` are `--section`, `border` and `input` are `--sand`, `ring` is
+`--nescafe`, `destructive` is `--danger`.
 
 Rules:
 
@@ -61,11 +65,15 @@ Rules:
 | Large image corners | `24px`                               |
 | Chips               | `999px`                              |
 
+Breakpoints, mobile first (`min-width`): `640px` (two columns), `768px` (full header menu),
+`900px` (side-by-side layouts), `1024px` (three columns). The phone layout is the default.
+
 ## Components
 
 - **Buttons:** `.btn` with `.btn-primary` (olive) or `.btn-outline` (brown border).
-- **Chips:** for choices such as weight, cardamom and filters. The selected chip has a
-  `--coffee` background and `--bg` text.
+- **Chips:** `Chips` in `src/shared/ui`, for every choice group: weight, cardamom, filters and
+  the blend steps. Size `md` for filters and the blend, `sm` inside product cards. The selected
+  chip has a `--coffee` background and `--bg` text.
 - **Cards:** `--section` or `--bg` background with a `--sand` border. They lift a little with a
   soft shadow on hover.
 - **Section label:** a small bold olive line above each section, such as "قصتنا", with an `h2`
@@ -73,9 +81,16 @@ Rules:
 - **Roast dots:** three dots. The filled ones use `--coffee` and show how dark the roast is.
 - **Header icons:** heart (favorites) and bag (cart), 44px round buttons, with an olive count
   badge when the count is above zero.
-- **Error box:** `RouteError`, a dashed `--nescafe` border on `--section`, with a "Try again"
-  button.
-- **Placeholders:** `GridSkeleton`, `--sand` blocks that pulse while data loads.
+- **Error box:** `SectionError` inside a section, `RouteError` for a whole page. A dashed
+  `--nescafe` border on `--section`, a short message and a "جرّب مرة تانية" button.
+- **Empty box:** `EmptyState`, a dashed `--sand` border with a short friendly message and,
+  when it helps, one button.
+- **Placeholders:** `GridSkeleton`, `CatalogSkeleton` and `ReviewsSkeleton`, blocks with the
+  same size as the real content that pulse while data loads.
+- **Product page:** the photo and the details side by side from `900px`, stacked on phones. The
+  facts (origin, roast) sit in a `--section` box.
+- **Forms (checkout):** shadcn/ui fields with the Tilal colors. A label above every field, the
+  hint under it, and the error in `--danger` under the hint. One full-width olive submit button.
 
 ## Images
 
