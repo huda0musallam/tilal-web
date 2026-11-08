@@ -154,7 +154,7 @@
 }
 
 .remove:hover {
-  color: #a63d2a;
+  color: var(--danger);
 }
 
 .footer {
@@ -182,7 +182,7 @@
   padding: 10px 12px;
   border: 1px solid var(--sand);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--white);
   color: var(--espresso);
   font: inherit;
   font-size: 15px;

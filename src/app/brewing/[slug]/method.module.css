@@ -45,7 +45,7 @@
 }
 
 .heroTagline {
-  color: #e8e1cf;
+  color: var(--text-on-dark);
   font-size: 1.2rem;
 }
 

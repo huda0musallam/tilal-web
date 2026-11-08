@@ -55,7 +55,7 @@
 }
 
 .liked {
-  color: #a63d2a;
+  color: var(--danger);
 }
 
 .body {

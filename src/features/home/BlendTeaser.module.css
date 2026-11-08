@@ -27,7 +27,7 @@
 .body {
   max-width: 440px;
   margin-bottom: 32px;
-  color: #e8e1cf;
+  color: var(--text-on-dark);
   font-size: 1.1rem;
 }
 

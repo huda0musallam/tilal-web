@@ -53,7 +53,7 @@
   padding: 12px 14px;
   border: 1px solid var(--sand);
   border-radius: var(--radius);
-  background: #fff;
+  background: var(--white);
   color: var(--espresso);
   font: inherit;
   resize: vertical;
@@ -61,7 +61,7 @@
 }
 
 .input::placeholder {
-  color: #9c8572;
+  color: var(--placeholder);
 }
 
 .input:focus {
@@ -71,11 +71,11 @@
 }
 
 .invalid {
-  border-color: #a63d2a;
+  border-color: var(--danger);
 }
 
 .error {
-  color: #a63d2a;
+  color: var(--danger);
   font-size: 14px;
 }
 

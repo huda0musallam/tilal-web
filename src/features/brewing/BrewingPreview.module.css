@@ -71,7 +71,7 @@
 
 .text {
   margin-bottom: 12px;
-  color: #e8e1cf;
+  color: var(--text-on-dark);
   font-size: 0.95rem;
 }
 

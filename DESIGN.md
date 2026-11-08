@@ -10,17 +10,21 @@ the eyes, with clear contrast.
 All colors are CSS variables in `src/app/globals.css`. Do not write a color directly unless it
 has no variable.
 
-| Variable       | Color     | Use                                           |
-| -------------- | --------- | --------------------------------------------- |
-| `--bg`         | `#F7F2EA` | Main background                               |
-| `--section`    | `#EFE3D1` | Section and card backgrounds                  |
-| `--sand`       | `#DCC7A8` | Borders and dividers                          |
-| `--nescafe`    | `#B8865A` | Details, icons, stars                         |
-| `--olive`      | `#4F5A2E` | Primary buttons, small labels, footer, badges |
-| `--olive-dark` | `#3E4724` | Primary button hover                          |
-| `--coffee`     | `#5A3726` | Secondary text, selected chips                |
-| `--espresso`   | `#2A1A12` | Headings and main text                        |
-| `--logo`       | `#3B2618` | Logo                                          |
+| Variable         | Color     | Use                                           |
+| ---------------- | --------- | --------------------------------------------- |
+| `--bg`           | `#F7F2EA` | Main background                               |
+| `--section`      | `#EFE3D1` | Section and card backgrounds                  |
+| `--sand`         | `#DCC7A8` | Borders and dividers                          |
+| `--nescafe`      | `#B8865A` | Details, icons, stars                         |
+| `--olive`        | `#4F5A2E` | Primary buttons, small labels, footer, badges |
+| `--olive-dark`   | `#3E4724` | Primary button hover                          |
+| `--coffee`       | `#5A3726` | Secondary text, selected chips                |
+| `--espresso`     | `#2A1A12` | Headings and main text                        |
+| `--logo`         | `#3B2618` | Logo                                          |
+| `--danger`       | `#A63D2A` | Errors and remove buttons                     |
+| `--text-on-dark` | `#E8E1CF` | Text on dark backgrounds (footer, photos)     |
+| `--white`        | `#FFFFFF` | Input backgrounds and text on buttons         |
+| `--placeholder`  | `#9C8572` | Input placeholders                            |
 
 Helper colors:
 
