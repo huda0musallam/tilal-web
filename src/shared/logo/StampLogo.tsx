@@ -1,6 +1,9 @@
-type Props = { className?: string; ink?: string };
+interface StampLogoProps {
+  className?: string;
+  ink?: string;
+}
 
-export default function StampLogo({ className, ink = "#3B2618" }: Props) {
+export default function StampLogo({ className, ink = "#3B2618" }: StampLogoProps) {
   return (
     <svg
       viewBox="0 0 1200 1200"

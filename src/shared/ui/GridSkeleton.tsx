@@ -1,8 +1,10 @@
 import styles from "./GridSkeleton.module.css";
 
-type Props = { count?: number };
+interface GridSkeletonProps {
+  count?: number;
+}
 
-export default function GridSkeleton({ count = 6 }: Props) {
+export default function GridSkeleton({ count = 6 }: GridSkeletonProps) {
   return (
     <div className={styles.grid} role="status" aria-label="عم نجيب البيانات">
       {Array.from({ length: count }, (_, i) => (

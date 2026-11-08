@@ -1,9 +1,5 @@
+import type { Option } from "@/shared/lib/option";
 import type { Cardamom, Product, Roast, Weight } from "./product.types";
-
-export interface Option<T extends string> {
-  value: T;
-  label: string;
-}
 
 interface RoastOption extends Option<Roast> {
   level: number;

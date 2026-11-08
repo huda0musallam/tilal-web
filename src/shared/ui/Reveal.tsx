@@ -3,14 +3,14 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
-type Props = {
+interface RevealProps {
   children: ReactNode;
   delay?: number;
   as?: "div" | "li";
   className?: string;
-};
+}
 
-export default function Reveal({ children, delay = 0, as = "div", className }: Props) {
+export default function Reveal({ children, delay = 0, as = "div", className }: RevealProps) {
   const Tag = as === "li" ? motion.li : motion.div;
   return (
     <Tag

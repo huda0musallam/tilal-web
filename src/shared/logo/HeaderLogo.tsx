@@ -1,6 +1,8 @@
-type Props = { className?: string };
+interface HeaderLogoProps {
+  className?: string;
+}
 
-export default function HeaderLogo({ className }: Props) {
+export default function HeaderLogo({ className }: HeaderLogoProps) {
   return (
     <svg
       viewBox="125 0 190 150"

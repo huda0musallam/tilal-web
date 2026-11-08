@@ -8,15 +8,15 @@ import { roastLabel } from "@/features/products/product.options";
 import Reveal from "@/shared/ui/Reveal";
 import styles from "./method.module.css";
 
-type Props = {
+interface MethodPageProps {
   params: Promise<{ slug: string }>;
-};
+}
 
 export function generateStaticParams() {
   return BREW_METHODS.map((m) => ({ slug: m.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: MethodPageProps): Promise<Metadata> {
   const { slug } = await params;
   const method = getMethod(slug);
   if (!method) return {};
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function MethodPage({ params }: Props) {
+export default async function MethodPage({ params }: MethodPageProps) {
   const { slug } = await params;
   const method = getMethod(slug);
 

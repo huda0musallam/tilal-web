@@ -9,7 +9,9 @@ import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites-store";
 import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
-import { ROAST_OPTIONS, originOptions, type Option } from "./product.options";
+import type { Option } from "@/shared/lib/option";
+import { ROAST_OPTIONS, originOptions } from "./product.options";
+import Chips from "@/shared/ui/Chips";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;
@@ -72,35 +74,21 @@ export default function ProductsExplorer() {
   return (
     <>
       <div className={styles.toolbar}>
-        <div className={styles.filters} role="group" aria-label="درجة التحميص">
-          {ROAST_FILTERS.map((f) => (
-            <button
-              key={f.value}
-              type="button"
-              onClick={() => updateUrl({ roast: f.value })}
-              aria-pressed={current.roast === f.value}
-              className={`${styles.chip} ${current.roast === f.value ? styles.active : ""}`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <Chips
+          options={ROAST_FILTERS}
+          value={current.roast}
+          onChange={(value) => updateUrl({ roast: value })}
+          label="درجة التحميص"
+        />
 
         <span className={styles.divider} aria-hidden="true" />
 
-        <div className={styles.filters} role="group" aria-label="نوع البن">
-          {originFilters.map((f) => (
-            <button
-              key={f.value}
-              type="button"
-              onClick={() => updateUrl({ origin: f.value })}
-              aria-pressed={current.origin === f.value}
-              className={`${styles.chip} ${current.origin === f.value ? styles.active : ""}`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <Chips
+          options={originFilters}
+          value={current.origin}
+          onChange={(value) => updateUrl({ origin: value })}
+          label="نوع البن"
+        />
 
         <span className={styles.divider} aria-hidden="true" />
 

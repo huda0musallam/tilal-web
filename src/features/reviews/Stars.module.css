@@ -1,0 +1,12 @@
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.starOn {
+  color: var(--nescafe);
+}
+
+.starOff {
+  color: var(--sand);
+}

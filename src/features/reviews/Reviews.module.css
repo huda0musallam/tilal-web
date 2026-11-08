@@ -53,19 +53,6 @@
   background: var(--section);
 }
 
-.stars {
-  display: flex;
-  gap: 2px;
-}
-
-.starOn {
-  color: var(--nescafe);
-}
-
-.starOff {
-  color: var(--sand);
-}
-
 .text {
   flex: 1;
   color: var(--espresso);

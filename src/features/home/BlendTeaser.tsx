@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
+import Bean from "./Bean";
 import styles from "./BlendTeaser.module.css";
 
 const BEANS = [
@@ -14,21 +15,6 @@ const BEANS = [
   { left: "80%", delay: "2.8s", duration: "6s", size: 18, rotate: -45 },
   { left: "92%", delay: "1.6s", duration: "5s", size: 22, rotate: 15 },
 ];
-
-function Bean({ size }: { size: number }) {
-  return (
-    <svg viewBox="0 0 20 28" width={size} height={size * 1.4} aria-hidden="true">
-      <ellipse cx="10" cy="14" rx="9" ry="13" fill="#6B4430" />
-      <path
-        d="M10 2 C6 9, 14 19, 10 26"
-        fill="none"
-        stroke="#3B2618"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 export default function BlendTeaser() {
   return (

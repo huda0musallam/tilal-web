@@ -1,25 +1,10 @@
 "use client";
-import { Star } from "lucide-react";
 import useSWR from "swr";
 import { apiKeys } from "@/shared/api/api";
 import { fetchReviews } from "./reviews.api";
 
+import Stars from "./Stars";
 import styles from "./Reviews.module.css";
-
-function Stars({ rating }: { rating: number }) {
-  return (
-    <div className={styles.stars} role="img" aria-label={`تقييم ${rating} من 5`}>
-      {[1, 2, 3, 4, 5].map((n) => (
-        <Star
-          key={n}
-          size={16}
-          fill={n <= rating ? "currentColor" : "none"}
-          className={n <= rating ? styles.starOn : styles.starOff}
-        />
-      ))}
-    </div>
-  );
-}
 
 export default function Reviews() {
   const { data: reviews } = useSWR(apiKeys.reviews, fetchReviews);

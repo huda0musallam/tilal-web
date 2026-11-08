@@ -9,12 +9,6 @@
   background: var(--section);
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .divider {
   width: 1px;
   height: 28px;

@@ -11,14 +11,15 @@ import { formatPrice } from "@/shared/lib/format-price";
 import { cart } from "@/features/cart/cart.store";
 import { favorites, useIsFavorite } from "@/features/favorites/favorites-store";
 import { flyTo } from "@/features/fly/fly-store";
+import Chips from "@/shared/ui/Chips";
 import styles from "./ProductCard.module.css";
 
-type Props = {
+interface ProductCardProps {
   product: Product;
   index?: number;
-};
+}
 
-export default function ProductCard({ product, index = 0 }: Props) {
+export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [weight, setWeight] = useState<Weight>("250");
   const [cardamom, setCardamom] = useState<Cardamom>("none");
   const [added, setAdded] = useState(false);
@@ -86,37 +87,25 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
         <fieldset className={styles.group}>
           <legend className={styles.legend}>الوزن</legend>
-          <div className={styles.options}>
-            {WEIGHT_OPTIONS.map((w) => (
-              <button
-                key={w.value}
-                type="button"
-                onClick={() => setWeight(w.value)}
-                aria-pressed={weight === w.value}
-                className={`${styles.option} ${weight === w.value ? styles.selected : ""}`}
-              >
-                {w.label}
-              </button>
-            ))}
-          </div>
+          <Chips
+            options={WEIGHT_OPTIONS}
+            value={weight}
+            onChange={setWeight}
+            label="الوزن"
+            size="sm"
+          />
         </fieldset>
 
         {product.cardamom && (
           <fieldset className={styles.group}>
             <legend className={styles.legend}>الهيل</legend>
-            <div className={styles.options}>
-              {CARDAMOM_OPTIONS.map((c) => (
-                <button
-                  key={c.value}
-                  type="button"
-                  onClick={() => setCardamom(c.value)}
-                  aria-pressed={cardamom === c.value}
-                  className={`${styles.option} ${cardamom === c.value ? styles.selected : ""}`}
-                >
-                  {c.label}
-                </button>
-              ))}
-            </div>
+            <Chips
+              options={CARDAMOM_OPTIONS}
+              value={cardamom}
+              onChange={setCardamom}
+              label="الهيل"
+              size="sm"
+            />
           </fieldset>
         )}
 

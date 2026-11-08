@@ -4,12 +4,17 @@ import { useEffect } from "react";
 import { RotateCw } from "lucide-react";
 import styles from "./RouteError.module.css";
 
-type Props = {
+export interface RouteErrorPageProps {
+  error: Error & { digest?: string };
+  unstable_retry: () => void;
+}
+
+interface RouteErrorProps {
   error: Error & { digest?: string };
   retry: () => void;
-};
+}
 
-export default function RouteError({ error, retry }: Props) {
+export default function RouteError({ error, retry }: RouteErrorProps) {
   useEffect(() => {
     console.error(error);
   }, [error]);

@@ -1,14 +1,8 @@
 "use client";
 
-import RouteError from "@/shared/ui/RouteError";
+import RouteError, { type RouteErrorPageProps } from "@/shared/ui/RouteError";
 
-export default function Error({
-  error,
-  unstable_retry,
-}: {
-  error: Error & { digest?: string };
-  unstable_retry: () => void;
-}) {
+export default function Error({ error, unstable_retry }: RouteErrorPageProps) {
   return (
     <main className="container">
       <RouteError error={error} retry={unstable_retry} />
