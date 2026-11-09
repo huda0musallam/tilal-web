@@ -2,13 +2,21 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { Check } from "lucide-react";
+import Button from "@/components/ui/Button";
+import { cardStyles } from "@/components/ui/Card";
+import Label from "@/components/ui/Label";
+import { focusRingClass } from "@/components/ui/shared-classes";
+import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
 import { blend, useBlendStore, useShares } from "./blend.store";
 import { selectedBeans, sharesSum } from "./blend.logic";
 import { beanColor } from "./blend.options";
+import { swatchClass } from "./blend.classes";
 import Step from "./Step";
-import styles from "./BeansStep.module.css";
+
+const sliderTextClass = "flex items-center gap-2";
+const warningClass = "mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-danger";
 
 interface BeansStepProps {
   beans: Bean[];
@@ -23,7 +31,7 @@ export default function BeansStep({ beans }: BeansStepProps) {
 
   return (
     <Step n={2} title="أنواع البن" hint="اختار نوع أو أكتر، ووزّع النسب بينهم.">
-      <div className={styles.beans}>
+      <div className="grid grid-cols-fit gap-3">
         {beans.map((b) => {
           const isOn = b.id in shares;
           return (
@@ -32,39 +40,55 @@ export default function BeansStep({ beans }: BeansStepProps) {
               type="button"
               onClick={() => blend.toggleBean(b.id, shares)}
               aria-pressed={isOn}
-              className={`${styles.bean} ${isOn ? styles.beanOn : ""}`}
+              className={cn(
+                cardStyles({ tone: isOn ? "section" : "page", padding: "none" }),
+                focusRingClass,
+                "relative grid gap-1 border-2 p-4 text-start transition-colors duration-200",
+                isOn ? "border-primary hover:border-primary" : "hover:border-accent",
+              )}
             >
-              <span className={styles.beanCheck} aria-hidden="true">
+              <span
+                className={cn(
+                  "absolute end-3.5 top-3.5 grid size-5.5 place-items-center rounded-full border-2 text-on-primary",
+                  isOn ? "border-primary bg-primary" : "border-line",
+                )}
+                aria-hidden="true"
+              >
                 {isOn && <Check size={14} />}
               </span>
-              <span className={styles.beanName}>{b.name}</span>
-              <span className={styles.beanNotes}>{b.notes}</span>
-              <span className={styles.beanPrice}>{formatPrice(b.pricePerGram * 250)} / 250 غ</span>
+              <span className="text-lg font-bold text-ink">{b.name}</span>
+              <span className="text-sm text-muted-ink">{b.notes}</span>
+              <span className="mt-1 text-sm font-bold text-primary">
+                {formatPrice(b.pricePerGram * 250)} / 250 غ
+              </span>
             </button>
           );
         })}
       </div>
 
       {selected.length > 1 && (
-        <div className={styles.sliders}>
+        <div className="mt-5 grid gap-3.5">
           <AnimatePresence initial={false}>
             {selected.map((b) => (
               <motion.div
                 key={b.id}
-                className={styles.slider}
+                className="overflow-hidden"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
               >
-                <label htmlFor={`share-${b.id}`} className={styles.sliderLabel}>
-                  <span>
-                    <i className={styles.swatch} style={{ background: beanColor(beans, b.id) }} />
+                <Label
+                  htmlFor={`share-${b.id}`}
+                  className="mb-1.5 flex justify-between text-base leading-7"
+                >
+                  <span className={sliderTextClass}>
+                    <i className={swatchClass} style={{ background: beanColor(beans, b.id) }} />
                     {b.name}
                   </span>
-                  <span>
+                  <span className={sliderTextClass}>
                     {shares[b.id]}% · {Math.round((grams * shares[b.id]) / 100)} غ
                   </span>
-                </label>
+                </Label>
                 <input
                   id={`share-${b.id}`}
                   type="range"
@@ -73,29 +97,30 @@ export default function BeansStep({ beans }: BeansStepProps) {
                   step={10}
                   value={shares[b.id]}
                   onChange={(e) => blend.setShare(b.id, Number(e.target.value), shares)}
-                  className={styles.range}
+                  className="w-full accent-primary"
                 />
               </motion.div>
             ))}
           </AnimatePresence>
 
           {sum !== 100 && (
-            <div className={styles.warning} role="alert">
+            <div className={warningClass} role="alert">
               <span>المجموع هلق {sum}%، لازم يكون 100%.</span>
-              <button
-                type="button"
-                className={styles.link}
+              <Button
+                variant="link"
+                size="bare"
+                className="p-0"
                 onClick={() => blend.distribute(shares)}
               >
                 وزّع بالتساوي
-              </button>
+              </Button>
             </div>
           )}
         </div>
       )}
 
       {selected.length === 0 && (
-        <p className={styles.warning} role="alert">
+        <p className={warningClass} role="alert">
           اختار نوع بن واحد على الأقل.
         </p>
       )}

@@ -11,6 +11,7 @@ export const buttonStyles = cva(
         secondary: "border-line-strong bg-transparent text-muted-ink hover:bg-muted-surface",
         ghost: "bg-transparent text-muted-ink hover:bg-muted-surface",
         inverse: "bg-surface text-primary hover:bg-muted-surface",
+        link: "border-0 bg-transparent font-bold text-primary underline",
       },
       size: {
         sm: "h-9 px-3 text-sm",

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { SWRConfig } from "swr";
 import { apiKeys } from "@/lib/api/client";
 import { getBeans } from "@/features/blend/beans.api";
+import { pageClass, pageLabelClass } from "@/components/ui/shared-classes";
+import { blendHeadClass } from "@/features/blend/blend.classes";
 import BlendBuilder from "@/features/blend/BlendBuilder";
-import styles from "./blend.module.css";
 
 export const metadata: Metadata = {
   title: "اصنع خلطتك | التلال",
@@ -12,11 +13,11 @@ export const metadata: Metadata = {
 
 export default function BlendPage() {
   return (
-    <main className={styles.page}>
+    <main className={pageClass}>
       <div className="container">
-        <header className={styles.head}>
-          <p className={styles.label}>اصنع خلطتك</p>
-          <h1 className={styles.title}>قهوتك، على ذوقك</h1>
+        <header className={blendHeadClass}>
+          <p className={pageLabelClass}>اصنع خلطتك</p>
+          <h1 className="mb-2">قهوتك، على ذوقك</h1>
           <p>اختار نوع البن والتحميص والكمية بالغرام، وزيد الهيل قد ما بدك، ونحنا منحمّصلك ياها.</p>
         </header>
 

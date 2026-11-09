@@ -135,6 +135,10 @@
   --font-heading: var(--font-display), serif;
 }
 
+@utility grid-cols-fit {
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+}
+
 @utility paused {
   animation-play-state: paused;
 }
@@ -159,6 +163,7 @@
   --placeholder: #9c8572;
   --scrim: var(--espresso);
   --hill: #6b7a45;
+  --bean-fourth: #d9b98f;
 
   --radius: 8px;
   --radius-lg: 16px;

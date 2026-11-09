@@ -10,13 +10,19 @@ import {
   roastLabel,
   weightLabel,
 } from "@/features/products/product.options";
+import Button from "@/components/ui/Button";
+import { cardStyles } from "@/components/ui/Card";
+import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
 import { useBlendStore, useShares } from "./blend.store";
 import { blendPrice, selectedBeans, sharesSum } from "./blend.logic";
 import { beanColor, grindLabel } from "./blend.options";
+import { swatchClass } from "./blend.classes";
 import type { BlendChoice } from "./blend.types";
-import styles from "./BlendSummary.module.css";
+
+const detailRowClass = "flex justify-between";
+const detailValueClass = "font-bold text-ink";
 
 interface BlendSummaryProps {
   beans: Bean[];
@@ -43,7 +49,7 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
     acc += shares[b.id];
     stops.push(`${beanColor(beans, b.id)} ${start}% ${acc}%`);
   }
-  if (acc < 100) stops.push(`var(--sand) ${acc}% 100%`);
+  if (acc < 100) stops.push(`var(--line) ${acc}% 100%`);
   const ringStyle = { background: `conic-gradient(${stops.join(", ")})` };
 
   function handleAdd() {
@@ -55,52 +61,57 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
   }
 
   return (
-    <aside className={styles.summary} aria-label="ملخص الخلطة">
-      <h2 className={styles.summaryTitle}>خلطتك</h2>
+    <aside
+      className={cn(
+        cardStyles({ radius: "media", padding: "none", bordered: false }),
+        "top-24 grid justify-items-center gap-4 p-7 lg:sticky lg:flex-10",
+      )}
+      aria-label="ملخص الخلطة"
+    >
+      <h2 className="text-3xl">خلطتك</h2>
 
-      <div ref={ringRef} className={styles.ring} style={ringStyle}>
-        <span className={styles.ringText}>{weightLabel(total)}</span>
+      <div
+        ref={ringRef}
+        className="relative grid size-42.5 place-items-center rounded-full after:absolute after:inset-6 after:rounded-full after:bg-muted-surface"
+        style={ringStyle}
+      >
+        <span className="relative z-1 text-xl font-bold text-ink">{weightLabel(total)}</span>
       </div>
 
-      <ul className={styles.legend}>
+      <ul className="flex list-none flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-ink">
         {selected.map((b) => (
-          <li key={b.id}>
-            <i className={styles.swatch} style={{ background: beanColor(beans, b.id) }} />
+          <li key={b.id} className="flex items-center gap-1.5">
+            <i className={swatchClass} style={{ background: beanColor(beans, b.id) }} />
             {b.name} {shares[b.id]}%
           </li>
         ))}
       </ul>
 
-      <dl className={styles.details}>
-        <div>
-          <dt>التحميص</dt>
-          <dd>{roastLabel(roast)}</dd>
+      <dl className="grid w-full gap-2 border-y border-dashed border-line py-3">
+        <div className={detailRowClass}>
+          <dt className="text-muted-ink">التحميص</dt>
+          <dd className={detailValueClass}>{roastLabel(roast)}</dd>
         </div>
-        <div>
-          <dt>الطحنة</dt>
-          <dd>{grindLabel(grind)}</dd>
+        <div className={detailRowClass}>
+          <dt className="text-muted-ink">الطحنة</dt>
+          <dd className={detailValueClass}>{grindLabel(grind)}</dd>
         </div>
-        <div>
-          <dt>الهيل</dt>
-          <dd>{cardamomLabel(cardamom)}</dd>
+        <div className={detailRowClass}>
+          <dt className="text-muted-ink">الهيل</dt>
+          <dd className={detailValueClass}>{cardamomLabel(cardamom)}</dd>
         </div>
       </dl>
 
-      <div className={styles.priceRow}>
+      <div className="flex w-full items-baseline justify-between text-lg">
         <span>السعر</span>
-        <strong>{formatPrice(price)}</strong>
+        <strong className="text-2xl text-ink">{formatPrice(price)}</strong>
       </div>
 
-      <button
-        type="button"
-        className={`btn btn-primary ${styles.add}`}
-        onClick={handleAdd}
-        disabled={!isValid}
-      >
+      <Button className="w-full" onClick={handleAdd} disabled={!isValid}>
         {added ? <Check size={18} /> : <ShoppingBag size={18} />}
         {added ? "انضافت خلطتك" : "أضف خلطتي للسلة"}
-      </button>
-      {!isValid && <p className={styles.addHint}>كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
+      </Button>
+      {!isValid && <p className="text-center text-xs">كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
     </aside>
   );
 }

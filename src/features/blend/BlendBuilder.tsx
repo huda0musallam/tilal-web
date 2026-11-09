@@ -10,7 +10,6 @@ import CardamomStep from "./CardamomStep";
 import GrindStep from "./GrindStep";
 import RoastStep from "./RoastStep";
 import TotalStep from "./TotalStep";
-import styles from "./BlendBuilder.module.css";
 
 export default function BlendBuilder() {
   const { data: beans = [] } = useSWR(apiKeys.beans, fetchBeans, { suspense: true });
@@ -20,8 +19,8 @@ export default function BlendBuilder() {
   }
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.steps}>
+    <div className="grid grid-cols-1 items-start gap-10 lg:flex">
+      <div className="grid gap-5 lg:min-w-0 lg:flex-16">
         <TotalStep />
         <BeansStep beans={beans} />
         <RoastStep />
