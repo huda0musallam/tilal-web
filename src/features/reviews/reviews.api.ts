@@ -1,5 +1,5 @@
 import { apiKeys, fetchJson } from "@/lib/client";
-import { isListOf, isNumber, isRecord, isString } from "@/shared/api/guards";
+import { isListOf, isNumber, isRecord, isString } from "@/lib/api/guards";
 import type { Review } from "./review.types";
 
 function isReview(v: unknown): v is Review {

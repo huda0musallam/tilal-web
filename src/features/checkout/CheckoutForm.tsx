@@ -5,7 +5,7 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
 import type { CartItem } from "@/features/cart/cart.types";
-import { whatsappLink } from "@/shared/lib/whatsapp";
+import { whatsappLink } from "@/features/cart/whatsapp";
 import { Button } from "@/components/ui/shadcn/button";
 import {
   Field,

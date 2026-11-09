@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { isRecord, isString } from "@/shared/api/guards";
+import { isRecord, isString } from "@/lib/api/guards";
 
 function parseIds(v: unknown): string[] {
   if (!Array.isArray(v)) return [];

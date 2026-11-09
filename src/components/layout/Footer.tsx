@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import StampLogo from "@/components/logo/StampLogo";
-import { whatsappLink } from "@/shared/lib/whatsapp";
+import { whatsappLink } from "@/features/cart/whatsapp";
 import styles from "./Footer.module.css";
 
 const PAGES = [

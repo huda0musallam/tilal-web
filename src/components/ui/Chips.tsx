@@ -1,4 +1,4 @@
-import type { Option } from "@/shared/lib/option";
+import type { Option } from "@/lib/option";
 import styles from "./Chips.module.css";
 
 interface ChipsProps<T extends string> {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
-import { formatPrice } from "@/shared/lib/format-price";
+import { formatPrice } from "@/lib/format-price";
 import { useFavoritesStore } from "@/features/favorites/favorites.store";
 import { cart, useCartCount, useCartOpen, useCartStore } from "./cart.store";
 import { lineTotal } from "./cart.logic";

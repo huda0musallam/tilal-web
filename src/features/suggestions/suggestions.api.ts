@@ -1,5 +1,5 @@
 import { fetchJson } from "@/lib/client";
-import { isNumber, isOptionalString, isRecord, isString } from "@/shared/api/guards";
+import { isNumber, isOptionalString, isRecord, isString } from "@/lib/api/guards";
 import type { Suggestion } from "./suggestion.types";
 
 function isSuggestion(v: unknown): v is Suggestion {

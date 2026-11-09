@@ -1,4 +1,4 @@
-import { isNumber, isOneOf, isRecord } from "@/shared/api/guards";
+import { isNumber, isOneOf, isRecord } from "@/lib/api/guards";
 import { GRIND_OPTIONS } from "@/features/blend/blend.options";
 import type { BlendChoice, Shares } from "@/features/blend/blend.types";
 import {

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { CartItem } from "@/features/cart/cart.types";
 import { lineTotal } from "@/features/cart/cart.logic";
-import { formatPrice } from "@/shared/lib/format-price";
+import { formatPrice } from "@/lib/format-price";
 
 interface OrderSummaryProps {
   items: CartItem[];

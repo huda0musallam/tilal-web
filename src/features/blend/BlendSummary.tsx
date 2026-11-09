@@ -10,7 +10,7 @@ import {
   roastLabel,
   weightLabel,
 } from "@/features/products/product.options";
-import { formatPrice } from "@/shared/lib/format-price";
+import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
 import { useBlendStore, useShares } from "./blend.store";
 import { blendPrice, selectedBeans, sharesSum } from "./blend.logic";

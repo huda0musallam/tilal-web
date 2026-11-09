@@ -4,7 +4,7 @@ import { useState, type RefObject } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "@/features/cart/cart.store";
 import { flyTo } from "@/features/fly/fly.store";
-import { formatPrice } from "@/shared/lib/format-price";
+import { formatPrice } from "@/lib/format-price";
 import Chips from "@/components/ui/Chips";
 import { productPrice } from "./pricing";
 import { CARDAMOM_OPTIONS, WEIGHT_OPTIONS } from "./product.options";

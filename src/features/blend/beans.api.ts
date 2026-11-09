@@ -1,5 +1,5 @@
 import { apiKeys, fetchJson } from "@/lib/client";
-import { isListOf, isNumber, isRecord, isString } from "@/shared/api/guards";
+import { isListOf, isNumber, isRecord, isString } from "@/lib/api/guards";
 import type { Bean } from "./bean.types";
 
 function isBean(v: unknown): v is Bean {

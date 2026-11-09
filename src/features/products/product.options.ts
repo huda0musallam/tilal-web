@@ -1,4 +1,4 @@
-import type { Option } from "@/shared/lib/option";
+import type { Option } from "@/lib/option";
 import type { Cardamom, Product, Roast, Weight } from "./product.types";
 
 interface RoastOption extends Option<Roast> {

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { isRecord } from "@/shared/api/guards";
+import { isRecord } from "@/lib/api/guards";
 import { parseLines } from "./cart.guards";
 import {
   addLine,

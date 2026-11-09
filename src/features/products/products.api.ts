@@ -1,5 +1,5 @@
 import { ApiError, apiKeys, fetchJson } from "@/lib/client";
-import { isListOf, isNumber, isOneOf, isRecord, isString } from "@/shared/api/guards";
+import { isListOf, isNumber, isOneOf, isRecord, isString } from "@/lib/api/guards";
 import { ROAST_OPTIONS } from "./product.options";
 import type { Product } from "./product.types";
 

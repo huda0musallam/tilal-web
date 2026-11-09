@@ -1,4 +1,4 @@
-import { formatPrice } from "@/shared/lib/format-price";
+import { formatPrice } from "@/lib/format-price";
 import type { CartItem } from "@/features/cart/cart.types";
 import { DELIVERY_OPTIONS, type CheckoutValues } from "./checkout.schema";
 

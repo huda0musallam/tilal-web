@@ -9,7 +9,7 @@ import { useFavoriteIds } from "@/features/favorites/favorites.store";
 import FavoritesFilterChip from "./FavoritesFilterChip";
 import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
-import type { Option } from "@/shared/lib/option";
+import type { Option } from "@/lib/option";
 import { ROAST_OPTIONS, originOptions } from "./product.options";
 import Chips from "@/components/ui/Chips";
 import EmptyState from "@/components/ui/EmptyState";

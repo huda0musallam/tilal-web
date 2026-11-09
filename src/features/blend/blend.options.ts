@@ -1,4 +1,4 @@
-import type { Option } from "@/shared/lib/option";
+import type { Option } from "@/lib/option";
 import type { Grind } from "./blend.types";
 
 export const GRIND_OPTIONS: readonly Option<Grind>[] = [
