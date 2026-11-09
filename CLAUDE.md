@@ -104,17 +104,18 @@ place in the same commit.
 
 Every control must use these components, never a copied class string.
 
-| Component                 | Props and variants                                                                               |
-| ------------------------- | ------------------------------------------------------------------------------------------------ |
-| `ui/Button`               | `variant`: `primary`, `secondary`, `ghost`; `size`: `sm`, `md`, `lg`                             |
-| `ui/ButtonLink`           | `next/link` props, with the same `variant` and `size` as `Button`                                |
-| `ui/Input`, `ui/Textarea` | Native props. `aria-invalid` shows the error border                                              |
-| `ui/Label`                | Native props                                                                                     |
-| `ui/Card`                 | `tone`: `page`, `section`                                                                        |
-| `ui/Badge`                | `variant`: `soft`, `strong`, `inverse`, `count`; `size`: `sm`, `md`                              |
-| `ui/Chips`                | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                      |
-| `ui/shadcn/radio-group`   | `RadioGroup`, `RadioGroupItem`                                                                   |
-| `ui/shadcn/field`         | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError` |
+| Component                 | Props and variants                                                                                          |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `ui/Button`               | `variant`: `primary`, `secondary`, `ghost`; `size`: `sm`, `md`, `lg`                                        |
+| `ui/ButtonLink`           | `next/link` props, with the same `variant` and `size` as `Button`                                           |
+| `ui/Input`, `ui/Textarea` | Native props. `aria-invalid` shows the error border                                                         |
+| `ui/Label`                | Native props                                                                                                |
+| `ui/Card`                 | `tone`: `page`, `section`                                                                                   |
+| `ui/Badge`                | `variant`: `soft`, `strong`, `inverse`, `count`; `size`: `sm`, `md`                                         |
+| `ui/Modal`                | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end` |
+| `ui/Chips`                | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                 |
+| `ui/shadcn/radio-group`   | `RadioGroup`, `RadioGroupItem`                                                                              |
+| `ui/shadcn/field`         | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`            |
 
 Rules:
 
@@ -132,6 +133,8 @@ Rules:
     `rounded-badge` for badges. `rounded-full` is only for real circles.
   - No hex, no pixel values, no `[..]` values. Structural `[..]` selectors are allowed, such as
     `data-[state=checked]:` or `has-[>[data-slot=field]]:`.
+- **`Modal` closing.** `onClose` must be safe to call more than once, for example
+  `() => setOpen(false)`. It must also set `open` to false, or the state stays open after Esc.
 - **Visible focus.** Every control has `focus-visible:ring-*` classes. The global
   `:focus-visible` outline in `globals.css` is not in a layer, so it beats `outline-*` utilities.
 
