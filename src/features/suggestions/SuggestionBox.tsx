@@ -6,13 +6,18 @@ import { Star, Send, CheckCircle2 } from "lucide-react";
 import useSWRMutation from "swr/mutation";
 import { apiKeys } from "@/lib/api/client";
 import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
-import Label from "@/components/ui/Label";
+import Label, { labelStyles } from "@/components/ui/Label";
+import Section from "@/components/ui/Section";
+import { sectionLabelClass } from "@/components/ui/shared-classes";
 import Textarea from "@/components/ui/Textarea";
 import { postSuggestion } from "./suggestions.api";
-import styles from "./SuggestionBox.module.css";
 
 type Errors = { message?: string; rating?: string };
+
+const fieldClass = "grid gap-1.5";
+const errorClass = "text-sm text-danger";
 
 export default function SuggestionBox() {
   const [name, setName] = useState("");
@@ -60,27 +65,27 @@ export default function SuggestionBox() {
   const shown = hovered || rating;
 
   return (
-    <section className={styles.section}>
-      <div className={`container ${styles.inner}`}>
-        <div className={styles.intro}>
-          <p className={styles.label}>اقتراحاتكم</p>
-          <h2>رأيك بيفرق معنا</h2>
+    <Section tone="muted">
+      <div className="container grid grid-cols-1 items-center gap-8 lg:flex lg:gap-16">
+        <div className="lg:flex-10">
+          <p className={sectionLabelClass}>اقتراحاتكم</p>
+          <h2 className="mb-3">رأيك بيفرق معنا</h2>
           <p>اقتراح، تعليق، أو خلطة بتحلم فيها، احكيلنا.</p>
         </div>
 
-        <div className={styles.box}>
+        <Card tone="page" radius="media" className="lg:flex-12 lg:p-8">
           <AnimatePresence mode="wait">
             {sent ? (
               <motion.div
                 key="thanks"
-                className={styles.thanks}
+                className="grid justify-items-center gap-4 py-8 text-center text-primary"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 role="status"
               >
                 <CheckCircle2 size={48} strokeWidth={1.5} />
-                <p className={styles.thanksTitle}>وصلتنا كلماتك، شكراً إلك.</p>
+                <p className="text-xl font-bold text-ink">وصلتنا كلماتك، شكراً إلك.</p>
                 <Button variant="secondary" onClick={writeAnother}>
                   اكتب اقتراح تاني
                 </Button>
@@ -93,11 +98,11 @@ export default function SuggestionBox() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className={styles.form}
+                className="grid gap-5"
               >
-                <div className={styles.field}>
+                <div className={fieldClass}>
                   <Label htmlFor="s-name">
-                    اسمك <span className={styles.optional}>(اختياري)</span>
+                    اسمك <span className="text-xs font-normal text-muted-ink">(اختياري)</span>
                   </Label>
                   <Input
                     id="s-name"
@@ -108,7 +113,7 @@ export default function SuggestionBox() {
                   />
                 </div>
 
-                <div className={styles.field}>
+                <div className={fieldClass}>
                   <Label htmlFor="s-message">اقتراحك</Label>
                   <Textarea
                     id="s-message"
@@ -123,26 +128,27 @@ export default function SuggestionBox() {
                     aria-describedby={errors.message ? "s-message-error" : undefined}
                   />
                   {errors.message && (
-                    <p id="s-message-error" className={styles.error}>
+                    <p id="s-message-error" className={errorClass}>
                       {errors.message}
                     </p>
                   )}
                 </div>
 
-                <div className={styles.field}>
-                  <span id="s-rating-label" className={styles.ratingLabel}>
+                <div className={fieldClass}>
+                  <span id="s-rating-label" className={labelStyles()}>
                     تقييمك
                   </span>
                   <div
                     role="radiogroup"
                     aria-labelledby="s-rating-label"
-                    className={styles.stars}
+                    className="flex gap-1"
                     onMouseLeave={() => setHovered(0)}
                   >
                     {[1, 2, 3, 4, 5].map((n) => (
-                      <button
+                      <Button
                         key={n}
-                        type="button"
+                        variant="ghost"
+                        size="bare"
                         role="radio"
                         aria-checked={rating === n}
                         aria-label={`${n} من 5`}
@@ -151,34 +157,34 @@ export default function SuggestionBox() {
                           if (errors.rating) setErrors({ ...errors, rating: undefined });
                         }}
                         onMouseEnter={() => setHovered(n)}
-                        className={styles.starBtn}
+                        className="border-0 duration-150 hover:scale-115 hover:bg-transparent"
                       >
                         <Star
                           size={28}
                           fill={n <= shown ? "currentColor" : "none"}
-                          className={n <= shown ? styles.starOn : styles.starOff}
+                          className={n <= shown ? "text-accent" : "text-line"}
                         />
-                      </button>
+                      </Button>
                     ))}
                   </div>
-                  {errors.rating && <p className={styles.error}>{errors.rating}</p>}
+                  {errors.rating && <p className={errorClass}>{errors.rating}</p>}
                 </div>
 
                 {sendError && (
-                  <p className={styles.error} role="alert">
+                  <p className={errorClass} role="alert">
                     ما قدرنا نبعت رسالتك، جرّب كمان مرة.
                   </p>
                 )}
 
-                <Button type="submit" className={styles.submit} disabled={isMutating}>
+                <Button type="submit" className="justify-self-start" disabled={isMutating}>
                   <Send size={18} />
                   {isMutating ? "عم نبعت..." : "أرسل"}
                 </Button>
               </motion.form>
             )}
           </AnimatePresence>
-        </div>
+        </Card>
       </div>
-    </section>
+    </Section>
   );
 }

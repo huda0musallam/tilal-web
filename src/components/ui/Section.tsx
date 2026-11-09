@@ -14,8 +14,6 @@ const sectionStyles = cva("py-20 lg:py-28", {
   },
 });
 
-export const sectionLabelClass = "mb-2 font-bold text-primary";
-
 interface SectionProps extends ComponentProps<"section">, VariantProps<typeof sectionStyles> {}
 
 export default function Section({ className, tone, ...props }: SectionProps) {

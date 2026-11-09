@@ -5,7 +5,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { Flame, Coffee, Leaf } from "lucide-react";
 import StampLogo from "@/components/logo/StampLogo";
-import Section, { sectionLabelClass } from "@/components/ui/Section";
+import Section from "@/components/ui/Section";
+import { sectionLabelClass } from "@/components/ui/shared-classes";
 
 const points = [
   {

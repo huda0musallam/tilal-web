@@ -42,15 +42,51 @@
   --radius-control: var(--radius);
   --radius-panel: var(--radius-lg);
   --radius-badge: calc(var(--radius) + 4px);
+  --radius-card: 1.25rem;
   --radius-media: 1.5rem;
+  --radius-feature: 1.75rem;
+  --radius-ellipse: 50%;
   --radius-pill: 999px;
 
   --min-height-hero: calc(100svh - 4.5rem);
   --min-height-hero-md: calc(100svh - 5.5rem);
 
+  --shadow-lift: 0 1.125rem 2.5rem color-mix(in srgb, var(--scrim) 12%, transparent);
+
+  --animate-fall: fall 6s linear infinite;
+  --animate-marquee: marquee linear infinite;
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
   --animate-zoom: zoom 24s ease-in-out infinite alternate;
   --animate-nudge: nudge 2s ease-in-out infinite;
   --animate-spin-slow: spin 40s linear infinite;
+
+  @keyframes fall {
+    from {
+      transform: translateY(0) rotate(0deg);
+    }
+    to {
+      transform: translateY(27.5rem) rotate(180deg);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(50%);
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
 
   @keyframes zoom {
     from {
@@ -85,6 +121,10 @@
 
   --font-sans: var(--font-body), sans-serif;
   --font-heading: var(--font-display), serif;
+}
+
+@utility paused {
+  animation-play-state: paused;
 }
 
 @utility object-hero {

@@ -17,6 +17,7 @@ export const buttonStyles = cva(
         md: "px-6 py-3",
         lg: "h-12 px-8 text-lg",
         icon: "relative size-11 rounded-full",
+        bare: "p-0.5",
       },
     },
     defaultVariants: {

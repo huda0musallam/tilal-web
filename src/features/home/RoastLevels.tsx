@@ -6,7 +6,15 @@ import { motion, type Variants } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 import { ROAST_LEVELS, ROAST_OPTIONS } from "@/features/products/product.options";
 import type { Roast } from "@/features/products/product.types";
-import styles from "./RoastLevels.module.css";
+import { cardStyles } from "@/components/ui/Card";
+import Section from "@/components/ui/Section";
+import {
+  moreArrowClass,
+  moreLinkClass,
+  sectionLabelClass,
+  zoomImageClass,
+} from "@/components/ui/shared-classes";
+import { cn } from "@/lib/cn";
 
 const ROAST_COPY: Record<Roast, { alt: string; text: string }> = {
   light: {
@@ -37,22 +45,22 @@ const stagger: Variants = {
 
 export default function RoastLevels() {
   return (
-    <section className={styles.section}>
+    <Section>
       <div className="container">
         <motion.div
-          className={styles.head}
+          className="mx-auto mb-14 max-w-140 text-center"
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.5 }}
         >
-          <p className={styles.label}>درجات التحميص</p>
+          <p className={sectionLabelClass}>درجات التحميص</p>
           <h2>لكل مزاج تلّة</h2>
           <p>من الخفيفة المنعشة للغامقة القوية، اختار التلّة اللي بتشبه مزاجك.</p>
         </motion.div>
 
         <motion.div
-          className={styles.grid}
+          className="mx-auto grid max-w-105 grid-cols-1 gap-7 lg:mx-0 lg:max-w-none lg:grid-cols-3"
           variants={stagger}
           initial="hidden"
           whileInView="show"
@@ -60,40 +68,49 @@ export default function RoastLevels() {
         >
           {ROAST_OPTIONS.map((roast) => (
             <motion.article key={roast.value} variants={fadeUp}>
-              <Link href={`/products?roast=${roast.value}`} className={styles.card}>
-                <div className={styles.media}>
+              <Link
+                href={`/products?roast=${roast.value}`}
+                className={cn(
+                  cardStyles({ radius: "card", padding: "none", bordered: false, lift: true }),
+                  "group block h-full overflow-hidden",
+                )}
+              >
+                <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={roast.image}
                     alt={ROAST_COPY[roast.value].alt}
                     fill
-                    sizes="(max-width: 900px) 100vw, 33vw"
-                    className={styles.image}
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className={cn(zoomImageClass, "group-hover:scale-105")}
                   />
                 </div>
 
-                <div className={styles.body}>
-                  <div className={styles.top}>
-                    <h3 className={styles.name}>{roast.label}</h3>
+                <div className="p-6">
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="text-3xl">{roast.label}</h3>
 
                     <div
-                      className={styles.dots}
+                      className="flex gap-1.5"
                       role="img"
                       aria-label={`قوة التحميص ${roast.level} من ${ROAST_LEVELS}`}
                     >
                       {LEVELS.map((n) => (
                         <span
                           key={n}
-                          className={`${styles.dot} ${n <= roast.level ? styles.filled : ""}`}
+                          className={cn(
+                            "h-4 w-3 rounded-ellipse border-2 border-accent",
+                            n <= roast.level && "border-inverse-surface bg-inverse-surface",
+                          )}
                         />
                       ))}
                     </div>
                   </div>
 
-                  <p className={styles.text}>{ROAST_COPY[roast.value].text}</p>
+                  <p className="mb-4 text-base">{ROAST_COPY[roast.value].text}</p>
 
-                  <span className={styles.more}>
+                  <span className={cn(moreLinkClass, "text-primary")}>
                     شوف المنتجات
-                    <ArrowLeft size={18} />
+                    <ArrowLeft size={18} className={moreArrowClass} />
                   </span>
                 </div>
               </Link>
@@ -101,6 +118,6 @@ export default function RoastLevels() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </Section>
   );
 }

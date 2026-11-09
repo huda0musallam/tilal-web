@@ -3,18 +3,19 @@
 import { mutate } from "swr";
 import { apiKeys } from "@/lib/api/client";
 import DataSection from "@/components/ui/DataSection";
+import Section from "@/components/ui/Section";
+import { sectionLabelClass } from "@/components/ui/shared-classes";
 import ReviewsMarquee from "./ReviewsMarquee";
 import ReviewsSkeleton from "./ReviewsSkeleton";
 import { fetchReviews } from "./reviews.api";
-import styles from "./Reviews.module.css";
 
 const retry = () => mutate(apiKeys.reviews, fetchReviews(apiKeys.reviews));
 
 export default function Reviews() {
   return (
-    <section className={styles.section}>
-      <div className={`container ${styles.head}`}>
-        <p className={styles.label}>آراء العملاء</p>
+    <Section className="overflow-hidden sm:py-28">
+      <div className="container mb-12 text-center">
+        <p className={sectionLabelClass}>آراء العملاء</p>
         <h2>من فناجين زباينا</h2>
       </div>
 
@@ -25,6 +26,6 @@ export default function Reviews() {
       >
         <ReviewsMarquee />
       </DataSection>
-    </section>
+    </Section>
   );
 }
