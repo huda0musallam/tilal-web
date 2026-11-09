@@ -21,7 +21,7 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
             <div className="flex-1">
               <p className="font-bold text-ink">{item.name}</p>
               <p className="text-sm leading-relaxed">{item.details.join(" · ")}</p>
-              <p className="text-sm">
+              <p className="text-sm leading-5">
                 {item.qty} × {formatPrice(item.unitPrice)}
               </p>
             </div>

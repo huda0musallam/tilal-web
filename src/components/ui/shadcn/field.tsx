@@ -149,7 +149,7 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-sm font-normal text-danger", className)}
+      className={cn("text-sm leading-5 font-normal text-danger", className)}
       {...props}
     >
       {content}

@@ -31,6 +31,8 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-focus: var(--focus);
+  --color-accent: var(--accent);
+  --color-on-primary-muted: var(--on-primary-muted);
   --color-scrim: var(--scrim);
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -40,6 +42,18 @@
   --radius-control: var(--radius);
   --radius-panel: var(--radius-lg);
   --radius-badge: calc(var(--radius) + 4px);
+
+  --text-xs--line-height: inherit;
+  --text-sm--line-height: inherit;
+  --text-base--line-height: inherit;
+  --text-lg--line-height: inherit;
+  --text-xl--line-height: inherit;
+  --text-2xl--line-height: inherit;
+  --text-3xl--line-height: inherit;
+  --text-4xl--line-height: inherit;
+  --text-5xl--line-height: inherit;
+
+  --default-transition-timing-function: ease;
 
   --font-sans: var(--font-body), sans-serif;
   --font-heading: var(--font-display), serif;
@@ -60,6 +74,7 @@
   --white: #fff;
   --placeholder: #9c8572;
   --scrim: var(--espresso);
+  --hill: #6b7a45;
 
   --radius: 8px;
   --radius-lg: 16px;
@@ -100,6 +115,8 @@
   --line: var(--sand);
   --line-strong: var(--coffee);
   --focus: var(--olive);
+  --accent: var(--nescafe);
+  --on-primary-muted: var(--sand);
 }
 
 @layer base {

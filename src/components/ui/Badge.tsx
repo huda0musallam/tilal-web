@@ -11,7 +11,7 @@ const badgeStyles = cva("inline-flex items-center justify-center gap-1 rounded-b
       count: "bg-primary text-on-primary",
     },
     size: {
-      sm: "h-5 min-w-5 px-1 text-xs tabular-nums",
+      sm: "h-4.5 min-w-4.5 px-1.25 text-xs leading-none font-bold tabular-nums",
       md: "px-3 py-1 text-sm",
     },
   },

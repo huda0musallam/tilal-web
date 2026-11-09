@@ -143,7 +143,7 @@ export default function CheckoutForm({ items, total }: CheckoutFormProps) {
       </Button>
 
       {sentLink && (
-        <p role="status" className="text-center text-sm text-muted-ink">
+        <p role="status" className="text-center text-sm leading-5 text-muted-ink">
           فتحنالك واتساب مع رسالة الطلب. إذا ما انفتح،{" "}
           <a
             href={sentLink}

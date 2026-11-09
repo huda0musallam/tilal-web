@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./NavLinks.module.css";
+import { cn } from "@/lib/cn";
 
 const LINKS = [
   { href: "/", label: "الرئيسية" },
@@ -27,7 +27,10 @@ export default function NavLinks({ activePath, onNavigate }: NavLinksProps) {
         href={link.href}
         onClick={() => onNavigate(link.href)}
         aria-current={active ? "page" : undefined}
-        className={`${styles.link} ${active ? styles.active : ""}`}
+        className={cn(
+          "relative border-b border-muted-surface py-3 font-medium text-muted-ink transition-colors duration-200 after:absolute after:inset-x-0 after:-bottom-0.5 after:hidden after:h-0.5 after:scale-x-0 after:rounded-xs after:bg-accent after:transition-transform after:duration-250 hover:text-ink hover:after:scale-x-100 md:border-b-0 md:py-1 md:after:block",
+          active && "text-ink after:scale-x-100",
+        )}
       >
         {link.label}
       </Link>
