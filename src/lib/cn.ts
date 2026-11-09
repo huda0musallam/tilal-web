@@ -8,6 +8,7 @@ const twMerge = extendTailwindMerge({
         "control",
         "panel",
         "badge",
+        "thumb",
         "toolbar",
         "card",
         "media",

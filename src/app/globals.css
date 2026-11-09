@@ -42,6 +42,7 @@
   --radius-control: var(--radius);
   --radius-panel: var(--radius-lg);
   --radius-badge: calc(var(--radius) + 4px);
+  --radius-thumb: 0.75rem;
   --radius-toolbar: 1.125rem;
   --radius-card: 1.25rem;
   --radius-media: 1.5rem;
@@ -53,6 +54,8 @@
   --min-height-hero-md: calc(100svh - 5.5rem);
 
   --shadow-lift: 0 1.125rem 2.5rem color-mix(in srgb, var(--scrim) 12%, transparent);
+  --shadow-drawer: 0 0 2.5rem color-mix(in srgb, var(--scrim) 20%, transparent);
+  --shadow-fly: 0 0.5rem 1.25rem color-mix(in srgb, var(--scrim) 25%, transparent);
 
   --animate-fall: fall 6s linear infinite;
   --animate-marquee: marquee linear infinite;

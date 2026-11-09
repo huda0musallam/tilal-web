@@ -2,13 +2,12 @@
 
 import { motion } from "motion/react";
 import { landed, useFlyStore } from "./fly.store";
-import styles from "./FlyLayer.module.css";
 
 export default function FlyLayer() {
   const flights = useFlyStore((s) => s.flights);
 
   return (
-    <div className={styles.layer} aria-hidden="true">
+    <div className="pointer-events-none fixed inset-0 z-200" aria-hidden="true">
       {flights.map((f) => {
         const midX = (f.from.x + f.to.x) / 2;
         const peakY = Math.max(8, Math.min(f.from.y, f.to.y) - 80);
@@ -16,7 +15,7 @@ export default function FlyLayer() {
         return (
           <motion.div
             key={f.id}
-            className={styles.item}
+            className="absolute top-0 left-0 rounded-thumb bg-cover bg-center shadow-fly"
             style={{ backgroundImage: `url(${f.image})` }}
             initial={{ x: f.from.x, y: f.from.y, width: f.from.size, height: f.from.size }}
             animate={{
