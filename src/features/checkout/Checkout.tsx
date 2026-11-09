@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCartItems } from "@/features/cart/use-cart-items";
 import EmptyState from "@/components/ui/EmptyState";
-import { Button } from "@/components/ui/shadcn/button";
+import Button from "@/components/ui/Button";
 import CheckoutForm from "./CheckoutForm";
 import OrderSummary from "./OrderSummary";
 
@@ -23,7 +23,7 @@ export default function Checkout() {
   if (failed && !ready) {
     return (
       <EmptyState title="ما قدرنا نجيب تفاصيل سلتك هلق.">
-        <Button type="button" variant="outline" onClick={retry}>
+        <Button type="button" variant="secondary" onClick={retry}>
           جرّب مرة تانية
         </Button>
       </EmptyState>

@@ -2,11 +2,11 @@ import type { ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
-const cardStyles = cva("rounded-panel border border-sand p-6", {
+const cardStyles = cva("rounded-panel border border-line p-6", {
   variants: {
     tone: {
-      page: "bg-bg",
-      section: "bg-section",
+      page: "bg-surface",
+      section: "bg-muted-surface",
     },
   },
   defaultVariants: {

@@ -3,18 +3,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
 const buttonStyles = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-transparent font-medium whitespace-nowrap transition focus-visible:ring-2 focus-visible:ring-olive focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-97 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-control border border-transparent font-medium whitespace-nowrap transition focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface active:scale-97 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: "bg-olive text-bg hover:bg-olive-dark",
-        secondary: "border-coffee bg-transparent text-coffee hover:bg-section",
-        ghost: "bg-transparent text-coffee hover:bg-section",
+        primary: "bg-primary text-on-primary hover:bg-primary-hover",
+        secondary: "border-line-strong bg-transparent text-muted-ink hover:bg-muted-surface",
+        ghost: "bg-transparent text-muted-ink hover:bg-muted-surface",
       },
       size: {
-        sm: "h-9 ps-3 pe-3 text-sm",
-        md: "h-11 ps-6 pe-6 text-base",
-        lg: "h-12 ps-8 pe-8 text-lg",
+        sm: "h-9 px-3 text-sm",
+        md: "h-11 px-6 text-base",
+        lg: "h-12 px-8 text-lg",
       },
     },
     defaultVariants: {

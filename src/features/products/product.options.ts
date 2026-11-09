@@ -1,9 +1,11 @@
+import type { BadgeVariant } from "@/components/ui/Badge";
 import type { Option } from "@/lib/option";
 import type { Cardamom, Product, Roast, Weight } from "./product.types";
 
 interface RoastOption extends Option<Roast> {
   level: number;
   image: string;
+  badge: BadgeVariant;
 }
 
 interface CardamomOption extends Option<Cardamom> {
@@ -11,9 +13,9 @@ interface CardamomOption extends Option<Cardamom> {
 }
 
 export const ROAST_OPTIONS: readonly RoastOption[] = [
-  { value: "light", label: "شقرا", level: 1, image: "/images/bag-light.webp" },
-  { value: "medium", label: "وسط", level: 2, image: "/images/bag-medium.webp" },
-  { value: "dark", label: "غامقة", level: 3, image: "/images/bag-dark.webp" },
+  { value: "light", label: "شقرا", level: 1, image: "/images/bag-light.webp", badge: "soft" },
+  { value: "medium", label: "وسط", level: 2, image: "/images/bag-medium.webp", badge: "strong" },
+  { value: "dark", label: "غامقة", level: 3, image: "/images/bag-dark.webp", badge: "inverse" },
 ];
 
 export const WEIGHT_OPTIONS: readonly Option<Weight>[] = [

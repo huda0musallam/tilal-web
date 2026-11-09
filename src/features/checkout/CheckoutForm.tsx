@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
 import type { CartItem } from "@/features/cart/cart.types";
 import { whatsappLink } from "@/features/cart/whatsapp";
-import { Button } from "@/components/ui/shadcn/button";
+import Button from "@/components/ui/Button";
 import {
   Field,
   FieldDescription,
@@ -16,9 +16,9 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/shadcn/field";
-import { Input } from "@/components/ui/shadcn/input";
+import Input from "@/components/ui/Input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/shadcn/radio-group";
-import { Textarea } from "@/components/ui/shadcn/textarea";
+import Textarea from "@/components/ui/Textarea";
 import {
   CHECKOUT_DEFAULTS,
   DELIVERY_OPTIONS,
@@ -137,8 +137,8 @@ export default function CheckoutForm({ items, total }: CheckoutFormProps) {
         </Field>
       </FieldGroup>
 
-      <Button type="submit" size="lg" className="w-full text-base">
-        <MessageCircle aria-hidden="true" />
+      <Button type="submit" className="w-full">
+        <MessageCircle size={16} aria-hidden="true" />
         أرسل الطلب عبر واتساب
       </Button>
 

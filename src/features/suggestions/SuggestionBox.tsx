@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "motion/react";
 import { Star, Send, CheckCircle2 } from "lucide-react";
 import useSWRMutation from "swr/mutation";
 import { apiKeys } from "@/lib/api/client";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import Label from "@/components/ui/Label";
+import Textarea from "@/components/ui/Textarea";
 import { postSuggestion } from "./suggestions.api";
 import styles from "./SuggestionBox.module.css";
 
@@ -77,9 +81,9 @@ export default function SuggestionBox() {
               >
                 <CheckCircle2 size={48} strokeWidth={1.5} />
                 <p className={styles.thanksTitle}>وصلتنا كلماتك، شكراً إلك.</p>
-                <button type="button" className="btn btn-outline" onClick={writeAnother}>
+                <Button variant="secondary" onClick={writeAnother}>
                   اكتب اقتراح تاني
-                </button>
+                </Button>
               </motion.div>
             ) : (
               <motion.form
@@ -92,24 +96,21 @@ export default function SuggestionBox() {
                 className={styles.form}
               >
                 <div className={styles.field}>
-                  <label htmlFor="s-name" className={styles.fieldLabel}>
+                  <Label htmlFor="s-name">
                     اسمك <span className={styles.optional}>(اختياري)</span>
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id="s-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="رنا"
-                    className={styles.input}
                   />
                 </div>
 
                 <div className={styles.field}>
-                  <label htmlFor="s-message" className={styles.fieldLabel}>
-                    اقتراحك
-                  </label>
-                  <textarea
+                  <Label htmlFor="s-message">اقتراحك</Label>
+                  <Textarea
                     id="s-message"
                     rows={4}
                     value={message}
@@ -120,7 +121,6 @@ export default function SuggestionBox() {
                     placeholder="اكتب اقتراحك هون"
                     aria-invalid={!!errors.message}
                     aria-describedby={errors.message ? "s-message-error" : undefined}
-                    className={`${styles.input} ${errors.message ? styles.invalid : ""}`}
                   />
                   {errors.message && (
                     <p id="s-message-error" className={styles.error}>
@@ -130,7 +130,7 @@ export default function SuggestionBox() {
                 </div>
 
                 <div className={styles.field}>
-                  <span id="s-rating-label" className={styles.fieldLabel}>
+                  <span id="s-rating-label" className={styles.ratingLabel}>
                     تقييمك
                   </span>
                   <div
@@ -170,14 +170,10 @@ export default function SuggestionBox() {
                   </p>
                 )}
 
-                <button
-                  type="submit"
-                  className={`btn btn-primary ${styles.submit}`}
-                  disabled={isMutating}
-                >
+                <Button type="submit" className={styles.submit} disabled={isMutating}>
                   <Send size={18} />
                   {isMutating ? "عم نبعت..." : "أرسل"}
-                </button>
+                </Button>
               </motion.form>
             )}
           </AnimatePresence>
