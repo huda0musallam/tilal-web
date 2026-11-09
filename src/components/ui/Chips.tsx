@@ -1,27 +1,6 @@
-import { cva } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 import type { Option } from "@/lib/option";
-import { focusRingClass } from "./shared-classes";
-
-export const chipStyles = cva(
-  cn("rounded-pill border transition-colors duration-200", focusRingClass),
-  {
-    variants: {
-      size: {
-        sm: "bg-transparent px-3.5 py-1.5 text-sm font-normal",
-        md: "bg-surface px-4.5 py-2 font-medium",
-      },
-      active: {
-        true: "border-inverse-surface bg-inverse-surface text-on-inverse hover:border-inverse-surface",
-        false: "border-line text-muted-ink hover:border-accent",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-      active: false,
-    },
-  },
-);
+import Button from "./Button";
 
 interface ChipsProps<T extends string> {
   options: readonly Option<T>[];
@@ -45,15 +24,15 @@ export default function Chips<T extends string>({
       aria-label={label}
     >
       {options.map((o) => (
-        <button
+        <Button
           key={o.value}
-          type="button"
+          variant={value === o.value ? "chipSelected" : "chip"}
+          size={size === "sm" ? "chipSm" : "chip"}
           onClick={() => onChange(o.value)}
           aria-pressed={value === o.value}
-          className={chipStyles({ size, active: value === o.value })}
         >
           {o.label}
-        </button>
+        </Button>
       ))}
     </div>
   );

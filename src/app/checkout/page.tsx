@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { pageClass, pageHeadClass, pageLabelClass } from "@/components/ui/shared-classes";
+import Page from "@/components/ui/Page";
+import PageHeader from "@/components/ui/PageHeader";
 import Checkout from "@/features/checkout/Checkout";
 
 export const metadata: Metadata = {
@@ -9,15 +10,11 @@ export const metadata: Metadata = {
 
 export default function CheckoutPage() {
   return (
-    <main className={pageClass}>
-      <div className="container">
-        <header className={pageHeadClass}>
-          <p className={pageLabelClass}>كمّل الطلب</p>
-          <h1 className="mb-2">آخر خطوة</h1>
-          <p>اكتب معلوماتك، ونحنا منبعتلك رسالة الطلب جاهزة على واتساب.</p>
-        </header>
-        <Checkout />
-      </div>
-    </main>
+    <Page>
+      <PageHeader label="كمّل الطلب" title="آخر خطوة">
+        اكتب معلوماتك، ونحنا منبعتلك رسالة الطلب جاهزة على واتساب.
+      </PageHeader>
+      <Checkout />
+    </Page>
   );
 }

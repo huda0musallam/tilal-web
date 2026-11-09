@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { RotateCw } from "lucide-react";
-import { cn } from "@/lib/cn";
 import Button from "./Button";
-import { errorBoxClass, errorTitleClass, messageBoxClass } from "./shared-classes";
+import MessageBox from "./MessageBox";
 
 interface SectionErrorProps {
   message: string;
@@ -26,8 +25,7 @@ export default function SectionError({ message, onRetry }: SectionErrorProps) {
   }
 
   return (
-    <div className={cn(messageBoxClass, errorBoxClass)} role="alert">
-      <p className={errorTitleClass}>{message}</p>
+    <MessageBox tone="error" role="alert" title={message}>
       <p>
         {failedAgain
           ? "لسا ما زبطت. جرّب كمان شوي."
@@ -37,6 +35,6 @@ export default function SectionError({ message, onRetry }: SectionErrorProps) {
         <RotateCw size={18} aria-hidden="true" />
         {busy ? "عم نجرّب..." : "جرّب مرة تانية"}
       </Button>
-    </div>
+    </MessageBox>
   );
 }

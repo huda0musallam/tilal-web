@@ -1,19 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "motion/react";
-import { ArrowLeft } from "lucide-react";
 import { ROAST_LEVELS, ROAST_OPTIONS } from "@/features/products/product.options";
 import type { Roast } from "@/features/products/product.types";
 import { cardStyles } from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
-import {
-  moreArrowClass,
-  moreLinkClass,
-  sectionLabelClass,
-  zoomImageClass,
-} from "@/components/ui/shared-classes";
+import MoreHint from "@/components/ui/MoreHint";
+import SectionLabel from "@/components/ui/SectionLabel";
+import ZoomImage from "@/components/ui/ZoomImage";
 import { cn } from "@/lib/cn";
 
 const ROAST_COPY: Record<Roast, { alt: string; text: string }> = {
@@ -54,7 +49,7 @@ export default function RoastLevels() {
           whileInView="show"
           viewport={{ once: true, amount: 0.5 }}
         >
-          <p className={sectionLabelClass}>درجات التحميص</p>
+          <SectionLabel>درجات التحميص</SectionLabel>
           <h2>لكل مزاج تلّة</h2>
           <p>من الخفيفة المنعشة للغامقة القوية، اختار التلّة اللي بتشبه مزاجك.</p>
         </motion.div>
@@ -76,12 +71,11 @@ export default function RoastLevels() {
                 )}
               >
                 <div className="relative aspect-square overflow-hidden">
-                  <Image
+                  <ZoomImage
                     src={roast.image}
                     alt={ROAST_COPY[roast.value].alt}
                     fill
                     sizes="(max-width: 1024px) 100vw, 33vw"
-                    className={cn(zoomImageClass, "group-hover:scale-105")}
                   />
                 </div>
 
@@ -108,10 +102,7 @@ export default function RoastLevels() {
 
                   <p className="mb-4 text-base">{ROAST_COPY[roast.value].text}</p>
 
-                  <span className={cn(moreLinkClass, "text-primary")}>
-                    شوف المنتجات
-                    <ArrowLeft size={18} className={moreArrowClass} />
-                  </span>
+                  <MoreHint>شوف المنتجات</MoreHint>
                 </div>
               </Link>
             </motion.article>

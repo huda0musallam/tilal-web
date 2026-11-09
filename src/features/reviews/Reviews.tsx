@@ -4,7 +4,7 @@ import { mutate } from "swr";
 import { apiKeys } from "@/lib/api/client";
 import DataSection from "@/components/ui/DataSection";
 import Section from "@/components/ui/Section";
-import { sectionLabelClass } from "@/components/ui/shared-classes";
+import SectionLabel from "@/components/ui/SectionLabel";
 import ReviewsMarquee from "./ReviewsMarquee";
 import ReviewsSkeleton from "./ReviewsSkeleton";
 import { fetchReviews } from "./reviews.api";
@@ -15,7 +15,7 @@ export default function Reviews() {
   return (
     <Section className="overflow-hidden sm:py-28">
       <div className="container mb-12 text-center">
-        <p className={sectionLabelClass}>آراء العملاء</p>
+        <SectionLabel>آراء العملاء</SectionLabel>
         <h2>من فناجين زباينا</h2>
       </div>
 

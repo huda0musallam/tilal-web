@@ -8,7 +8,6 @@ import { roastLabel } from "@/features/products/product.options";
 import RoastBadge from "@/features/products/RoastBadge";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { cardStyles } from "@/components/ui/Card";
-import { chipStyles } from "@/components/ui/Chips";
 import Reveal from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 
@@ -160,13 +159,15 @@ export default async function MethodPage({ params }: MethodPageProps) {
           <p className="font-bold text-ink">جرّب كمان</p>
           <div className="flex flex-wrap gap-2">
             {others.map((m) => (
-              <Link
+              <ButtonLink
                 key={m.slug}
                 href={`/brewing/${m.slug}`}
-                className={cn(chipStyles(), "bg-transparent hover:bg-muted-surface")}
+                variant="chip"
+                size="chip"
+                className="bg-transparent hover:bg-muted-surface"
               >
                 {m.name}
-              </Link>
+              </ButtonLink>
             ))}
           </div>
         </nav>

@@ -1,3 +1,5 @@
+import Skeleton from "./Skeleton";
+
 function slotIds(count: number) {
   const ids: string[] = [];
   for (let n = 1; n <= count; n++) ids.push(`slot-${n}`);
@@ -16,7 +18,7 @@ export default function GridSkeleton({ count = 6 }: GridSkeletonProps) {
       aria-label="عم نجيب البيانات"
     >
       {slotIds(count).map((id) => (
-        <div key={id} className="aspect-3/4 animate-shimmer-soft rounded-card bg-strong-surface" />
+        <Skeleton key={id} variant="strong" className="aspect-3/4 rounded-card" />
       ))}
     </div>
   );

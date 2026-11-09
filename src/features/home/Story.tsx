@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { Flame, Coffee, Leaf } from "lucide-react";
 import StampLogo from "@/components/logo/StampLogo";
 import Section from "@/components/ui/Section";
-import { sectionLabelClass } from "@/components/ui/shared-classes";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const points = [
   {
@@ -68,9 +68,9 @@ export default function Story() {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <motion.p variants={fadeUp} className={sectionLabelClass}>
-            قصتنا
-          </motion.p>
+          <motion.div variants={fadeUp}>
+            <SectionLabel>قصتنا</SectionLabel>
+          </motion.div>
 
           <motion.h2 variants={fadeUp} className="mb-5">
             الحكاية بلّشت بمحمصة صغيرة بالبيت

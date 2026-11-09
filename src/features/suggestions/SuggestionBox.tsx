@@ -10,7 +10,7 @@ import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Label, { labelStyles } from "@/components/ui/Label";
 import Section from "@/components/ui/Section";
-import { sectionLabelClass } from "@/components/ui/shared-classes";
+import SectionLabel from "@/components/ui/SectionLabel";
 import Textarea from "@/components/ui/Textarea";
 import { postSuggestion } from "./suggestions.api";
 
@@ -68,7 +68,7 @@ export default function SuggestionBox() {
     <Section tone="muted">
       <div className="container grid grid-cols-1 items-center gap-8 lg:flex lg:gap-16">
         <div className="lg:flex-10">
-          <p className={sectionLabelClass}>اقتراحاتكم</p>
+          <SectionLabel>اقتراحاتكم</SectionLabel>
           <h2 className="mb-3">رأيك بيفرق معنا</h2>
           <p>اقتراح، تعليق، أو خلطة بتحلم فيها، احكيلنا.</p>
         </div>

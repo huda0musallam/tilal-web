@@ -1,20 +1,17 @@
-import { pageClass, pageLabelClass } from "@/components/ui/shared-classes";
-import { blendHeadClass } from "@/features/blend/blend.classes";
+import Page from "@/components/ui/Page";
+import PageHeader from "@/components/ui/PageHeader";
+import Skeleton from "@/components/ui/Skeleton";
 
 export default function Loading() {
   return (
-    <main className={pageClass}>
-      <div className="container">
-        <header className={blendHeadClass}>
-          <p className={pageLabelClass}>اصنع خلطتك</p>
-          <h1 className="mb-2">قهوتك، على ذوقك</h1>
-        </header>
-        <div
-          className="h-150 animate-shimmer-soft rounded-media bg-strong-surface"
-          role="status"
-          aria-label="عم نجيب أنواع البن"
-        />
-      </div>
-    </main>
+    <Page>
+      <PageHeader label="اصنع خلطتك" title="قهوتك، على ذوقك" width="narrow" />
+      <Skeleton
+        variant="strong"
+        className="h-150 rounded-media"
+        role="status"
+        aria-label="عم نجيب أنواع البن"
+      />
+    </Page>
   );
 }

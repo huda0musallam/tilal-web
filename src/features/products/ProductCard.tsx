@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion } from "motion/react";
 import { cardStyles } from "@/components/ui/Card";
-import { zoomImageClass } from "@/components/ui/shared-classes";
+import ZoomImage from "@/components/ui/ZoomImage";
 import { cn } from "@/lib/cn";
 import FavoriteButton from "./FavoriteButton";
 import ProductPurchase from "./ProductPurchase";
@@ -35,13 +34,13 @@ export default function ProductCard({ product, index = 0, eager = false }: Produ
     >
       <div className="relative aspect-square overflow-hidden" ref={mediaRef}>
         <Link href={href} tabIndex={-1} aria-hidden="true" className="absolute inset-0">
-          <Image
+          <ZoomImage
             src={product.image}
             alt={`كيس قهوة التلال، ${product.name}`}
             fill
             loading={eager ? "eager" : "lazy"}
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className={cn(zoomImageClass, "group-hover:scale-104")}
+            zoom="sm"
           />
         </Link>
         <RoastBadge

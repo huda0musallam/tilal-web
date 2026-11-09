@@ -3,9 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { Check } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { cardStyles } from "@/components/ui/Card";
 import Label from "@/components/ui/Label";
-import { focusRingClass } from "@/components/ui/shared-classes";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
@@ -35,17 +33,12 @@ export default function BeansStep({ beans }: BeansStepProps) {
         {beans.map((b) => {
           const isOn = b.id in shares;
           return (
-            <button
+            <Button
               key={b.id}
-              type="button"
+              variant={isOn ? "optionSelected" : "option"}
+              size="option"
               onClick={() => blend.toggleBean(b.id, shares)}
               aria-pressed={isOn}
-              className={cn(
-                cardStyles({ tone: isOn ? "section" : "page", padding: "none" }),
-                focusRingClass,
-                "relative grid gap-1 border-2 p-4 text-start transition-colors duration-200",
-                isOn ? "border-primary hover:border-primary" : "hover:border-accent",
-              )}
             >
               <span
                 className={cn(
@@ -61,7 +54,7 @@ export default function BeansStep({ beans }: BeansStepProps) {
               <span className="mt-1 text-sm font-bold text-primary">
                 {formatPrice(b.pricePerGram * 250)} / 250 غ
               </span>
-            </button>
+            </Button>
           );
         })}
       </div>
