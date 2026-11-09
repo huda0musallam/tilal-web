@@ -36,7 +36,8 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - React 19, TypeScript (strict)
 - SWR for server state (API data)
 - Zustand for client state (cart, favorites, blend builder, fly animation)
-- Tailwind CSS 4 for all styling. CSS Modules are being removed: no new `.module.css` files
+- Tailwind CSS 4 for all styling. `src/app/globals.css` is the only CSS file; there are no CSS
+  Modules
 - shadcn/ui (Radix) only for `RadioGroup` and `Field`
 - react-hook-form and Zod for forms with more than a couple of fields
 - Motion for animation: `import { motion } from "motion/react"`
@@ -59,8 +60,7 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
   The WhatsApp link builder is `features/cart/whatsapp.ts`.
 - `src/components/` is only for UI that two or more features use:
   - `layout/`, `logo/`
-  - `ui/`: the UI kit (see below), plus `DataSection`, `ErrorBoundary`, `SectionError`,
-    `EmptyState`, `GridSkeleton`, `Reveal`, `RouteError`
+  - `ui/`: the UI kit (see below), plus `DataSection`, `ErrorBoundary`, `Reveal`
   - `ui/shadcn/`: `RadioGroup` and `Field`. Anything added with `npx shadcn add <name>` must be
     switched to our tokens, and must not repeat a control the kit already has.
 - `src/lib/` is only for non-UI code that two or more features use:
@@ -70,7 +70,8 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - A type lives in the feature that owns it (`Product` in `products/product.types.ts`, `CartLine`
   in `cart/cart.types.ts`). There is no global `types` folder.
 - File names: `Name.tsx` for a component, `x.types.ts`, `x.api.ts`, `x.logic.ts`, `x.store.ts`,
-  `x.options.ts`, `x.guards.ts`, `x.schema.ts`, `use-x.ts` for a hook.
+  `x.options.ts`, `x.guards.ts`, `x.schema.ts`, `x.classes.ts` for class strings shared inside
+  one feature, `use-x.ts` for a hook.
 
 Before you create a file or folder, look at the tree and find where it belongs. Never make a
 second copy of a folder in another place (for example `src/shared/` next to `src/lib/`,
@@ -80,8 +81,7 @@ place in the same commit.
 ## Components
 
 - One component per file, with `interface NameProps` for its props.
-- Style components with Tailwind classes. A component that still has a `Name.module.css` keeps it
-  only until it is migrated; delete the module in the same commit as the migration.
+- Style components with Tailwind classes only. Never add a `.module.css` file.
 - Add `"use client"` only when a component needs state, effects, event handlers, SWR, Zustand
   or Motion.
 - Every list uses a real key from the data (`product.id`, `step` text, a fixed `id` field).
@@ -104,33 +104,53 @@ place in the same commit.
 
 Every control must use these components, never a copied class string.
 
-| Component                 | Props and variants                                                                                          |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `ui/Button`               | `variant`: `primary`, `secondary`, `ghost`; `size`: `sm`, `md`, `lg`                                        |
-| `ui/ButtonLink`           | `next/link` props, with the same `variant` and `size` as `Button`                                           |
-| `ui/Input`, `ui/Textarea` | Native props. `aria-invalid` shows the error border                                                         |
-| `ui/Label`                | Native props                                                                                                |
-| `ui/Card`                 | `tone`: `page`, `section`                                                                                   |
-| `ui/Badge`                | `variant`: `soft`, `strong`, `inverse`, `count`; `size`: `sm`, `md`                                         |
-| `ui/Modal`                | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end` |
-| `ui/Chips`                | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                 |
-| `ui/shadcn/radio-group`   | `RadioGroup`, `RadioGroupItem`                                                                              |
-| `ui/shadcn/field`         | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`            |
+| Component                          | Props and variants                                                                                                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ui/Button`                        | `variant`: `primary`, `secondary`, `ghost`, `inverse`, `link`, `chip`, `chipSelected`, `option`, `optionSelected`; `size`: `sm`, `md`, `lg`, `icon`, `bare`, `chip`, `chipSm`, `option` |
+| `ui/ButtonLink`                    | `next/link` props, with the same `variant` and `size` as `Button`                                                                                                                       |
+| `ui/Input`, `ui/Textarea`          | Native props. `aria-invalid` shows the error border                                                                                                                                     |
+| `ui/Label`                         | Native props. `labelStyles` is exported for labels that are not a `<label>`                                                                                                             |
+| `ui/Card`                          | `tone`: `page`, `section`; `radius`: `panel`, `card`, `media`; `padding`: `none`, `md`; `bordered`; `lift`                                                                              |
+| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`; `size`: `sm`, `md`                                                                                                            |
+| `ui/Modal`                         | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end`; `bodyClassName`                                                            |
+| `ui/Chips`                         | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                                                                                             |
+| `ui/Section`                       | `tone`: `page`, `muted`                                                                                                                                                                 |
+| `ui/SectionLabel`                  | `spacing`: `section`, `page`                                                                                                                                                            |
+| `ui/Page`                          | The `<main>` and container of a page                                                                                                                                                    |
+| `ui/PageHeader`                    | `label`, `title`, description as children; `width`: `full`, `narrow`; `spacing`: `md`, `lg`                                                                                             |
+| `ui/ZoomImage`                     | `next/image` props; `zoom`: `sm`, `md`, `lg`. Zooms on hover of a `group` parent                                                                                                        |
+| `ui/MoreHint`                      | `tone`: `primary`, `onPhoto`; `arrowSize`. The arrow moves on hover of a `group` parent                                                                                                 |
+| `ui/Skeleton`                      | `variant`: `muted`, `strong`                                                                                                                                                            |
+| `ui/GridSkeleton`                  | `count`                                                                                                                                                                                 |
+| `ui/MessageBox`                    | `title`; `tone`: `empty`, `error`                                                                                                                                                       |
+| `ui/EmptyState`                    | `title`, children. Built on `MessageBox`                                                                                                                                                |
+| `ui/RouteError`, `ui/SectionError` | Error screens built on `MessageBox`                                                                                                                                                     |
+| `ui/shadcn/radio-group`            | `RadioGroup`, `RadioGroupItem`                                                                                                                                                          |
+| `ui/shadcn/field`                  | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`                                                                                        |
+
+`buttonStyles` and `cardStyles` are exported for elements that cannot be the component itself, such
+as `motion.button`, a `Link` card or a `<figure>`.
+
+A roast shown on its own uses `features/products/RoastBadge`, which reads its variant from the
+`badge` field in `ROAST_OPTIONS`. A roast inside a sentence stays plain text.
 
 Rules:
 
 - **The UI is dumb.** Nothing in `components/ui` knows about the cart, products or roasts.
-  Features map their data to visual variants, like the `badge` field in `ROAST_OPTIONS`.
+  Features map their data to visual variants, like `RoastBadge` does.
 - **One source.** One file for each control. A look that is missing becomes a new variant, not a
   second component or a class string at the call site.
 - **Small files.** One component per file, built with `cva`, `cn()` and typed props.
 - **Tokens only.** Use the role tokens from `globals.css`:
   - Color: `surface`, `muted-surface`, `strong-surface`, `inverse-surface`, `field`, `ink`,
-    `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `on-primary`, `line`, `line-strong`,
-    `focus`, `danger`, `placeholder`. Palette names such as `olive` or `coffee` are not for
-    components.
-  - Radius: `rounded-control` for controls, `rounded-panel` for cards and large surfaces,
-    `rounded-badge` for badges. `rounded-full` is only for real circles.
+    `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `on-primary`, `on-primary-muted`,
+    `text-on-dark`, `line`, `line-strong`, `accent`, `focus`, `danger`, `placeholder`, `scrim`,
+    `logo`, `logo-accent`, `logo-detail`, `bean`, `bean-line`. Palette names such as `olive` or
+    `coffee` are not for components.
+  - Radius: `rounded-control` for controls, `rounded-panel`, `rounded-card`, `rounded-media` and
+    `rounded-feature` for surfaces from small to large, `rounded-badge`, `rounded-toolbar`,
+    `rounded-thumb`, `rounded-pill` for pills, `rounded-ellipse` for ovals. `rounded-full` is only
+    for real circles.
   - No hex, no pixel values, no `[..]` values. Structural `[..]` selectors are allowed, such as
     `data-[state=checked]:` or `has-[>[data-slot=field]]:`.
 - **`Modal` closing.** `onClose` must be safe to call more than once, for example
@@ -138,9 +158,8 @@ Rules:
 - **Visible focus.** Every control has `focus-visible:ring-*` classes. The global
   `:focus-visible` outline in `globals.css` is not in a layer, so it beats `outline-*` utilities.
 
-Links styled as buttons use `ButtonLink`. The `.btn` classes in `globals.css`, and native
-`<button>`, `<input>` and `<textarea>` elements in components with a CSS Module, are legacy:
-replace them when you migrate that component.
+Links styled as buttons use `ButtonLink`. Logos and `Bean` use `currentColor` and token classes,
+so they follow dark mode.
 
 ## State: which tool for what
 
@@ -220,19 +239,28 @@ data, not written again in code.
 
 ## Styling
 
-- Tailwind is the styling for the whole site. CSS Modules are being removed. Do not add a new
-  `.module.css` file.
+- Tailwind is the styling for the whole site. `globals.css` holds only tokens, the site reset
+  and the `@utility` rules below.
 - Mobile first. Write the phone styles with no prefix, then add `sm:` (640px), `md:` (768px) and
   `lg:` (1024px). Use only these standard breakpoints: no custom breakpoints, `min-[..]:` or
-  `max-*:` variants. CSS Modules that are not migrated yet keep their `min-width` media queries;
-  a 900px step becomes `md:` or `lg:` when the component is migrated.
-- Use the role and radius tokens listed under UI kit. CSS Modules that are not migrated yet use
-  the palette variables (`--bg`, `--olive`, `--danger`…). Never write a hex color in new code.
+  `max-*:` variants.
+- Use the role and radius tokens listed under UI kit. Never write a hex color in a component.
   See `DESIGN.md`.
+- Text size utilities do not set a line height here: the `--text-*--line-height` tokens are
+  `inherit`, so text keeps the `1.8` of the body unless a `leading-*` class says otherwise.
 - The site is RTL. When the two sides differ, use logical classes: `ms-*`, `me-*`, `ps-*`,
   `pe-*`, `start-*`, `end-*`. When both sides are equal, use `px-*`, `py-*`, `mx-*`, `my-*`. Use
-  `left` and `right` only for physical positions. CSS Modules that are not migrated yet use
-  logical properties.
+  `left` and `right` only for physical positions.
+- Four `@utility` rules in `globals.css` cover what the Tailwind scale cannot express. Add another
+  only when no scale value or token can do the job:
+  - `container`: centered, with the site's `--container` max width and `--gutter` padding.
+    Tailwind's own `container` is not centered and steps through the breakpoint widths.
+  - `grid-cols-fit`: `auto-fit` columns with a minimum width, for the bean options. `grid-cols-*`
+    only takes a fixed column count, which would leave empty columns.
+  - `paused`: `animation-play-state: paused`, for the reviews marquee on hover. Tailwind has no
+    utility for it.
+  - `object-hero`: `object-position: 72% center`, the phone crop of the hero photo. `object-*`
+    only has named edges, and none of them keeps the cup in frame.
 - Arrows that mean "forward" point left (`ArrowLeft`); "back" points right (`ArrowRight`).
 - `experimental.inlineCss` is on, so production pages inline their CSS. Without it the browser
   warns about preloaded CSS from prefetched routes that is not used.
