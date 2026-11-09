@@ -42,6 +42,34 @@
   --radius-control: var(--radius);
   --radius-panel: var(--radius-lg);
   --radius-badge: calc(var(--radius) + 4px);
+  --radius-media: 1.5rem;
+  --radius-pill: 999px;
+
+  --min-height-hero: calc(100svh - 4.5rem);
+  --min-height-hero-md: calc(100svh - 5.5rem);
+
+  --animate-zoom: zoom 24s ease-in-out infinite alternate;
+  --animate-nudge: nudge 2s ease-in-out infinite;
+  --animate-spin-slow: spin 40s linear infinite;
+
+  @keyframes zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes nudge {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(0.375rem);
+    }
+  }
 
   --text-xs--line-height: inherit;
   --text-sm--line-height: inherit;
@@ -57,6 +85,10 @@
 
   --font-sans: var(--font-body), sans-serif;
   --font-heading: var(--font-display), serif;
+}
+
+@utility object-hero {
+  object-position: 72% center;
 }
 
 :root {
