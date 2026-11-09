@@ -48,7 +48,7 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - English everywhere in code, file names, commits and docs. Only the text users see is Arabic.
 - No code comments. Make the code clear with names and small functions instead.
 - Do not use `any`, `as` type assertions or `!` non-null assertions. ESLint blocks them. Use type
-  guards (`src/shared/api/guards.ts`) and narrowing. `as const` is allowed.
+  guards (`src/lib/api/guards.ts`) and narrowing. `as const` is allowed.
 
 ## Structure
 
@@ -56,20 +56,23 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - `src/features/<name>/` owns everything for one feature: components, CSS modules, types, API
   fetcher, logic, options and store. Current features: `home`, `products`, `blend`, `brewing`,
   `cart`, `checkout`, `favorites`, `fly`, `reviews`, `suggestions`.
-- `src/shared/` is only for code that two or more features use:
-  - `api/client.ts`: base URL, `apiKeys`, `fetchJson`, `ApiError`, test modes
-  - `api/guards.ts`: small type guards (`isRecord`, `isString`, `isOneOf`, `isListOf`)
-  - `layout/`, `logo/`, `lib/` (`cn`, `formatPrice`, `Option`, WhatsApp link)
+  The WhatsApp link builder is `features/cart/whatsapp.ts`.
+- `src/components/` is only for UI that two or more features use:
+  - `layout/`, `logo/`
   - `ui/`: `Chips`, `DataSection`, `ErrorBoundary`, `SectionError`, `EmptyState`,
     `GridSkeleton`, `Reveal`, `RouteError`
   - `ui/shadcn/`: shadcn/ui components. Add more with `npx shadcn add <name>`.
+- `src/lib/` is only for non-UI code that two or more features use:
+  - `client.ts`: base URL, `apiKeys`, `fetchJson`, `ApiError`, test modes
+  - `api/guards.ts`: small type guards (`isRecord`, `isString`, `isOneOf`, `isListOf`)
+  - `cn.ts`, `format-price.ts`, `option.ts`
 - A type lives in the feature that owns it (`Product` in `products/product.types.ts`, `CartLine`
   in `cart/cart.types.ts`). There is no global `types` folder.
 - File names: `Name.tsx` for a component, `x.types.ts`, `x.api.ts`, `x.logic.ts`, `x.store.ts`,
   `x.options.ts`, `x.guards.ts`, `x.schema.ts`, `use-x.ts` for a hook.
 
 Before you create a file or folder, look at the tree and find where it belongs. Never make a
-second copy of a folder in another place (for example `src/components/` next to `src/shared/`,
+second copy of a folder in another place (for example `src/shared/` next to `src/lib/`,
 or a feature folder under `app/`). If something moves, move it with `git mv` and delete the old
 place in the same commit.
 
@@ -119,7 +122,7 @@ data, not written again in code.
 
 ## Data fetching
 
-- `apiKeys` in `src/shared/api/client.ts` holds every SWR key. The server fallback and the
+- `apiKeys` in `src/lib/client.ts` holds every SWR key. The server fallback and the
   client `useSWR` must use the exact same key.
 - Each feature has its own fetcher in `x.api.ts`, built on `fetchJson(url, guard)`. Components
   never call `fetch`.
@@ -183,7 +186,7 @@ data, not written again in code.
 - Arrows that mean "forward" point left (`ArrowLeft`); "back" points right (`ArrowRight`).
 - `experimental.inlineCss` is on, so production pages inline their CSS. Without it the browser
   warns about preloaded CSS from prefetched routes that is not used.
-- Tailwind is loaded without preflight, and only scans `src/shared/ui/shadcn` and
+- Tailwind is loaded without preflight, and only scans `src/components/ui/shadcn` and
   `src/features/checkout` (`src/app/tailwind.css`). The site reset in `globals.css` is in
   `@layer base` so Tailwind utilities can win over it. Do not use Tailwind classes in CSS Module
   components, and do not add new Tailwind source folders without a reason.
