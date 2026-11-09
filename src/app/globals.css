@@ -1,3 +1,51 @@
+@import "./tailwind.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-section: var(--section);
+  --color-sand: var(--sand);
+  --color-nescafe: var(--nescafe);
+  --color-olive: var(--olive);
+  --color-olive-dark: var(--olive-dark);
+  --color-coffee: var(--coffee);
+  --color-espresso: var(--espresso);
+  --color-logo: var(--logo);
+  --color-danger: var(--danger);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-white: var(--white);
+  --color-placeholder: var(--placeholder);
+
+  --color-background: var(--bg);
+  --color-foreground: var(--espresso);
+  --color-card: var(--bg);
+  --color-card-foreground: var(--espresso);
+  --color-popover: var(--bg);
+  --color-popover-foreground: var(--espresso);
+  --color-primary: var(--olive);
+  --color-primary-foreground: var(--white);
+  --color-secondary: var(--section);
+  --color-secondary-foreground: var(--espresso);
+  --color-muted: var(--section);
+  --color-muted-foreground: var(--coffee);
+  --color-accent: var(--section);
+  --color-accent-foreground: var(--espresso);
+  --color-destructive: var(--danger);
+  --color-border: var(--sand);
+  --color-input: var(--sand);
+  --color-ring: var(--nescafe);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-panel: var(--radius-lg);
+
+  --font-sans: var(--font-body), sans-serif;
+  --font-heading: var(--font-display), serif;
+}
+
 :root {
   --bg: #f7f2ea;
   --section: #efe3d1;
@@ -17,6 +65,22 @@
   --radius-lg: 16px;
   --container: 1200px;
   --gutter: 20px;
+}
+
+.dark {
+  --bg: #2a1c14;
+  --section: #372519;
+  --sand: #5a4332;
+  --nescafe: #c9976a;
+  --olive: #aab877;
+  --olive-dark: #bcc98b;
+  --coffee: #dcc7ad;
+  --espresso: #f4eadc;
+  --logo: #efe1cd;
+  --danger: #e58b76;
+  --text-on-dark: #e8e1cf;
+  --white: #33231a;
+  --placeholder: #a08a78;
 }
 
 @layer base {
