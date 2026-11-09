@@ -10,6 +10,7 @@ const badgeStyles = cva("inline-flex items-center justify-center gap-1 rounded-b
       inverse: "bg-inverse-surface text-on-inverse",
       count: "bg-primary text-on-primary",
       overlay: "bg-surface/92 text-muted-ink",
+      plain: "bg-surface text-muted-ink",
     },
     size: {
       sm: "h-4.5 min-w-4.5 px-1.25 text-xs leading-none font-bold tabular-nums",
