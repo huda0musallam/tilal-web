@@ -44,7 +44,7 @@ export default function Footer() {
       <div className="bg-primary pt-8 pb-6">
         <div className="container grid grid-cols-1 gap-10 pb-10 sm:grid-cols-2 lg:flex">
           <div className="col-span-full lg:flex-14">
-            <StampLogo className="mb-4 h-auto w-30" ink="var(--on-primary)" />
+            <StampLogo className="mb-4 h-auto w-30 text-on-primary" />
             <p className="max-w-65 text-text-on-dark">قهوة محمّصة بالبيت بحب، من التلال لفنجانك.</p>
           </div>
 

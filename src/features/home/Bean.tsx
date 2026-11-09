@@ -4,12 +4,18 @@ interface BeanProps {
 
 export default function Bean({ size }: BeanProps) {
   return (
-    <svg viewBox="0 0 20 28" width={size} height={size * 1.4} aria-hidden="true">
-      <ellipse cx="10" cy="14" rx="9" ry="13" fill="#6B4430" />
+    <svg
+      viewBox="0 0 20 28"
+      width={size}
+      height={size * 1.4}
+      className="text-bean"
+      aria-hidden="true"
+    >
+      <ellipse cx="10" cy="14" rx="9" ry="13" fill="currentColor" />
       <path
         d="M10 2 C6 9, 14 19, 10 26"
         fill="none"
-        stroke="#3B2618"
+        className="stroke-bean-line"
         strokeWidth="1.6"
         strokeLinecap="round"
       />

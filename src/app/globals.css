@@ -38,6 +38,10 @@
   --color-focus: var(--focus);
   --color-accent: var(--accent);
   --color-on-primary-muted: var(--on-primary-muted);
+  --color-logo-accent: var(--logo-accent);
+  --color-logo-detail: var(--logo-detail);
+  --color-bean: var(--bean);
+  --color-bean-line: var(--bean-line);
   --color-scrim: var(--scrim);
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -176,6 +180,10 @@
   --coffee: #5a3726;
   --espresso: #2a1a12;
   --logo: #3b2618;
+  --logo-accent: #7a4a2a;
+  --logo-detail: #e8d8c0;
+  --bean: #6b4430;
+  --bean-line: #3b2618;
   --danger: #a63d2a;
   --text-on-dark: #e8e1cf;
   --white: #fff;
@@ -200,6 +208,8 @@
   --coffee: #dcc7ad;
   --espresso: #f4eadc;
   --logo: #efe1cd;
+  --logo-accent: #d9b48f;
+  --logo-detail: #2a1c14;
   --danger: #e58b76;
   --text-on-dark: #e8e1cf;
   --white: #33231a;
