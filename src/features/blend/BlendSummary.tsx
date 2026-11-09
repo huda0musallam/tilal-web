@@ -4,12 +4,8 @@ import { useRef, useState } from "react";
 import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "@/features/cart/cart.store";
 import { flyTo } from "@/features/fly/fly.store";
-import {
-  cardamomLabel,
-  roastImage,
-  roastLabel,
-  weightLabel,
-} from "@/features/products/product.options";
+import { cardamomLabel, roastImage, weightLabel } from "@/features/products/product.options";
+import RoastBadge from "@/features/products/RoastBadge";
 import Button from "@/components/ui/Button";
 import { cardStyles } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
@@ -90,7 +86,9 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
       <dl className="grid w-full gap-2 border-y border-dashed border-line py-3">
         <div className={detailRowClass}>
           <dt className="text-muted-ink">التحميص</dt>
-          <dd className={detailValueClass}>{roastLabel(roast)}</dd>
+          <dd className={detailValueClass}>
+            <RoastBadge roast={roast} />
+          </dd>
         </div>
         <div className={detailRowClass}>
           <dt className="text-muted-ink">الطحنة</dt>

@@ -4,13 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion } from "motion/react";
-import Badge from "@/components/ui/Badge";
 import { cardStyles } from "@/components/ui/Card";
 import { zoomImageClass } from "@/components/ui/shared-classes";
 import { cn } from "@/lib/cn";
 import FavoriteButton from "./FavoriteButton";
 import ProductPurchase from "./ProductPurchase";
-import { roastLabel } from "./product.options";
+import RoastBadge from "./RoastBadge";
 import type { Product } from "./product.types";
 
 interface ProductCardProps {
@@ -45,9 +44,10 @@ export default function ProductCard({ product, index = 0, eager = false }: Produ
             className={cn(zoomImageClass, "group-hover:scale-104")}
           />
         </Link>
-        <Badge variant="overlay" className="absolute start-3.5 top-3.5 rounded-pill font-bold">
-          {roastLabel(product.roast)}
-        </Badge>
+        <RoastBadge
+          roast={product.roast}
+          className="absolute start-3.5 top-3.5 rounded-pill font-bold"
+        />
         <FavoriteButton product={product} sourceRef={mediaRef} />
       </div>
 

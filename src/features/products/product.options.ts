@@ -40,6 +40,7 @@ const ORIGIN_LABELS: Record<string, string> = {
 export const roastOption = (roast: Roast) => ROAST_OPTIONS.find((o) => o.value === roast);
 export const roastLabel = (roast: Roast) => roastOption(roast)?.label ?? roast;
 export const roastImage = (roast: Roast) => roastOption(roast)?.image ?? "";
+export const roastBadge = (roast: Roast) => roastOption(roast)?.badge ?? "soft";
 export const weightLabel = (weight: Weight) =>
   WEIGHT_OPTIONS.find((o) => o.value === weight)?.label ?? weight;
 export const cardamomLabel = (cardamom: Cardamom) =>

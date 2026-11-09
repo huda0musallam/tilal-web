@@ -9,7 +9,8 @@ import useSWR from "swr";
 import { apiKeys } from "@/lib/api/client";
 import FavoriteButton from "./FavoriteButton";
 import ProductPurchase from "./ProductPurchase";
-import { originLabel, roastLabel, roastOption, ROAST_LEVELS } from "./product.options";
+import RoastBadge from "./RoastBadge";
+import { originLabel, roastOption, ROAST_LEVELS } from "./product.options";
 import { fetchProduct } from "./products.api";
 
 const factTermClass = "text-xs text-muted-ink";
@@ -64,7 +65,7 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
           <div>
             <dt className={factTermClass}>التحميص</dt>
             <dd className={factValueClass}>
-              {roastLabel(product.roast)}
+              <RoastBadge roast={product.roast} />
               <span className="ms-2 text-xs font-normal text-muted-ink">
                 {level} من {ROAST_LEVELS}
               </span>

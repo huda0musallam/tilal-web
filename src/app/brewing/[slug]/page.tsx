@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ArrowRight, Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
 import { BREW_METHODS, getMethod } from "@/features/brewing/brewing";
 import { roastLabel } from "@/features/products/product.options";
+import RoastBadge from "@/features/products/RoastBadge";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { cardStyles } from "@/components/ui/Card";
 import { chipStyles } from "@/components/ui/Chips";
@@ -47,7 +48,7 @@ export default async function MethodPage({ params }: MethodPageProps) {
     { icon: Clock, label: "الوقت", value: method.time },
     { icon: Scale, label: "المقادير", value: method.ratio },
     { icon: Coffee, label: "الطحنة", value: method.grind },
-    { icon: Flame, label: "التحميص المناسب", value: roastLabel(method.roast) },
+    { icon: Flame, label: "التحميص المناسب", value: <RoastBadge roast={method.roast} /> },
   ];
 
   return (
