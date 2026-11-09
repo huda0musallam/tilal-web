@@ -1,4 +1,9 @@
-@import "./tailwind.css";
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -140,6 +145,13 @@
 
   --font-sans: var(--font-body), sans-serif;
   --font-heading: var(--font-display), serif;
+}
+
+@utility container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
 @utility grid-cols-fit {
@@ -291,48 +303,6 @@
     min-width: 0;
     border: 0;
   }
-}
-
-.container {
-  width: 100%;
-  max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  border-radius: var(--radius);
-  font-weight: 500;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    transform 0.2s;
-}
-
-.btn:active {
-  transform: scale(0.97);
-}
-
-.btn-primary {
-  background: var(--olive);
-  color: var(--bg);
-}
-
-.btn-primary:hover {
-  background: var(--olive-dark);
-}
-
-.btn-outline {
-  border-color: var(--coffee);
-  color: var(--coffee);
-}
-
-.btn-outline:hover {
-  background: var(--section);
 }
 
 :focus-visible {
