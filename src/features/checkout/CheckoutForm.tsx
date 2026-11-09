@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCircle } from "lucide-react";
 import type { CartItem } from "@/features/cart/cart.types";
 import { whatsappLink } from "@/shared/lib/whatsapp";
-import { Button } from "@/shared/ui/shadcn/button";
+import { Button } from "@/components/ui/shadcn/button";
 import {
   Field,
   FieldDescription,
@@ -15,10 +15,10 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from "@/shared/ui/shadcn/field";
-import { Input } from "@/shared/ui/shadcn/input";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/shadcn/radio-group";
-import { Textarea } from "@/shared/ui/shadcn/textarea";
+} from "@/components/ui/shadcn/field";
+import { Input } from "@/components/ui/shadcn/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/shadcn/radio-group";
+import { Textarea } from "@/components/ui/shadcn/textarea";
 import {
   CHECKOUT_DEFAULTS,
   DELIVERY_OPTIONS,

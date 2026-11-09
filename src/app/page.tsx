@@ -1,5 +1,5 @@
 import { SWRConfig } from "swr";
-import { apiKeys } from "@/shared/api/client";
+import { apiKeys } from "@/lib/client";
 import Hero from "@/features/home/Hero";
 import Story from "@/features/home/Story";
 import RoastLevels from "@/features/home/RoastLevels";

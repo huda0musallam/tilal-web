@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ShoppingBag, Heart, Menu, X } from "lucide-react";
-import HeaderLogo from "@/shared/logo/HeaderLogo";
+import HeaderLogo from "@/components/logo/HeaderLogo";
 import { cart, useCartCount } from "@/features/cart/cart.store";
 import { useFavoritesCount } from "@/features/favorites/favorites.store";
 import { useFlyStore } from "@/features/fly/fly.store";

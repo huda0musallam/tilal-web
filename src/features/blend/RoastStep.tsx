@@ -1,7 +1,7 @@
 "use client";
 
 import { ROAST_OPTIONS } from "@/features/products/product.options";
-import Chips from "@/shared/ui/Chips";
+import Chips from "@/components/ui/Chips";
 import { blend, useBlendStore } from "./blend.store";
 import Step from "./Step";
 

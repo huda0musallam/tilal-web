@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, Send, CheckCircle2 } from "lucide-react";
 import useSWRMutation from "swr/mutation";
-import { apiKeys } from "@/shared/api/client";
+import { apiKeys } from "@/lib/client";
 import { postSuggestion } from "./suggestions.api";
 import styles from "./SuggestionBox.module.css";
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { Flame, Coffee, Leaf } from "lucide-react";
-import StampLogo from "@/shared/logo/StampLogo";
+import StampLogo from "@/components/logo/StampLogo";
 import styles from "./Story.module.css";
 
 const points = [

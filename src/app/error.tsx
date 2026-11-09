@@ -1,6 +1,6 @@
 "use client";
 
-import RouteError, { type RouteErrorPageProps } from "@/shared/ui/RouteError";
+import RouteError, { type RouteErrorPageProps } from "@/components/ui/RouteError";
 
 export default function Error({ error, unstable_retry }: RouteErrorPageProps) {
   return (

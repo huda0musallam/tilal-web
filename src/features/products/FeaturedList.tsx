@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/client";
-import EmptyState from "@/shared/ui/EmptyState";
+import { apiKeys } from "@/lib/client";
+import EmptyState from "@/components/ui/EmptyState";
 import ProductCard from "./ProductCard";
 import { fetchProducts } from "./products.api";
 import styles from "./FeaturedList.module.css";

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { apiKeys } from "@/shared/api/client";
+import { apiKeys } from "@/lib/client";
 import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites.store";
 import FavoritesFilterChip from "./FavoritesFilterChip";
@@ -11,8 +11,8 @@ import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
 import type { Option } from "@/shared/lib/option";
 import { ROAST_OPTIONS, originOptions } from "./product.options";
-import Chips from "@/shared/ui/Chips";
-import EmptyState from "@/shared/ui/EmptyState";
+import Chips from "@/components/ui/Chips";
+import EmptyState from "@/components/ui/EmptyState";
 import styles from "./ProductsExplorer.module.css";
 
 type RoastFilter = "all" | Roast;

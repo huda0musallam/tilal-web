@@ -1,9 +1,9 @@
 "use client";
 
 import { mutate } from "swr";
-import { apiKeys } from "@/shared/api/client";
-import DataSection from "@/shared/ui/DataSection";
-import GridSkeleton from "@/shared/ui/GridSkeleton";
+import { apiKeys } from "@/lib/client";
+import DataSection from "@/components/ui/DataSection";
+import GridSkeleton from "@/components/ui/GridSkeleton";
 import FeaturedList from "./FeaturedList";
 import { fetchProducts } from "./products.api";
 import styles from "./FeaturedProducts.module.css";

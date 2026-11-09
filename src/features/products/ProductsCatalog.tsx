@@ -1,8 +1,8 @@
 "use client";
 
 import { mutate } from "swr";
-import { apiKeys } from "@/shared/api/client";
-import DataSection from "@/shared/ui/DataSection";
+import { apiKeys } from "@/lib/client";
+import DataSection from "@/components/ui/DataSection";
 import CatalogSkeleton from "./CatalogSkeleton";
 import ProductsExplorer from "./ProductsExplorer";
 import { fetchProducts } from "./products.api";

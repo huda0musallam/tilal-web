@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-import StampLogo from "@/shared/logo/StampLogo";
+import StampLogo from "@/components/logo/StampLogo";
 import { whatsappLink } from "@/shared/lib/whatsapp";
 import styles from "./Footer.module.css";
 

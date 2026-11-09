@@ -1,8 +1,8 @@
 "use client";
 
 import { mutate } from "swr";
-import { apiKeys } from "@/shared/api/client";
-import DataSection from "@/shared/ui/DataSection";
+import { apiKeys } from "@/lib/client";
+import DataSection from "@/components/ui/DataSection";
 import ReviewsMarquee from "./ReviewsMarquee";
 import ReviewsSkeleton from "./ReviewsSkeleton";
 import { fetchReviews } from "./reviews.api";

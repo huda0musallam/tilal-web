@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { ArrowRight, Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
 import { BREW_METHODS, getMethod } from "@/features/brewing/brewing";
 import { roastLabel } from "@/features/products/product.options";
-import Reveal from "@/shared/ui/Reveal";
+import Reveal from "@/components/ui/Reveal";
 import styles from "./method.module.css";
 
 interface MethodPageProps {

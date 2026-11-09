@@ -1,4 +1,4 @@
-import GridSkeleton from "@/shared/ui/GridSkeleton";
+import GridSkeleton from "@/components/ui/GridSkeleton";
 import styles from "./CatalogSkeleton.module.css";
 
 export default function CatalogSkeleton() {

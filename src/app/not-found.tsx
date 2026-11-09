@@ -1,5 +1,5 @@
 import Link from "next/link";
-import StampLogo from "@/shared/logo/StampLogo";
+import StampLogo from "@/components/logo/StampLogo";
 import styles from "./not-found.module.css";
 
 export default function NotFound() {

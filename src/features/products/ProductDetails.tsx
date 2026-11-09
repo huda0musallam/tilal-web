@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/client";
+import { apiKeys } from "@/lib/client";
 import FavoriteButton from "./FavoriteButton";
 import ProductPurchase from "./ProductPurchase";
 import { originLabel, roastLabel, roastOption, ROAST_LEVELS } from "./product.options";

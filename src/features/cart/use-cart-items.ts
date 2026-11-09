@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { apiKeys } from "@/shared/api/client";
+import { apiKeys } from "@/lib/client";
 import { fetchBeans } from "@/features/blend/beans.api";
 import { favorites } from "@/features/favorites/favorites.store";
 import { fetchProducts } from "@/features/products/products.api";

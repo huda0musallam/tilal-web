@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useCartItems } from "@/features/cart/use-cart-items";
-import EmptyState from "@/shared/ui/EmptyState";
-import { Button } from "@/shared/ui/shadcn/button";
+import EmptyState from "@/components/ui/EmptyState";
+import { Button } from "@/components/ui/shadcn/button";
 import CheckoutForm from "./CheckoutForm";
 import OrderSummary from "./OrderSummary";
 
