@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { RotateCw } from "lucide-react";
-import styles from "./SectionError.module.css";
+import { cn } from "@/lib/cn";
+import Button from "./Button";
+import { errorBoxClass, errorTitleClass, messageBoxClass } from "./shared-classes";
 
 interface SectionErrorProps {
   message: string;
@@ -24,17 +26,17 @@ export default function SectionError({ message, onRetry }: SectionErrorProps) {
   }
 
   return (
-    <div className={styles.box} role="alert">
-      <p className={styles.title}>{message}</p>
+    <div className={cn(messageBoxClass, errorBoxClass)} role="alert">
+      <p className={errorTitleClass}>{message}</p>
       <p>
         {failedAgain
           ? "لسا ما زبطت. جرّب كمان شوي."
           : "إذا كانت هاي أول زيارة، ممكن السيرفر يكون عم يصحى."}
       </p>
-      <button type="button" className="btn btn-outline" onClick={handleRetry} disabled={busy}>
+      <Button variant="secondary" onClick={handleRetry} disabled={busy}>
         <RotateCw size={18} aria-hidden="true" />
         {busy ? "عم نجرّب..." : "جرّب مرة تانية"}
-      </button>
+      </Button>
     </div>
   );
 }

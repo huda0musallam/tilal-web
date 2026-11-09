@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { pageClass, pageHeadClass, pageLabelClass } from "@/components/ui/shared-classes";
 import Checkout from "@/features/checkout/Checkout";
-import styles from "./checkout.module.css";
 
 export const metadata: Metadata = {
   title: "كمّل الطلب | التلال",
@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function CheckoutPage() {
   return (
-    <main className={styles.page}>
+    <main className={pageClass}>
       <div className="container">
-        <header className={styles.head}>
-          <p className={styles.label}>كمّل الطلب</p>
-          <h1 className={styles.title}>آخر خطوة</h1>
+        <header className={pageHeadClass}>
+          <p className={pageLabelClass}>كمّل الطلب</p>
+          <h1 className="mb-2">آخر خطوة</h1>
           <p>اكتب معلوماتك، ونحنا منبعتلك رسالة الطلب جاهزة على واتساب.</p>
         </header>
         <Checkout />

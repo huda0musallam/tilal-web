@@ -2,7 +2,9 @@
 
 import { useEffect } from "react";
 import { RotateCw } from "lucide-react";
-import styles from "./RouteError.module.css";
+import { cn } from "@/lib/cn";
+import Button from "./Button";
+import { errorBoxClass, errorTitleClass, messageBoxClass } from "./shared-classes";
 
 export interface RouteErrorPageProps {
   error: Error & { digest?: string };
@@ -20,13 +22,13 @@ export default function RouteError({ error, retry }: RouteErrorProps) {
   }, [error]);
 
   return (
-    <div className={styles.box} role="alert">
-      <p className={styles.title}>ما قدرنا نجيب البيانات هلق</p>
+    <div className={cn(messageBoxClass, errorBoxClass)} role="alert">
+      <p className={errorTitleClass}>ما قدرنا نجيب البيانات هلق</p>
       <p>إذا كانت هاي أول زيارة، ممكن السيرفر يكون عم يصحى. جرّب كمان شوي.</p>
-      <button type="button" className="btn btn-primary" onClick={retry}>
+      <Button onClick={retry}>
         <RotateCw size={18} />
         جرّب مرة تانية
-      </button>
+      </Button>
     </div>
   );
 }

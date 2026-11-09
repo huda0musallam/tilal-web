@@ -50,6 +50,7 @@
   --radius-ellipse: 50%;
   --radius-pill: 999px;
 
+  --min-height-page: 70vh;
   --min-height-hero: calc(100svh - 4.5rem);
   --min-height-hero-md: calc(100svh - 5.5rem);
 
@@ -131,6 +132,9 @@
   --text-3xl--line-height: inherit;
   --text-4xl--line-height: inherit;
   --text-5xl--line-height: inherit;
+  --text-fluid-title: clamp(2rem, 5vw, 3rem);
+
+  --tracking-code: 0.25rem;
 
   --default-transition-timing-function: ease;
 

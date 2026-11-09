@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useCartItems } from "@/features/cart/use-cart-items";
 import EmptyState from "@/components/ui/EmptyState";
 import Button from "@/components/ui/Button";
+import ButtonLink from "@/components/ui/ButtonLink";
 import CheckoutForm from "./CheckoutForm";
 import OrderSummary from "./OrderSummary";
 
@@ -13,9 +13,7 @@ export default function Checkout() {
   if (!hasLines || (ready && items.length === 0)) {
     return (
       <EmptyState title="سلتك فاضية لهلق.">
-        <Link href="/products" className="btn btn-primary">
-          تسوّق القهوة
-        </Link>
+        <ButtonLink href="/products">تسوّق القهوة</ButtonLink>
       </EmptyState>
     );
   }
@@ -35,7 +33,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-start">
+    <div className="grid gap-8 lg:flex lg:items-start">
       <CheckoutForm items={items} total={total} />
       <OrderSummary items={items} total={total} />
     </div>

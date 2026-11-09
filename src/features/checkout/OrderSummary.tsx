@@ -1,6 +1,8 @@
 import Image from "next/image";
 import type { CartItem } from "@/features/cart/cart.types";
 import { lineTotal } from "@/features/cart/cart.logic";
+import { cardStyles } from "@/components/ui/Card";
+import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 
 interface OrderSummaryProps {
@@ -10,7 +12,10 @@ interface OrderSummaryProps {
 
 export default function OrderSummary({ items, total }: OrderSummaryProps) {
   return (
-    <aside aria-label="ملخص الطلب" className="rounded-panel bg-muted-surface p-6">
+    <aside
+      aria-label="ملخص الطلب"
+      className={cn(cardStyles({ bordered: false }), "lg:min-w-0 lg:flex-2")}
+    >
       <h2 className="mb-4 text-2xl">طلبك</h2>
       <ul className="flex flex-col gap-4">
         {items.map((item) => (

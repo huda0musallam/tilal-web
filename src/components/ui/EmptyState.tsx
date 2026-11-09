@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import styles from "./EmptyState.module.css";
+import { cn } from "@/lib/cn";
+import { messageBoxClass } from "./shared-classes";
 
 interface EmptyStateProps {
   title: string;
@@ -8,8 +9,8 @@ interface EmptyStateProps {
 
 export default function EmptyState({ title, children }: EmptyStateProps) {
   return (
-    <div className={styles.box} role="status">
-      <p className={styles.title}>{title}</p>
+    <div className={cn(messageBoxClass, "my-8 border-line")} role="status">
+      <p className="text-lg font-bold text-ink">{title}</p>
       {children}
     </div>
   );

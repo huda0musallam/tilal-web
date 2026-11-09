@@ -54,7 +54,11 @@ export default function CheckoutForm({ items, total }: CheckoutFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col gap-6 lg:min-w-0 lg:flex-3"
+    >
       <FieldGroup>
         <Field data-invalid={Boolean(errors.name)}>
           <FieldLabel htmlFor="checkout-name">الاسم</FieldLabel>
