@@ -107,6 +107,7 @@ Every control must use these components, never a copied class string.
 | Component                 | Props and variants                                                                               |
 | ------------------------- | ------------------------------------------------------------------------------------------------ |
 | `ui/Button`               | `variant`: `primary`, `secondary`, `ghost`; `size`: `sm`, `md`, `lg`                             |
+| `ui/ButtonLink`           | `next/link` props, with the same `variant` and `size` as `Button`                                |
 | `ui/Input`, `ui/Textarea` | Native props. `aria-invalid` shows the error border                                              |
 | `ui/Label`                | Native props                                                                                     |
 | `ui/Card`                 | `tone`: `page`, `section`                                                                        |
@@ -134,9 +135,9 @@ Rules:
 - **Visible focus.** Every control has `focus-visible:ring-*` classes. The global
   `:focus-visible` outline in `globals.css` is not in a layer, so it beats `outline-*` utilities.
 
-`Button` only renders a `<button>`, so links styled as buttons still use `.btn` from
-`globals.css`. Those classes, and native `<button>`, `<input>` and `<textarea>` elements in
-components with a CSS Module, are legacy: replace them when you migrate that component.
+Links styled as buttons use `ButtonLink`. The `.btn` classes in `globals.css`, and native
+`<button>`, `<input>` and `<textarea>` elements in components with a CSS Module, are legacy:
+replace them when you migrate that component.
 
 ## State: which tool for what
 
@@ -218,10 +219,10 @@ data, not written again in code.
 
 - Tailwind is the styling for the whole site. CSS Modules are being removed. Do not add a new
   `.module.css` file.
-- Mobile first. Write the phone styles with no prefix, then add `sm:` (640px), `md:` (768px,
-  header menu only) and `lg:` (1024px). The 900px step has no token yet and `Checkout` uses
-  `min-[900px]:`; add a `--breakpoint-*` token to `@theme` before using it anywhere else. Never
-  use `max-*:` variants or `max-width` media queries.
+- Mobile first. Write the phone styles with no prefix, then add `sm:` (640px), `md:` (768px) and
+  `lg:` (1024px). Use only these standard breakpoints: no custom breakpoints, `min-[..]:` or
+  `max-*:` variants. CSS Modules that are not migrated yet keep their `min-width` media queries;
+  a 900px step becomes `md:` or `lg:` when the component is migrated.
 - Use the role and radius tokens listed under UI kit. CSS Modules that are not migrated yet use
   the palette variables (`--bg`, `--olive`, `--danger`…). Never write a hex color in new code.
   See `DESIGN.md`.
@@ -234,11 +235,6 @@ data, not written again in code.
   warns about preloaded CSS from prefetched routes that is not used.
 - Tailwind is loaded without preflight. The site reset in `globals.css` is in `@layer base` so
   Tailwind utilities can win over it.
-- Tailwind only scans the sources listed in `src/app/tailwind.css`: `src/components/ui/*.tsx`,
-  `src/components/ui/shadcn` and `src/features/checkout`. A Tailwind class anywhere else compiles
-  to nothing, so add the folder to `@source` when you migrate it.
-- After adding a new folder to Tailwind's sources, restart `npm run dev`. The dev server does not
-  pick up new source folders on its own.
 
 ## Content
 

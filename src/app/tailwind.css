@@ -3,6 +3,4 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 
-@source "../components/ui/shadcn";
-@source "../components/ui/*.tsx";
-@source "../features/checkout";
+@source "../";

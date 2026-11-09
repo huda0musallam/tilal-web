@@ -35,7 +35,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="grid gap-8 min-[900px]:grid-cols-[3fr_2fr] min-[900px]:items-start">
+    <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:items-start">
       <CheckoutForm items={items} total={total} />
       <OrderSummary items={items} total={total} />
     </div>
