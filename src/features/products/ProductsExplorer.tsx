@@ -11,9 +11,12 @@ import ProductCard from "./ProductCard";
 import type { Roast } from "./product.types";
 import type { Option } from "@/lib/option";
 import { ROAST_OPTIONS, originOptions } from "./product.options";
+import Button from "@/components/ui/Button";
 import Chips from "@/components/ui/Chips";
 import EmptyState from "@/components/ui/EmptyState";
-import styles from "./ProductsExplorer.module.css";
+import { productGridClass } from "./product.classes";
+
+const dividerClass = "hidden h-7 w-px bg-line sm:block";
 
 type RoastFilter = "all" | Roast;
 
@@ -79,7 +82,7 @@ export default function ProductsExplorer() {
 
   return (
     <>
-      <div className={styles.toolbar}>
+      <div className="mb-9 flex flex-wrap items-center gap-x-4 gap-y-3 rounded-toolbar bg-muted-surface px-4 py-3.5">
         <Chips
           options={ROAST_FILTERS}
           value={current.roast}
@@ -87,7 +90,7 @@ export default function ProductsExplorer() {
           label="درجة التحميص"
         />
 
-        <span className={styles.divider} aria-hidden="true" />
+        <span className={dividerClass} aria-hidden="true" />
 
         <Chips
           options={originFilters}
@@ -96,31 +99,31 @@ export default function ProductsExplorer() {
           label="نوع البن"
         />
 
-        <span className={styles.divider} aria-hidden="true" />
+        <span className={dividerClass} aria-hidden="true" />
 
         <FavoritesFilterChip
           active={current.fav}
           onToggle={() => updateUrl({ fav: !current.fav })}
         />
 
-        <p className={styles.count} aria-live="polite">
+        <p className="w-full text-sm text-muted-ink sm:ms-auto sm:w-auto" aria-live="polite">
           {countLabel(filtered.length)}
         </p>
       </div>
 
       {filtered.length === 0 ? (
-        <div className={styles.empty}>
+        <div className="grid justify-items-center gap-4 py-16 text-center">
           <p>
             {current.fav && favoriteIds.length === 0
               ? "ما في منتجات بالمفضلة لهلق. اكبس على القلب بأي منتج لتحفظه."
               : "ما في منتجات بهالاختيار."}
           </p>
-          <button type="button" className="btn btn-outline" onClick={resetFilters}>
+          <Button variant="secondary" onClick={resetFilters}>
             شيل الفلاتر
-          </button>
+          </Button>
         </div>
       ) : (
-        <motion.div layout className={styles.grid}>
+        <motion.div layout className={productGridClass}>
           <AnimatePresence mode="popLayout">
             {filtered.map((product, i) => (
               <motion.div

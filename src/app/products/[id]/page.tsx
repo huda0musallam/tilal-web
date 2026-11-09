@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { SWRConfig } from "swr";
 import { apiKeys } from "@/lib/api/client";
 import { getProduct } from "@/features/products/products.api";
+import { pageClass } from "@/components/ui/shared-classes";
 import ProductDetails from "@/features/products/ProductDetails";
-import styles from "./product.module.css";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -20,7 +20,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
   return (
-    <main className={styles.page}>
+    <main className={pageClass}>
       <div className="container">
         <SWRConfig value={{ fallback: { [apiKeys.product(id)]: getProduct(id) } }}>
           <ProductDetails id={id} />

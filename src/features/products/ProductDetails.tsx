@@ -11,7 +11,9 @@ import FavoriteButton from "./FavoriteButton";
 import ProductPurchase from "./ProductPurchase";
 import { originLabel, roastLabel, roastOption, ROAST_LEVELS } from "./product.options";
 import { fetchProduct } from "./products.api";
-import styles from "./ProductDetails.module.css";
+
+const factTermClass = "text-xs text-muted-ink";
+const factValueClass = "font-bold text-ink";
 
 interface ProductDetailsProps {
   id: string;
@@ -26,45 +28,51 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
   const level = roastOption(product.roast)?.level ?? 0;
 
   return (
-    <article className={styles.layout}>
-      <div className={styles.media} ref={mediaRef}>
+    <article className="grid grid-cols-1 gap-7 lg:grid-cols-2 lg:items-start lg:gap-14">
+      <div
+        className="relative aspect-square overflow-hidden rounded-panel bg-muted-surface"
+        ref={mediaRef}
+      >
         <Image
           src={product.image}
           alt={`كيس قهوة التلال، ${product.name}`}
           fill
           priority
-          sizes="(min-width: 900px) 50vw, 100vw"
-          className={styles.image}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
         />
         <FavoriteButton product={product} sourceRef={mediaRef} />
       </div>
 
-      <div className={styles.info}>
-        <Link href="/products" className={styles.back}>
+      <div className="flex flex-col gap-4">
+        <Link
+          href="/products"
+          className="inline-flex items-center gap-1.5 self-start font-medium text-muted-ink hover:text-primary"
+        >
           <ArrowRight size={18} aria-hidden="true" />
           كل المنتجات
         </Link>
 
-        <h1 className={styles.name}>{product.name}</h1>
-        <p className={styles.notes}>{product.notes}</p>
+        <h1 className="text-4xl lg:text-5xl">{product.name}</h1>
+        <p className="text-lg">{product.notes}</p>
 
-        <dl className={styles.facts}>
+        <dl className="grid grid-cols-2 gap-3 rounded-control bg-muted-surface p-4">
           <div>
-            <dt>نوع البن</dt>
-            <dd>{originLabel(product.origin)}</dd>
+            <dt className={factTermClass}>نوع البن</dt>
+            <dd className={factValueClass}>{originLabel(product.origin)}</dd>
           </div>
           <div>
-            <dt>التحميص</dt>
-            <dd>
+            <dt className={factTermClass}>التحميص</dt>
+            <dd className={factValueClass}>
               {roastLabel(product.roast)}
-              <span className={styles.level}>
+              <span className="ms-2 text-xs font-normal text-muted-ink">
                 {level} من {ROAST_LEVELS}
               </span>
             </dd>
           </div>
         </dl>
 
-        <div className={styles.purchase}>
+        <div className="flex flex-col gap-4">
           <ProductPurchase product={product} sourceRef={mediaRef} />
         </div>
       </div>

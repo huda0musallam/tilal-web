@@ -1,8 +1,9 @@
 "use client";
 
 import { Heart } from "lucide-react";
+import { chipStyles } from "@/components/ui/Chips";
 import { useFavoritesCount } from "@/features/favorites/favorites.store";
-import styles from "./FavoritesFilterChip.module.css";
+import { cn } from "@/lib/cn";
 
 interface FavoritesFilterChipProps {
   active: boolean;
@@ -17,7 +18,7 @@ export default function FavoritesFilterChip({ active, onToggle }: FavoritesFilte
       type="button"
       onClick={onToggle}
       aria-pressed={active}
-      className={`${styles.chip} ${active ? styles.active : ""}`}
+      className={cn(chipStyles({ active }), "inline-flex items-center gap-1.5")}
     >
       <Heart size={16} fill={active ? "currentColor" : "none"} />
       المفضلة ({count})

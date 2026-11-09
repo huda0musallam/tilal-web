@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { SWRConfig } from "swr";
 import { apiKeys } from "@/lib/api/client";
 import { getProducts } from "@/features/products/products.api";
+import { pageClass, pageHeadClass, pageLabelClass } from "@/components/ui/shared-classes";
 import ProductsCatalog from "@/features/products/ProductsCatalog";
-import styles from "./products.module.css";
 
 export const metadata: Metadata = {
   title: "المنتجات | التلال",
@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <main className={styles.page}>
+    <main className={pageClass}>
       <div className="container">
-        <header className={styles.head}>
-          <p className={styles.label}>المنتجات</p>
-          <h1 className={styles.title}>قهوتنا</h1>
+        <header className={pageHeadClass}>
+          <p className={pageLabelClass}>المنتجات</p>
+          <h1 className="mb-2">قهوتنا</h1>
           <p>اختار البن ودرجة التحميص، وحدد الوزن والهيل على ذوقك.</p>
         </header>
 

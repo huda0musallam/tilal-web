@@ -5,11 +5,13 @@ import { Check, ShoppingBag } from "lucide-react";
 import { cart } from "@/features/cart/cart.store";
 import { flyTo } from "@/features/fly/fly.store";
 import { formatPrice } from "@/lib/format-price";
+import Button from "@/components/ui/Button";
 import Chips from "@/components/ui/Chips";
 import { productPrice } from "./pricing";
 import { CARDAMOM_OPTIONS, WEIGHT_OPTIONS } from "./product.options";
 import type { Cardamom, Product, Weight } from "./product.types";
-import styles from "./ProductPurchase.module.css";
+
+const legendClass = "mb-1.5 text-xs font-medium text-muted-ink";
 
 interface ProductPurchaseProps {
   product: Product;
@@ -32,8 +34,8 @@ export default function ProductPurchase({ product, sourceRef }: ProductPurchaseP
 
   return (
     <>
-      <fieldset className={styles.group}>
-        <legend className={styles.legend}>الوزن</legend>
+      <fieldset>
+        <legend className={legendClass}>الوزن</legend>
         <Chips
           options={WEIGHT_OPTIONS}
           value={weight}
@@ -44,8 +46,8 @@ export default function ProductPurchase({ product, sourceRef }: ProductPurchaseP
       </fieldset>
 
       {product.cardamom && (
-        <fieldset className={styles.group}>
-          <legend className={styles.legend}>الهيل</legend>
+        <fieldset>
+          <legend className={legendClass}>الهيل</legend>
           <Chips
             options={CARDAMOM_OPTIONS}
             value={cardamom}
@@ -56,12 +58,12 @@ export default function ProductPurchase({ product, sourceRef }: ProductPurchaseP
         </fieldset>
       )}
 
-      <div className={styles.footer}>
-        <span className={styles.price}>{formatPrice(price)}</span>
-        <button type="button" className={`btn btn-primary ${styles.add}`} onClick={handleAdd}>
+      <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-line pt-4">
+        <span className="text-2xl font-bold text-ink">{formatPrice(price)}</span>
+        <Button className="px-4.5 py-2.5" onClick={handleAdd}>
           {added ? <Check size={18} /> : <ShoppingBag size={18} />}
           {added ? "انضافت" : "أضف للسلة"}
-        </button>
+        </Button>
       </div>
     </>
   );

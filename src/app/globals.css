@@ -42,6 +42,7 @@
   --radius-control: var(--radius);
   --radius-panel: var(--radius-lg);
   --radius-badge: calc(var(--radius) + 4px);
+  --radius-toolbar: 1.125rem;
   --radius-card: 1.25rem;
   --radius-media: 1.5rem;
   --radius-feature: 1.75rem;
@@ -56,6 +57,7 @@
   --animate-fall: fall 6s linear infinite;
   --animate-marquee: marquee linear infinite;
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+  --animate-shimmer-soft: shimmer-soft 1.4s ease-in-out infinite;
   --animate-zoom: zoom 24s ease-in-out infinite alternate;
   --animate-nudge: nudge 2s ease-in-out infinite;
   --animate-spin-slow: spin 40s linear infinite;
@@ -85,6 +87,16 @@
     }
     50% {
       opacity: 1;
+    }
+  }
+
+  @keyframes shimmer-soft {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
     }
   }
 
