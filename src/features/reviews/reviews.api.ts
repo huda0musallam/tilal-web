@@ -1,4 +1,4 @@
-import { apiKeys, fetchJson } from "@/lib/client";
+import { apiKeys, fetchJson } from "@/lib/api/client";
 import { isListOf, isNumber, isRecord, isString } from "@/lib/api/guards";
 import type { Review } from "./review.types";
 

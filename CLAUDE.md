@@ -63,7 +63,7 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
     `GridSkeleton`, `Reveal`, `RouteError`
   - `ui/shadcn/`: shadcn/ui components. Add more with `npx shadcn add <name>`.
 - `src/lib/` is only for non-UI code that two or more features use:
-  - `client.ts`: base URL, `apiKeys`, `fetchJson`, `ApiError`, test modes
+  - `api/client.ts`: base URL, `apiKeys`, `fetchJson`, `ApiError`, test modes
   - `api/guards.ts`: small type guards (`isRecord`, `isString`, `isOneOf`, `isListOf`)
   - `cn.ts`, `format-price.ts`, `option.ts`
 - A type lives in the feature that owns it (`Product` in `products/product.types.ts`, `CartLine`
@@ -122,7 +122,7 @@ data, not written again in code.
 
 ## Data fetching
 
-- `apiKeys` in `src/lib/client.ts` holds every SWR key. The server fallback and the
+- `apiKeys` in `src/lib/api/client.ts` holds every SWR key. The server fallback and the
   client `useSWR` must use the exact same key.
 - Each feature has its own fetcher in `x.api.ts`, built on `fetchJson(url, guard)`. Components
   never call `fetch`.

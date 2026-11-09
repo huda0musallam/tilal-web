@@ -1,7 +1,7 @@
 "use client";
 
 import { mutate } from "swr";
-import { apiKeys } from "@/lib/client";
+import { apiKeys } from "@/lib/api/client";
 import DataSection from "@/components/ui/DataSection";
 import GridSkeleton from "@/components/ui/GridSkeleton";
 import FeaturedList from "./FeaturedList";

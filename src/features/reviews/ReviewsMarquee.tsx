@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { apiKeys } from "@/lib/client";
+import { apiKeys } from "@/lib/api/client";
 import EmptyState from "@/components/ui/EmptyState";
 import { fetchReviews } from "./reviews.api";
 import Stars from "./Stars";

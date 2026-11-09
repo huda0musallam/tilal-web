@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import { apiKeys } from "@/lib/client";
+import { apiKeys } from "@/lib/api/client";
 import { fetchProducts } from "@/features/products/products.api";
 import { useFavoriteIds } from "@/features/favorites/favorites.store";
 import FavoritesFilterChip from "./FavoritesFilterChip";

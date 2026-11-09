@@ -1,4 +1,4 @@
-import { fetchJson } from "@/lib/client";
+import { fetchJson } from "@/lib/api/client";
 import { isNumber, isOptionalString, isRecord, isString } from "@/lib/api/guards";
 import type { Suggestion } from "./suggestion.types";
 
