@@ -36,8 +36,8 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - React 19, TypeScript (strict)
 - SWR for server state (API data)
 - Zustand for client state (cart, favorites, blend builder, fly animation)
-- CSS Modules for the site's own components
-- Tailwind CSS 4 and shadcn/ui only for shadcn components and the checkout feature
+- Tailwind CSS 4 for all styling. CSS Modules are being removed: no new `.module.css` files
+- shadcn/ui (Radix) only for `RadioGroup` and `Field`
 - react-hook-form and Zod for forms with more than a couple of fields
 - Motion for animation: `import { motion } from "motion/react"`
 - Lucide for icons: `lucide-react`
@@ -53,15 +53,16 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 ## Structure
 
 - `src/app/` contains routes only. Pages stay thin and compose features.
-- `src/features/<name>/` owns everything for one feature: components, CSS modules, types, API
-  fetcher, logic, options and store. Current features: `home`, `products`, `blend`, `brewing`,
+- `src/features/<name>/` owns everything for one feature: components, types, API fetcher,
+  logic, options and store. Current features: `home`, `products`, `blend`, `brewing`,
   `cart`, `checkout`, `favorites`, `fly`, `reviews`, `suggestions`.
   The WhatsApp link builder is `features/cart/whatsapp.ts`.
 - `src/components/` is only for UI that two or more features use:
   - `layout/`, `logo/`
-  - `ui/`: `Chips`, `DataSection`, `ErrorBoundary`, `SectionError`, `EmptyState`,
-    `GridSkeleton`, `Reveal`, `RouteError`
-  - `ui/shadcn/`: shadcn/ui components. Add more with `npx shadcn add <name>`.
+  - `ui/`: the UI kit (see below), plus `DataSection`, `ErrorBoundary`, `SectionError`,
+    `EmptyState`, `GridSkeleton`, `Reveal`, `RouteError`
+  - `ui/shadcn/`: `RadioGroup` and `Field`. Anything added with `npx shadcn add <name>` must be
+    switched to our tokens, and must not repeat a control the kit already has.
 - `src/lib/` is only for non-UI code that two or more features use:
   - `api/client.ts`: base URL, `apiKeys`, `fetchJson`, `ApiError`, test modes
   - `api/guards.ts`: small type guards (`isRecord`, `isString`, `isOneOf`, `isListOf`)
@@ -79,7 +80,8 @@ place in the same commit.
 ## Components
 
 - One component per file, with `interface NameProps` for its props.
-- A component with styles has `Name.module.css` next to it.
+- Style components with Tailwind classes. A component that still has a `Name.module.css` keeps it
+  only until it is migrated; delete the module in the same commit as the migration.
 - Add `"use client"` only when a component needs state, effects, event handlers, SWR, Zustand
   or Motion.
 - Every list uses a real key from the data (`product.id`, `step` text, a fixed `id` field).
@@ -98,6 +100,44 @@ place in the same commit.
 - Hooks that read the URL (`usePathname`, `useSearchParams`) must sit under a `Suspense`
   boundary, because `cacheComponents` is on. See `ActiveNavLinks` in the header.
 
+## UI kit
+
+Every control must use these components, never a copied class string.
+
+| Component                 | Props and variants                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `ui/Button`               | `variant`: `primary`, `secondary`, `ghost`; `size`: `sm`, `md`, `lg`                             |
+| `ui/Input`, `ui/Textarea` | Native props. `aria-invalid` shows the error border                                              |
+| `ui/Label`                | Native props                                                                                     |
+| `ui/Card`                 | `tone`: `page`, `section`                                                                        |
+| `ui/Badge`                | `variant`: `soft`, `strong`, `inverse`, `count`; `size`: `sm`, `md`                              |
+| `ui/Chips`                | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                      |
+| `ui/shadcn/radio-group`   | `RadioGroup`, `RadioGroupItem`                                                                   |
+| `ui/shadcn/field`         | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError` |
+
+Rules:
+
+- **The UI is dumb.** Nothing in `components/ui` knows about the cart, products or roasts.
+  Features map their data to visual variants, like the `badge` field in `ROAST_OPTIONS`.
+- **One source.** One file for each control. A look that is missing becomes a new variant, not a
+  second component or a class string at the call site.
+- **Small files.** One component per file, built with `cva`, `cn()` and typed props.
+- **Tokens only.** Use the role tokens from `globals.css`:
+  - Color: `surface`, `muted-surface`, `strong-surface`, `inverse-surface`, `field`, `ink`,
+    `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `on-primary`, `line`, `line-strong`,
+    `focus`, `danger`, `placeholder`. Palette names such as `olive` or `coffee` are not for
+    components.
+  - Radius: `rounded-control` for controls, `rounded-panel` for cards and large surfaces,
+    `rounded-badge` for badges. `rounded-full` is only for real circles.
+  - No hex, no pixel values, no `[..]` values. Structural `[..]` selectors are allowed, such as
+    `data-[state=checked]:` or `has-[>[data-slot=field]]:`.
+- **Visible focus.** Every control has `focus-visible:ring-*` classes. The global
+  `:focus-visible` outline in `globals.css` is not in a layer, so it beats `outline-*` utilities.
+
+`Button` only renders a `<button>`, so links styled as buttons still use `.btn` from
+`globals.css`. Those classes, and native `<button>`, `<input>` and `<textarea>` elements in
+components with a CSS Module, are legacy: replace them when you migrate that component.
+
 ## State: which tool for what
 
 | Kind                           | Tool                                                                         |
@@ -114,7 +154,7 @@ other state (totals, counts, prices, filtered lists) is computed on render, not 
 
 ## Option lists
 
-Roast, weight and cardamom options (values, labels, roast images and levels) live only in
+Roast, weight and cardamom options (values, labels, roast images, levels and badges) live only in
 `features/products/product.options.ts`. Grind options live in `features/blend/blend.options.ts`.
 Product cards, filters, the blend builder, the home roast section, brewing guides and the type
 guards all read from there. Lists that come from the data (bean origins) are built from the
@@ -176,20 +216,27 @@ data, not written again in code.
 
 ## Styling
 
-- Mobile first. Write the phone styles with no media query, then add
-  `@media (min-width: 640px)`, `768px` (header menu only), `900px` and `1024px`. Never use
-  `max-width` media queries.
-- Use the color tokens from `globals.css` (`--bg`, `--olive`, `--danger`, `--white`…). Do not
-  write a hex color in a CSS module. See `DESIGN.md`.
-- The site is RTL. Use logical properties: `inset-inline-start`, `margin-inline`,
-  `padding-inline`. Use `left` and `right` only for physical positions.
+- Tailwind is the styling for the whole site. CSS Modules are being removed. Do not add a new
+  `.module.css` file.
+- Mobile first. Write the phone styles with no prefix, then add `sm:` (640px), `md:` (768px,
+  header menu only) and `lg:` (1024px). The 900px step has no token yet and `Checkout` uses
+  `min-[900px]:`; add a `--breakpoint-*` token to `@theme` before using it anywhere else. Never
+  use `max-*:` variants or `max-width` media queries.
+- Use the role and radius tokens listed under UI kit. CSS Modules that are not migrated yet use
+  the palette variables (`--bg`, `--olive`, `--danger`…). Never write a hex color in new code.
+  See `DESIGN.md`.
+- The site is RTL. When the two sides differ, use logical classes: `ms-*`, `me-*`, `ps-*`,
+  `pe-*`, `start-*`, `end-*`. When both sides are equal, use `px-*`, `py-*`, `mx-*`, `my-*`. Use
+  `left` and `right` only for physical positions. CSS Modules that are not migrated yet use
+  logical properties.
 - Arrows that mean "forward" point left (`ArrowLeft`); "back" points right (`ArrowRight`).
 - `experimental.inlineCss` is on, so production pages inline their CSS. Without it the browser
   warns about preloaded CSS from prefetched routes that is not used.
-- Tailwind is loaded without preflight, and only scans `src/components/ui/shadcn` and
-  `src/features/checkout` (`src/app/tailwind.css`). The site reset in `globals.css` is in
-  `@layer base` so Tailwind utilities can win over it. Do not use Tailwind classes in CSS Module
-  components, and do not add new Tailwind source folders without a reason.
+- Tailwind is loaded without preflight. The site reset in `globals.css` is in `@layer base` so
+  Tailwind utilities can win over it.
+- Tailwind only scans the sources listed in `src/app/tailwind.css`: `src/components/ui/*.tsx`,
+  `src/components/ui/shadcn` and `src/features/checkout`. A Tailwind class anywhere else compiles
+  to nothing, so add the folder to `@source` when you migrate it.
 - After adding a new folder to Tailwind's sources, restart `npm run dev`. The dev server does not
   pick up new source folders on its own.
 
@@ -201,7 +248,7 @@ data, not written again in code.
 
 ## Accessibility
 
-- Every form field has a visible `<label>` (`FieldLabel` in shadcn forms).
+- Every form field has a visible label: `Label`, or `FieldLabel` inside a `Field`.
 - Icon-only buttons and links need `aria-label`.
 - Toggle buttons use `aria-pressed`.
 - Forms validate on submit and show inline errors with `aria-invalid`.
@@ -224,7 +271,8 @@ data, not written again in code.
 ## Do not
 
 - Commit `.env.local` or `node_modules`.
-- Add a UI component library other than shadcn/ui, or use Tailwind outside the places above.
+- Add a UI component library other than shadcn/ui, or a new `.module.css` file.
+- Copy a control's class string instead of using the UI kit.
 - Call `fetch` directly in components; go through a feature `x.api.ts`.
 - Copy URL filters into `useState`.
 - Store anything sensitive in `localStorage`, or use it for access control.
