@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { motion, type Variants } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import { badgeStyles } from "@/components/ui/Badge";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { cn } from "@/lib/cn";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -35,7 +37,7 @@ export default function Hero() {
         <motion.div className="max-w-140" variants={stagger} initial="hidden" animate="show">
           <motion.p
             variants={fadeUp}
-            className="mb-5 inline-block rounded-pill bg-muted-surface px-3.5 py-1.5 text-sm font-medium text-primary"
+            className={cn(badgeStyles({ variant: "eyebrow", size: "lg" }), "mb-5")}
           >
             محمصة منزلية · تحميص طازة بدفعات صغيرة
           </motion.p>

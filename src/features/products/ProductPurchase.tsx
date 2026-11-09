@@ -7,6 +7,7 @@ import { flyTo } from "@/features/fly/fly.store";
 import { formatPrice } from "@/lib/format-price";
 import Button from "@/components/ui/Button";
 import Chips from "@/components/ui/Chips";
+import DashedRow from "@/components/ui/DashedRow";
 import { productPrice } from "./pricing";
 import { CARDAMOM_OPTIONS, WEIGHT_OPTIONS } from "./product.options";
 import type { Cardamom, Product, Weight } from "./product.types";
@@ -58,13 +59,13 @@ export default function ProductPurchase({ product, sourceRef }: ProductPurchaseP
         </fieldset>
       )}
 
-      <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-line pt-4">
+      <DashedRow className="mt-auto gap-3">
         <span className="text-2xl font-bold text-ink">{formatPrice(price)}</span>
         <Button className="px-4.5 py-2.5" onClick={handleAdd}>
           {added ? <Check size={18} /> : <ShoppingBag size={18} />}
           {added ? "انضافت" : "أضف للسلة"}
         </Button>
-      </div>
+      </DashedRow>
     </>
   );
 }

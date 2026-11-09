@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { CartItem } from "@/features/cart/cart.types";
 import { lineTotal } from "@/features/cart/cart.logic";
 import { cardStyles } from "@/components/ui/Card";
+import DashedRow from "@/components/ui/DashedRow";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 
@@ -34,10 +35,10 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
           </li>
         ))}
       </ul>
-      <div className="mt-6 flex items-center justify-between border-0 border-t border-dashed border-line pt-4 text-lg">
+      <DashedRow className="mt-6 text-lg">
         <span>المجموع</span>
         <strong className="text-ink">{formatPrice(total)}</strong>
-      </div>
+      </DashedRow>
     </aside>
   );
 }

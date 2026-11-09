@@ -2,7 +2,10 @@
 
 import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
+import { badgeStyles } from "@/components/ui/Badge";
 import ButtonLink from "@/components/ui/ButtonLink";
+import Donut from "@/components/ui/Donut";
+import { cn } from "@/lib/cn";
 import Section from "@/components/ui/Section";
 import Bean from "./Bean";
 
@@ -63,10 +66,19 @@ export default function BlendTeaser() {
             ))}
 
             <div className="relative z-1 grid justify-items-center gap-4">
-              <div className="relative grid size-47.5 place-items-center rounded-full bg-conic from-accent from-60% to-surface to-60% after:absolute after:inset-6.5 after:rounded-full after:bg-primary">
-                <span className="relative z-1 text-2xl font-bold text-on-primary">250 غ</span>
-              </div>
-              <div className="flex gap-4 rounded-pill bg-scrim/35 px-3.5 py-1.5 text-sm text-on-primary">
+              <Donut
+                size="lg"
+                hole="primary"
+                className="bg-conic from-accent from-60% to-surface to-60%"
+              >
+                250 غ
+              </Donut>
+              <div
+                className={cn(
+                  badgeStyles({ variant: "scrim", size: "lg" }),
+                  "flex gap-4 font-normal",
+                )}
+              >
                 <span className={legendItemClass}>
                   <i className={`${legendDotClass} bg-accent`} /> برازيلي 60%
                 </span>

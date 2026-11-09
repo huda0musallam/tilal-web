@@ -14,7 +14,9 @@ import { ROAST_OPTIONS, originOptions } from "./product.options";
 import Button from "@/components/ui/Button";
 import Chips from "@/components/ui/Chips";
 import EmptyState from "@/components/ui/EmptyState";
-import { productGridClass } from "./product.classes";
+import { cardGridStyles } from "@/components/ui/CardGrid";
+import { centeredStackStyles } from "@/components/ui/MessageBox";
+import { cn } from "@/lib/cn";
 
 const dividerClass = "hidden h-7 w-px bg-line sm:block";
 
@@ -112,7 +114,7 @@ export default function ProductsExplorer() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="grid justify-items-center gap-4 py-16 text-center">
+        <div className={cn(centeredStackStyles(), "py-16")}>
           <p>
             {current.fav && favoriteIds.length === 0
               ? "ما في منتجات بالمفضلة لهلق. اكبس على القلب بأي منتج لتحفظه."
@@ -123,7 +125,7 @@ export default function ProductsExplorer() {
           </Button>
         </div>
       ) : (
-        <motion.div layout className={productGridClass}>
+        <motion.div layout className={cardGridStyles()}>
           <AnimatePresence mode="popLayout">
             {filtered.map((product, i) => (
               <motion.div

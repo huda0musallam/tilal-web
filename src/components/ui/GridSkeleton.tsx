@@ -1,3 +1,4 @@
+import CardGrid from "./CardGrid";
 import Skeleton from "./Skeleton";
 
 function slotIds(count: number) {
@@ -12,14 +13,10 @@ interface GridSkeletonProps {
 
 export default function GridSkeleton({ count = 6 }: GridSkeletonProps) {
   return (
-    <div
-      className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3"
-      role="status"
-      aria-label="عم نجيب البيانات"
-    >
+    <CardGrid layout="full3" role="status" aria-label="عم نجيب البيانات">
       {slotIds(count).map((id) => (
         <Skeleton key={id} variant="strong" className="aspect-3/4 rounded-card" />
       ))}
-    </div>
+    </CardGrid>
   );
 }

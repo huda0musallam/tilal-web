@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Clock, Coffee } from "lucide-react";
 import { BREW_METHODS } from "@/features/brewing/brewing";
 import Badge from "@/components/ui/Badge";
+import CardGrid from "@/components/ui/CardGrid";
 import { cardStyles } from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
 import MoreHint from "@/components/ui/MoreHint";
@@ -25,7 +26,7 @@ export default function BrewingPage() {
         اختار طريقتك، ومنمشي معك خطوة بخطوة لحد ما يصير الفنجان بإيدك.
       </PageHeader>
 
-      <div className="mx-auto grid max-w-180 grid-cols-1 gap-6 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+      <CardGrid layout="wide2">
         {BREW_METHODS.map((m, i) => (
           <Reveal key={m.slug} delay={i * 0.1}>
             <Link
@@ -63,7 +64,7 @@ export default function BrewingPage() {
             </Link>
           </Reveal>
         ))}
-      </div>
+      </CardGrid>
     </Page>
   );
 }

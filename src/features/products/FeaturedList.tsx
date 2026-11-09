@@ -3,9 +3,9 @@
 import useSWR from "swr";
 import { apiKeys } from "@/lib/api/client";
 import ButtonLink from "@/components/ui/ButtonLink";
+import CardGrid from "@/components/ui/CardGrid";
 import EmptyState from "@/components/ui/EmptyState";
 import ProductCard from "./ProductCard";
-import { productGridClass } from "./product.classes";
 import { fetchProducts } from "./products.api";
 
 export default function FeaturedList() {
@@ -21,11 +21,11 @@ export default function FeaturedList() {
       {featured.length === 0 ? (
         <EmptyState title="ما في منتجات مميزة هلق." />
       ) : (
-        <div className={productGridClass}>
+        <CardGrid>
           {featured.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} />
           ))}
-        </div>
+        </CardGrid>
       )}
       <div className="mt-12 text-center">
         <ButtonLink href="/products" variant="secondary">

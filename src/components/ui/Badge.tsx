@@ -2,25 +2,31 @@ import type { ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
-const badgeStyles = cva("inline-flex items-center justify-center gap-1 rounded-badge font-medium", {
-  variants: {
-    variant: {
-      soft: "border border-line bg-muted-surface text-muted-ink",
-      strong: "bg-strong-surface text-ink",
-      inverse: "bg-inverse-surface text-on-inverse",
-      count: "bg-primary text-on-primary",
-      plain: "bg-surface text-muted-ink",
+export const badgeStyles = cva(
+  "inline-flex items-center justify-center gap-1 rounded-badge font-medium",
+  {
+    variants: {
+      variant: {
+        soft: "border border-line bg-muted-surface text-muted-ink",
+        strong: "bg-strong-surface text-ink",
+        inverse: "bg-inverse-surface text-on-inverse",
+        count: "bg-primary text-on-primary",
+        plain: "bg-surface text-muted-ink",
+        eyebrow: "bg-muted-surface text-primary",
+        scrim: "bg-scrim/35 text-on-primary",
+      },
+      size: {
+        sm: "h-4.5 min-w-4.5 px-1.25 text-xs leading-none font-bold tabular-nums",
+        md: "px-3 py-1 text-sm",
+        lg: "rounded-pill px-3.5 py-1.5 text-sm",
+      },
     },
-    size: {
-      sm: "h-4.5 min-w-4.5 px-1.25 text-xs leading-none font-bold tabular-nums",
-      md: "px-3 py-1 text-sm",
+    defaultVariants: {
+      variant: "soft",
+      size: "md",
     },
   },
-  defaultVariants: {
-    variant: "soft",
-    size: "md",
-  },
-});
+);
 
 export type BadgeVariant = NonNullable<VariantProps<typeof badgeStyles>["variant"]>;
 

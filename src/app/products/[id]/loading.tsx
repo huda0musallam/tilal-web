@@ -1,3 +1,4 @@
+import { cardGridStyles } from "@/components/ui/CardGrid";
 import Page from "@/components/ui/Page";
 
 const blockClass = "rounded-panel bg-muted-surface";
@@ -6,7 +7,7 @@ export default function Loading() {
   return (
     <Page>
       <div
-        className="grid grid-cols-1 gap-7 lg:grid-cols-2 lg:gap-14"
+        className={cardGridStyles({ layout: "split" })}
         role="status"
         aria-label="عم نجيب المنتج"
       >

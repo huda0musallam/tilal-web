@@ -8,6 +8,8 @@ import { cardamomLabel, roastImage, weightLabel } from "@/features/products/prod
 import RoastBadge from "@/features/products/RoastBadge";
 import Button from "@/components/ui/Button";
 import { cardStyles } from "@/components/ui/Card";
+import Donut from "@/components/ui/Donut";
+import SideColumn from "@/components/ui/SideColumn";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
@@ -57,22 +59,18 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
   }
 
   return (
-    <aside
+    <SideColumn
       className={cn(
         cardStyles({ radius: "media", padding: "none", bordered: false }),
-        "top-24 grid justify-items-center gap-4 p-7 lg:sticky lg:flex-10",
+        "justify-items-center p-7",
       )}
       aria-label="ملخص الخلطة"
     >
       <h2 className="text-3xl">خلطتك</h2>
 
-      <div
-        ref={ringRef}
-        className="relative grid size-42.5 place-items-center rounded-full after:absolute after:inset-6 after:rounded-full after:bg-muted-surface"
-        style={ringStyle}
-      >
-        <span className="relative z-1 text-xl font-bold text-ink">{weightLabel(total)}</span>
-      </div>
+      <Donut ref={ringRef} style={ringStyle}>
+        {weightLabel(total)}
+      </Donut>
 
       <ul className="flex list-none flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-ink">
         {selected.map((b) => (
@@ -110,6 +108,6 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
         {added ? "انضافت خلطتك" : "أضف خلطتي للسلة"}
       </Button>
       {!isValid && <p className="text-center text-xs">كمّل اختيار البن لتقدر تضيف الخلطة.</p>}
-    </aside>
+    </SideColumn>
   );
 }

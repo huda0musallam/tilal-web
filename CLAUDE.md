@@ -111,7 +111,7 @@ Every control must use these components, never a copied class string.
 | `ui/Input`, `ui/Textarea`          | Native props. `aria-invalid` shows the error border                                                                                                                                     |
 | `ui/Label`                         | Native props. `labelStyles` is exported for labels that are not a `<label>`                                                                                                             |
 | `ui/Card`                          | `tone`: `page`, `section`; `radius`: `panel`, `card`, `media`; `padding`: `none`, `md`; `bordered`; `lift`                                                                              |
-| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`; `size`: `sm`, `md`                                                                                                            |
+| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`, `eyebrow`, `scrim`; `size`: `sm`, `md`, `lg`                                                                                  |
 | `ui/Modal`                         | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end`; `bodyClassName`                                                            |
 | `ui/Chips`                         | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                                                                                             |
 | `ui/Section`                       | `tone`: `page`, `muted`                                                                                                                                                                 |
@@ -122,13 +122,20 @@ Every control must use these components, never a copied class string.
 | `ui/MoreHint`                      | `tone`: `primary`, `onPhoto`; `arrowSize`. The arrow moves on hover of a `group` parent                                                                                                 |
 | `ui/Skeleton`                      | `variant`: `muted`, `strong`                                                                                                                                                            |
 | `ui/GridSkeleton`                  | `count`                                                                                                                                                                                 |
-| `ui/MessageBox`                    | `title`; `tone`: `empty`, `error`                                                                                                                                                       |
+| `ui/MessageBox`                    | `title`; `tone`: `empty`, `error`, `callout`                                                                                                                                            |
 | `ui/EmptyState`                    | `title`, children. Built on `MessageBox`                                                                                                                                                |
 | `ui/RouteError`, `ui/SectionError` | Error screens built on `MessageBox`                                                                                                                                                     |
+| `ui/CardGrid`                      | `layout`: `fluid3`, `fluid4`, `wide3`, `wide2`, `full3`, `split`                                                                                                                        |
+| `ui/Circle`                        | `tone`: `primary`, `inverse`, `surface`, `outline`; `size`: `xs`, `sm`, `md`, `lg`                                                                                                      |
+| `ui/Donut`                         | The label as children; `size`: `md`, `lg`; `hole`: `muted`, `primary`                                                                                                                   |
+| `ui/PhotoScrim`                    | `fade`: `short`, `long`                                                                                                                                                                 |
+| `ui/BackLink`                      | `next/link` props; `tone`: `page`, `onPhoto`                                                                                                                                            |
+| `ui/DashedRow`                     | A row with a dashed top border                                                                                                                                                          |
+| `ui/SideColumn`                    | The sticky side column of a two-column page                                                                                                                                             |
 | `ui/shadcn/radio-group`            | `RadioGroup`, `RadioGroupItem`                                                                                                                                                          |
 | `ui/shadcn/field`                  | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`                                                                                        |
 
-`buttonStyles` and `cardStyles` are exported for elements that cannot be the component itself, such
+`buttonStyles`, `cardStyles`, `badgeStyles`, `cardGridStyles`, `centeredStackStyles`, `fieldSurfaceStyles` and `textFieldStyles` are exported for elements that cannot be the component itself, such
 as `motion.button`, a `Link` card or a `<figure>`.
 
 A roast shown on its own uses `features/products/RoastBadge`, which reads its variant from the
@@ -155,7 +162,7 @@ Rules:
     `data-[state=checked]:` or `has-[>[data-slot=field]]:`.
 - **`Modal` closing.** `onClose` must be safe to call more than once, for example
   `() => setOpen(false)`. It must also set `open` to false, or the state stays open after Esc.
-- **Visible focus.** Every control has `focus-visible:ring-*` classes. The global
+- **Visible focus.** Every control uses the `focus-ring` utility. The global
   `:focus-visible` outline in `globals.css` is not in a layer, so it beats `outline-*` utilities.
 
 Links styled as buttons use `ButtonLink`. Logos and `Bean` use `currentColor` and token classes,
@@ -251,10 +258,12 @@ data, not written again in code.
 - The site is RTL. When the two sides differ, use logical classes: `ms-*`, `me-*`, `ps-*`,
   `pe-*`, `start-*`, `end-*`. When both sides are equal, use `px-*`, `py-*`, `mx-*`, `my-*`. Use
   `left` and `right` only for physical positions.
-- Four `@utility` rules in `globals.css` cover what the Tailwind scale cannot express. Add another
+- Five `@utility` rules in `globals.css` cover what the Tailwind scale cannot express. Add another
   only when no scale value or token can do the job:
   - `container`: centered, with the site's `--container` max width and `--gutter` padding.
     Tailwind's own `container` is not centered and steps through the breakpoint widths.
+  - `focus-ring`: the focus-visible ring for every control. It is a set of variant classes with no
+    look of its own, so a utility is the one place it can be defined once.
   - `grid-cols-fit`: `auto-fit` columns with a minimum width, for the bean options. `grid-cols-*`
     only takes a fixed column count, which would leave empty columns.
   - `paused`: `animation-play-state: paused`, for the reviews marquee on hover. Tailwind has no

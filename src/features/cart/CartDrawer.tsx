@@ -6,15 +6,16 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import Button from "@/components/ui/Button";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { centeredStackStyles } from "@/components/ui/MessageBox";
 import Modal from "@/components/ui/Modal";
+import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import { useFavoritesStore } from "@/features/favorites/favorites.store";
 import { cart, useCartCount, useCartOpen, useCartStore } from "./cart.store";
 import { lineTotal } from "./cart.logic";
 import { useCartItems } from "./use-cart-items";
 
-const emptyClass =
-  "grid flex-1 place-content-center justify-items-center gap-4 p-6 text-center text-line";
+const emptyClass = cn(centeredStackStyles(), "flex-1 place-content-center p-6 text-line");
 const stepperButtonClass = "size-7";
 
 export default function CartDrawer() {

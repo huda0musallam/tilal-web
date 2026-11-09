@@ -9,6 +9,8 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Label, { labelStyles } from "@/components/ui/Label";
+import { centeredStackStyles } from "@/components/ui/MessageBox";
+import { cn } from "@/lib/cn";
 import Section from "@/components/ui/Section";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Textarea from "@/components/ui/Textarea";
@@ -78,7 +80,7 @@ export default function SuggestionBox() {
             {sent ? (
               <motion.div
                 key="thanks"
-                className="grid justify-items-center gap-4 py-8 text-center text-primary"
+                className={cn(centeredStackStyles(), "py-8 text-primary")}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}

@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { Flame, Coffee, Leaf } from "lucide-react";
 import StampLogo from "@/components/logo/StampLogo";
 import Section from "@/components/ui/Section";
+import Circle from "@/components/ui/Circle";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const points = [
@@ -85,12 +86,9 @@ export default function Story() {
           <ul className="grid list-none gap-5">
             {points.map(({ icon: Icon, title, text }) => (
               <motion.li key={title} variants={fadeUp} className="flex items-start gap-4">
-                <span
-                  className="grid size-12 shrink-0 place-items-center rounded-full bg-surface text-primary"
-                  aria-hidden="true"
-                >
+                <Circle tone="surface" size="lg" aria-hidden="true">
                   <Icon size={22} strokeWidth={1.8} />
-                </span>
+                </Circle>
                 <div>
                   <p className="font-bold text-ink">{title}</p>
                   <p className="text-base">{text}</p>

@@ -158,6 +158,10 @@
   padding-inline: var(--gutter);
 }
 
+@utility focus-ring {
+  @apply focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface;
+}
+
 @utility grid-cols-fit {
   grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
 }

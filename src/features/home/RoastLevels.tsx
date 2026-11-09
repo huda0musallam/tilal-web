@@ -5,6 +5,7 @@ import { motion, type Variants } from "motion/react";
 import { ROAST_LEVELS, ROAST_OPTIONS } from "@/features/products/product.options";
 import type { Roast } from "@/features/products/product.types";
 import { cardStyles } from "@/components/ui/Card";
+import { cardGridStyles } from "@/components/ui/CardGrid";
 import Section from "@/components/ui/Section";
 import MoreHint from "@/components/ui/MoreHint";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -55,7 +56,7 @@ export default function RoastLevels() {
         </motion.div>
 
         <motion.div
-          className="mx-auto grid max-w-105 grid-cols-1 gap-7 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+          className={cardGridStyles({ layout: "wide3" })}
           variants={stagger}
           initial="hidden"
           whileInView="show"

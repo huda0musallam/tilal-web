@@ -3,8 +3,8 @@
 import { AnimatePresence, motion } from "motion/react";
 import { Check } from "lucide-react";
 import Button from "@/components/ui/Button";
+import Circle from "@/components/ui/Circle";
 import Label from "@/components/ui/Label";
-import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format-price";
 import type { Bean } from "./bean.types";
 import { blend, useBlendStore, useShares } from "./blend.store";
@@ -40,15 +40,14 @@ export default function BeansStep({ beans }: BeansStepProps) {
               onClick={() => blend.toggleBean(b.id, shares)}
               aria-pressed={isOn}
             >
-              <span
-                className={cn(
-                  "absolute end-3.5 top-3.5 grid size-5.5 place-items-center rounded-full border-2 text-on-primary",
-                  isOn ? "border-primary bg-primary" : "border-line",
-                )}
+              <Circle
+                tone={isOn ? "primary" : "outline"}
+                size="xs"
+                className="absolute end-3.5 top-3.5"
                 aria-hidden="true"
               >
                 {isOn && <Check size={14} />}
-              </span>
+              </Circle>
               <span className="text-lg font-bold text-ink">{b.name}</span>
               <span className="text-sm text-muted-ink">{b.notes}</span>
               <span className="mt-1 text-sm font-bold text-primary">

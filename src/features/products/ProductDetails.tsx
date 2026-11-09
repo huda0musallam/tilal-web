@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
 import useSWR from "swr";
 import { apiKeys } from "@/lib/api/client";
 import FavoriteButton from "./FavoriteButton";
+import BackLink from "@/components/ui/BackLink";
+import { cardGridStyles } from "@/components/ui/CardGrid";
 import ProductPurchase from "./ProductPurchase";
 import RoastBadge from "./RoastBadge";
 import { originLabel, roastOption, ROAST_LEVELS } from "./product.options";
@@ -29,7 +29,7 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
   const level = roastOption(product.roast)?.level ?? 0;
 
   return (
-    <article className="grid grid-cols-1 gap-7 lg:grid-cols-2 lg:items-start lg:gap-14">
+    <article className={cardGridStyles({ layout: "split" })}>
       <div
         className="relative aspect-square overflow-hidden rounded-panel bg-muted-surface"
         ref={mediaRef}
@@ -46,13 +46,7 @@ export default function ProductDetails({ id }: ProductDetailsProps) {
       </div>
 
       <div className="flex flex-col gap-4">
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-1.5 self-start font-medium text-muted-ink hover:text-primary"
-        >
-          <ArrowRight size={18} aria-hidden="true" />
-          كل المنتجات
-        </Link>
+        <BackLink href="/products">كل المنتجات</BackLink>
 
         <h1 className="text-4xl lg:text-5xl">{product.name}</h1>
         <p className="text-lg">{product.notes}</p>

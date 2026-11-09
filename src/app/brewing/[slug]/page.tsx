@@ -1,14 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowRight, Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
+import { Clock, Scale, Coffee, Flame, Lightbulb, Check } from "lucide-react";
 import { BREW_METHODS, getMethod } from "@/features/brewing/brewing";
 import { roastLabel } from "@/features/products/product.options";
 import RoastBadge from "@/features/products/RoastBadge";
+import BackLink from "@/components/ui/BackLink";
 import ButtonLink from "@/components/ui/ButtonLink";
+import Circle from "@/components/ui/Circle";
+import MessageBox from "@/components/ui/MessageBox";
+import PhotoScrim from "@/components/ui/PhotoScrim";
 import { cardStyles } from "@/components/ui/Card";
 import Reveal from "@/components/ui/Reveal";
+import SideColumn from "@/components/ui/SideColumn";
 import { cn } from "@/lib/cn";
 
 const boxClass = cardStyles({ radius: "card", bordered: false });
@@ -61,15 +65,11 @@ export default async function MethodPage({ params }: MethodPageProps) {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t/srgb from-scrim/85 from-0% via-scrim/35 via-55% to-scrim/10 to-100%" />
+        <PhotoScrim fade="long" />
         <div className="relative z-1 container py-12">
-          <Link
-            href="/brewing"
-            className="mb-3 inline-flex items-center gap-1.5 font-medium text-on-primary-muted hover:text-on-primary"
-          >
-            <ArrowRight size={18} />
+          <BackLink href="/brewing" tone="onPhoto" className="mb-3">
             كل الطرق
-          </Link>
+          </BackLink>
           <h1 className="text-on-primary">{method.name}</h1>
           <p className="text-xl text-text-on-dark">{method.tagline}</p>
         </div>
@@ -90,7 +90,7 @@ export default async function MethodPage({ params }: MethodPageProps) {
         </dl>
 
         <div className="grid grid-cols-1 items-start gap-8 py-12 lg:flex lg:gap-12 lg:py-16">
-          <aside className="top-24 order-2 grid gap-4 lg:sticky lg:order-none lg:flex-10">
+          <SideColumn className="order-2 lg:order-none">
             <div className={boxClass}>
               <h2 className={boxTitleClass}>الأدوات</h2>
               <ul className={listClass}>
@@ -113,13 +113,12 @@ export default async function MethodPage({ params }: MethodPageProps) {
               </ul>
             </div>
 
-            <div className="grid gap-3 rounded-card border border-dashed border-accent p-6 text-center">
-              <p className="font-bold text-ink">القهوة المناسبة لهالطريقة</p>
+            <MessageBox tone="callout" title="القهوة المناسبة لهالطريقة">
               <ButtonLink href={`/products?roast=${method.roast}`}>
                 شوف القهوة ال{roastLabel(method.roast)}
               </ButtonLink>
-            </div>
-          </aside>
+            </MessageBox>
+          </SideColumn>
 
           <section className="lg:min-w-0 lg:flex-16">
             <h2 className="mb-6">الخطوات</h2>
@@ -134,9 +133,7 @@ export default async function MethodPage({ params }: MethodPageProps) {
                     "flex items-start gap-4 p-5",
                   )}
                 >
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-inverse-surface font-bold text-on-inverse">
-                    {i + 1}
-                  </span>
+                  <Circle tone="inverse">{i + 1}</Circle>
                   <p className="text-base text-ink">{step}</p>
                 </Reveal>
               ))}
