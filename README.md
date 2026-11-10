@@ -6,7 +6,7 @@ The interface is in Arabic and reads right to left, in a light and a dark theme.
 
 ## Links
 
-- **Live:** `VERCEL_URL` (add the Vercel link here after the first deploy)
+- **Live:** :(https://tilal-web-five.vercel.app/)
 - Frontend (this repository): https://github.com/huda0musallam/tilal-web
 - API code: https://github.com/huda0musallam/tilal-api
 - Live API: https://tilal-api.onrender.com (for example
@@ -585,7 +585,7 @@ exactly `light` or `dark`; anything else falls back to the system setting.
 
 ## Deployment
 
-**Live:** `VERCEL_URL` (add the Vercel link here after the first deploy).
+**Live:** (https://tilal-web-five.vercel.app/)
 
 The site can run on Vercel with no extra settings. Set `NEXT_PUBLIC_API_URL` only to use a
 different API.
