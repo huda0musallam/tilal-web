@@ -7,7 +7,7 @@ const moreHintStyles = cva("inline-flex items-center gap-1.5 font-bold", {
   variants: {
     tone: {
       primary: "text-primary",
-      onPhoto: "text-sm text-on-primary-muted",
+      onPhoto: "text-sm text-on-photo-muted",
     },
   },
   defaultVariants: {

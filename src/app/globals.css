@@ -38,6 +38,11 @@
   --color-focus: var(--focus);
   --color-accent: var(--accent);
   --color-on-primary-muted: var(--on-primary-muted);
+  --color-on-primary-soft: var(--on-primary-soft);
+  --color-on-photo: var(--on-photo);
+  --color-on-photo-muted: var(--on-photo-muted);
+  --color-primary-shade: var(--primary-shade);
+  --color-primary-tint: var(--primary-tint);
   --color-logo-accent: var(--logo-accent);
   --color-logo-detail: var(--logo-detail);
   --color-bean: var(--bean);
@@ -175,6 +180,7 @@
 }
 
 :root {
+  color-scheme: light;
   --bg: #f7f2ea;
   --section: #efe3d1;
   --sand: #dcc7a8;
@@ -192,6 +198,11 @@
   --text-on-dark: #e8e1cf;
   --white: #fff;
   --placeholder: #9c8572;
+  --on-olive-muted: #dcc7a8;
+  --on-olive-soft: #e8e1cf;
+  --photo-ink: #f7f2ea;
+  --photo-ink-muted: #dcc7a8;
+  --tint-strength: 5%;
   --scrim: var(--espresso);
   --hill: #6b7a45;
   --bean-fourth: #d9b98f;
@@ -203,6 +214,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --bg: #2a1c14;
   --section: #372519;
   --sand: #5a4332;
@@ -218,6 +230,10 @@
   --text-on-dark: #e8e1cf;
   --white: #33231a;
   --placeholder: #a08a78;
+  --on-olive-muted: #3a4220;
+  --on-olive-soft: #2f2a18;
+  --hill: #c2cd93;
+  --tint-strength: 10%;
   --scrim: var(--bg);
 }
 
@@ -238,7 +254,12 @@
   --line-strong: var(--coffee);
   --focus: var(--olive);
   --accent: var(--nescafe);
-  --on-primary-muted: var(--sand);
+  --on-primary-muted: var(--on-olive-muted);
+  --on-primary-soft: var(--on-olive-soft);
+  --on-photo: var(--photo-ink);
+  --on-photo-muted: var(--photo-ink-muted);
+  --primary-shade: color-mix(in srgb, var(--espresso) 35%, var(--olive));
+  --primary-tint: color-mix(in srgb, var(--primary) var(--tint-strength), transparent);
 }
 
 @layer base {

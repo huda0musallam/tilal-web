@@ -70,7 +70,7 @@ export default async function MethodPage({ params }: MethodPageProps) {
           <BackLink href="/brewing" tone="onPhoto" className="mb-3">
             كل الطرق
           </BackLink>
-          <h1 className="text-on-primary">{method.name}</h1>
+          <h1 className="text-on-photo">{method.name}</h1>
           <p className="text-xl text-text-on-dark">{method.tagline}</p>
         </div>
       </section>

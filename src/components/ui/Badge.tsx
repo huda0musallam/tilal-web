@@ -13,7 +13,7 @@ export const badgeStyles = cva(
         count: "bg-primary text-on-primary",
         plain: "bg-surface text-muted-ink",
         eyebrow: "bg-muted-surface text-primary",
-        scrim: "bg-scrim/35 text-on-primary",
+        shade: "bg-primary-shade text-on-primary",
       },
       size: {
         sm: "h-4.5 min-w-4.5 px-1.25 text-xs leading-none font-bold tabular-nums",

@@ -40,7 +40,7 @@ export default function BrewingPreview() {
                   zoom="lg"
                 />
                 <PhotoScrim className="flex flex-col justify-end p-6">
-                  <h3 className="mb-1 text-2xl text-on-primary">{m.name}</h3>
+                  <h3 className="mb-1 text-2xl text-on-photo">{m.name}</h3>
                   <p className="mb-3 text-base text-text-on-dark">{m.tagline}</p>
                   <MoreHint tone="onPhoto" arrowSize={16}>
                     طريقة التحضير

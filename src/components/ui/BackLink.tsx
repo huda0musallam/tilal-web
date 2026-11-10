@@ -8,7 +8,7 @@ const backLinkStyles = cva("inline-flex items-center gap-1.5 font-medium", {
   variants: {
     tone: {
       page: "self-start text-muted-ink hover:text-primary",
-      onPhoto: "text-on-primary-muted hover:text-on-primary",
+      onPhoto: "text-on-photo-muted hover:text-on-photo",
     },
   },
   defaultVariants: {

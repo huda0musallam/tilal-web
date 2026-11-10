@@ -56,7 +56,7 @@ Read the relevant guide in `node_modules/next/dist/docs/` before writing Next.js
 - `src/app/` contains routes only. Pages stay thin and compose features.
 - `src/features/<name>/` owns everything for one feature: components, types, API fetcher,
   logic, options and store. Current features: `home`, `products`, `blend`, `brewing`,
-  `cart`, `checkout`, `favorites`, `fly`, `reviews`, `suggestions`.
+  `cart`, `checkout`, `favorites`, `fly`, `reviews`, `suggestions`, `theme`.
   The WhatsApp link builder is `features/cart/whatsapp.ts`.
 - `src/components/` is only for UI that two or more features use:
   - `layout/`, `logo/`
@@ -111,7 +111,7 @@ Every control must use these components, never a copied class string.
 | `ui/Input`, `ui/Textarea`          | Native props. `aria-invalid` shows the error border                                                                                                                                     |
 | `ui/Label`                         | Native props. `labelStyles` is exported for labels that are not a `<label>`                                                                                                             |
 | `ui/Card`                          | `tone`: `page`, `section`; `radius`: `panel`, `card`, `media`; `padding`: `none`, `md`; `bordered`; `lift`                                                                              |
-| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`, `eyebrow`, `scrim`; `size`: `sm`, `md`, `lg`                                                                                  |
+| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`, `eyebrow`, `shade`; `size`: `sm`, `md`, `lg`                                                                                  |
 | `ui/Modal`                         | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end`; `bodyClassName`                                                            |
 | `ui/Chips`                         | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                                                                                             |
 | `ui/Section`                       | `tone`: `page`, `muted`                                                                                                                                                                 |
@@ -150,7 +150,8 @@ Rules:
 - **Small files.** One component per file, built with `cva`, `cn()` and typed props.
 - **Tokens only.** Use the role tokens from `globals.css`:
   - Color: `surface`, `muted-surface`, `strong-surface`, `inverse-surface`, `field`, `ink`,
-    `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `on-primary`, `on-primary-muted`,
+    `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `primary-shade`, `primary-tint`,
+    `on-primary`, `on-primary-muted`, `on-primary-soft`, `on-photo`, `on-photo-muted`,
     `text-on-dark`, `line`, `line-strong`, `accent`, `focus`, `danger`, `placeholder`, `scrim`,
     `logo`, `logo-accent`, `logo-detail`, `bean`, `bean-line`. Palette names such as `olive` or
     `coffee` are not for components.
@@ -275,6 +276,15 @@ data, not written again in code.
   warns about preloaded CSS from prefetched routes that is not used.
 - Tailwind is loaded without preflight. The site reset in `globals.css` is in `@layer base` so
   Tailwind utilities can win over it.
+- Dark mode is the `.dark` class on `<html>`. An inline script in the root layout's `<head>`
+  (`themeScript` in `features/theme/theme.ts`) sets it before the first paint from the saved
+  choice in `localStorage`, or from `prefers-color-scheme` on the first visit. `ThemeToggle` in the
+  header saves the choice; until there is one, the site follows system changes.
+- Only token values change between themes: light values in `:root`, dark values in `.dark`. Do
+  not use `dark:` color classes in components; add or change a token instead.
+- Text on an olive fill uses `on-primary`, `on-primary-muted` or `on-primary-soft`. Text on a
+  photo uses `on-photo`, `on-photo-muted` or `text-on-dark`, which stay light in both themes
+  because the photo scrims stay dark. Text must reach 4.5:1 in both themes.
 
 ## Content
 

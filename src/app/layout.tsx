@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import "./globals.css";
 import CartDrawer from "@/features/cart/CartDrawer";
 import FlyLayer from "@/features/fly/FlyLayer";
+import { themeScript } from "@/features/theme/theme";
 const display = Aref_Ruqaa({
   subsets: ["arabic"],
   weight: ["400", "700"],
@@ -29,9 +30,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html
       lang="ar"
       dir="rtl"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${display.variable} ${body.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <Header />
         {children}

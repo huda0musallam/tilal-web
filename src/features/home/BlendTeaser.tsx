@@ -36,7 +36,7 @@ export default function BlendTeaser() {
           <div className="lg:flex-11">
             <p className="mb-2 font-bold text-on-primary-muted">اصنع خلطتك</p>
             <h2 className="mb-4 text-on-primary">قهوتك، على ذوقك</h2>
-            <p className="mb-8 max-w-110 text-lg text-text-on-dark">
+            <p className="mb-8 max-w-110 text-lg text-on-primary-soft">
               اختار نوع البن والتحميص والكمية بالغرام، وزيد الهيل قد ما بدك، ونحنا منحمّصلك ياها.
             </p>
             <ButtonLink href="/blend" variant="inverse">
@@ -75,7 +75,7 @@ export default function BlendTeaser() {
               </Donut>
               <div
                 className={cn(
-                  badgeStyles({ variant: "scrim", size: "lg" }),
+                  badgeStyles({ variant: "shade", size: "lg" }),
                   "flex gap-4 font-normal",
                 )}
               >

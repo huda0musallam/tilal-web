@@ -11,6 +11,7 @@ import ButtonLink from "@/components/ui/ButtonLink";
 import { cart, useCartCount } from "@/features/cart/cart.store";
 import { useFavoritesCount } from "@/features/favorites/favorites.store";
 import { useFlyStore } from "@/features/fly/fly.store";
+import ThemeToggle from "@/features/theme/ThemeToggle";
 import { cn } from "@/lib/cn";
 import ActiveNavLinks from "./ActiveNavLinks";
 import NavLinks from "./NavLinks";
@@ -111,6 +112,8 @@ export default function Header() {
               </Badge>
             )}
           </Button>
+
+          <ThemeToggle />
 
           <Button
             variant="ghost"

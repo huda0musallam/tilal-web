@@ -45,7 +45,9 @@ export default function Footer() {
         <div className="container grid grid-cols-1 gap-10 pb-10 sm:grid-cols-2 lg:flex">
           <div className="col-span-full lg:flex-14">
             <StampLogo className="mb-4 h-auto w-30 text-on-primary" />
-            <p className="max-w-65 text-text-on-dark">قهوة محمّصة بالبيت بحب، من التلال لفنجانك.</p>
+            <p className="max-w-65 text-on-primary-soft">
+              قهوة محمّصة بالبيت بحب، من التلال لفنجانك.
+            </p>
           </div>
 
           <nav aria-label="روابط الموقع" className="lg:flex-10">
@@ -76,7 +78,7 @@ export default function Footer() {
 
           <div className="lg:flex-13">
             <p className={headingClass}>تواصل معنا</p>
-            <p className="mb-4 text-text-on-dark">اطلب أو اسأل عن أي شي، منحكي عالواتساب.</p>
+            <p className="mb-4 text-on-primary-soft">اطلب أو اسأل عن أي شي، منحكي عالواتساب.</p>
             <ButtonLink
               href={whatsappLink("مرحبا، عندي سؤال عن قهوة التلال")}
               target="_blank"
