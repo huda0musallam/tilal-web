@@ -8,6 +8,7 @@ import { cardamomLabel, roastImage, weightLabel } from "@/features/products/prod
 import RoastBadge from "@/features/products/RoastBadge";
 import Button from "@/components/ui/Button";
 import { cardStyles } from "@/components/ui/Card";
+import { dashedRowStyles } from "@/components/ui/DashedRow";
 import Donut from "@/components/ui/Donut";
 import SideColumn from "@/components/ui/SideColumn";
 import { cn } from "@/lib/cn";
@@ -81,7 +82,7 @@ export default function BlendSummary({ beans }: BlendSummaryProps) {
         ))}
       </ul>
 
-      <dl className="grid w-full gap-2 border-y border-dashed border-line py-3">
+      <dl className={cn(dashedRowStyles({ sides: "block" }), "w-full gap-2")}>
         <div className={detailRowClass}>
           <dt className="text-muted-ink">التحميص</dt>
           <dd className={detailValueClass}>
