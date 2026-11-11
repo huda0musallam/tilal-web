@@ -1,64 +1,119 @@
-# [PROJECT_NAME] Constitution
+Modified principles:
 
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+- I. Arabic, RTL and Accessible by Default → II. Arabic RTL Interface
+- III. Strict Types at Every Boundary → I. Strict TypeScript
+- V. UI Kit and Tokens Only → III. Tailwind, Tokens and the UI Kit
+- VI. Right Tool for Each Kind of State → IV. Server First, Clear State Tools
+- IV. Resilient Data Sections → V. Loading, Error and Empty States
+- VII. Tests Guard Behavior (NON-NEGOTIABLE) → VI. Tested Acceptance Criteria (NON-NEGOTIABLE)
+  Added principles:
+- VII. Clean Code
+- VIII. Small English Commits
+  Removed principles:
+- II. Feature-Owned Structure, One Source of Truth (moved, shortened, into Scope and Constraints)
+  Added sections: none
+  Removed sections: none (Scope and Technology Constraints renamed to Scope and Constraints)
+  Templates: not modified (dependent templates read the constitution at runtime)
+  Deferred TODOs: none
+  -->
+
+# Tilal Web Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
+### I. Strict TypeScript
 
-<!-- Example: I. Library-First -->
+- TypeScript runs in strict mode.
+- Code MUST NOT use `any`, `as` type assertions (`as const` is allowed) or `!` non-null
+  assertions. ESLint blocks all three.
+- Data from the API and from `localStorage` MUST pass a type guard (`src/lib/api/guards.ts` or a
+  feature `x.guards.ts`) before use.
 
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### II. Arabic RTL Interface
 
-### [PRINCIPLE_2_NAME]
+- All text users see MUST be Arabic, in a light Levantine dialect, and the layout reads right
+  to left.
+- When the two sides differ, classes MUST be logical: `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`,
+  `end-*`. Equal sides use `px-*`, `py-*`, `mx-*`, `my-*`; `left` and `right` are only for
+  physical positions.
+- Every image MUST have a descriptive Arabic `alt`.
 
-<!-- Example: II. CLI Interface -->
+### III. Tailwind, Tokens and the UI Kit
 
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+- Styling MUST be Tailwind classes only. `src/app/globals.css` is the only CSS file; no
+  `.module.css` files.
+- Colors, radii and fonts MUST come from the tokens in `globals.css` (`@theme inline`, with light
+  values in `:root` and dark values in `.dark`). Components MUST NOT contain hex colors, pixel
+  values, arbitrary `[..]` values or `dark:` color classes. A missing color becomes a new token.
+- Every control MUST come from `src/components/ui`, built with `cva` variants, `cn()` and typed
+  props. A missing look becomes a new variant, never a copied class string or a second
+  component.
 
-### [PRINCIPLE_3_NAME]
+### IV. Server First, Clear State Tools
 
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+- Components are Server Components by default. `"use client"` MUST be added only when a
+  component needs state, effects, event handlers, SWR, Zustand or Motion.
+- API data MUST use SWR, through a feature `x.api.ts` fetcher and a key from `apiKeys`.
+  Components MUST NOT call `fetch`.
+- Shared client state MUST use a Zustand store in the feature folder, read with narrow selectors.
+  URL filters MUST stay in `useSearchParams`, never copied into `useState`.
 
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### V. Loading, Error and Empty States
 
-### [PRINCIPLE_4_NAME]
+- Every data section MUST be wrapped in `DataSection` with its own placeholder, a friendly
+  Arabic error message and a working `retry`.
+- Every list that can be empty MUST show `EmptyState`; a filter with no match MUST use a
+  different message from an empty shop.
+- Users MUST never see a raw error. All three states MUST be checkable with the `/delay/3000`,
+  `/fail/500` and `/empty` API test modes.
 
-<!-- Example: IV. Integration Testing -->
+### VI. Tested Acceptance Criteria (NON-NEGOTIABLE)
 
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+- Every acceptance criterion MUST have a test: Vitest and Testing Library for logic and
+  components (next to the file they test), Playwright for user flows (in `e2e/`).
+- Tests MUST find elements by role or label, never by class name. Each test name states what
+  must be true.
+- A test MUST NOT be edited or deleted to make it pass; the code is fixed instead. A test
+  changes only when the requirement changed, and the commit message says so.
 
-### [PRINCIPLE_5_NAME]
+### VII. Clean Code
 
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+- Code MUST NOT contain comments; names and small functions make it clear.
+- Code MUST NOT contain unused code (variables, imports, files or exports).
+- Code, file names and docs MUST be in English.
 
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### VIII. Small English Commits
 
-## [SECTION_2_NAME]
+- Each commit MUST hold one small, focused change with an English message.
+- Commits MUST pass the Husky pre-commit hook (ESLint with `--max-warnings=0`, Prettier) without
+  skipping it, and MUST NOT include `.env.local` or `node_modules`.
 
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Scope and Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Tilal is a frontend course project: no user accounts, no online payments, orders sent through
+  WhatsApp. Data comes only from the `tilal-api` json-server API.
+- Stack: Next.js 16 (App Router, `cacheComponents`), React 19, SWR, Zustand, Tailwind CSS 4,
+  shadcn/ui only for `RadioGroup` and `Field`, react-hook-form and Zod, Motion, Lucide.
+- `src/app/` holds routes only. Each feature owns its code in `src/features/<name>/`; shared UI
+  goes in `src/components/` and shared non-UI code in `src/lib/` only when two or more features
+  use it. Each type, option list and color is defined in one place.
 
-## [SECTION_3_NAME]
+## Development Workflow and Quality Gates
 
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- A change is done only when `npm run typecheck`, `npm run lint` and `npm run format:check`
+  pass, plus `npm run build` after changes to routes, data fetching or config, and the related
+  tests pass.
+- Spec Kit plans MUST pass a Constitution Check; any deviation is recorded and justified in the
+  plan.
 
 ## Governance
 
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+- This constitution supersedes other practices where they conflict. `CLAUDE.md` holds the
+  detailed rules and `DESIGN.md` the visual identity; both MUST stay consistent with it.
+- Amendments go through `/speckit-constitution` with a reviewed Sync Impact Report, and update
+  `CLAUDE.md` or `DESIGN.md` in the same change when they are affected.
+- Versioning: MAJOR for removing or redefining a principle, MINOR for a new principle or section,
+  PATCH for wording.
+- Every review MUST check a change against these principles.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 2.0.0 | **Ratified**: 2026-11-11 | **Last Amended**: 2026-11-11
