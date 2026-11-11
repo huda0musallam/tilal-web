@@ -44,6 +44,8 @@ npm run lint           # ESLint, fails on any warning
 npm run typecheck      # type-check the whole project
 npm run format         # format every file with Prettier
 npm run format:check   # check formatting without changing files
+- `npm test`  # run unit and component tests
+- `npm run test:e2e` # run end-to-end tests
 ```
 
 Before each commit, lint-staged runs ESLint and Prettier on the staged files. The commit stops if

@@ -324,3 +324,13 @@ data, not written again in code.
 - Store anything sensitive in `localStorage`, or use it for access control.
 - Publish example reviews as real customer reviews.
 - Write the same option list, color or type in two places.
+
+## Testing
+
+- Unit and component tests use Vitest and Testing Library, next to the file they test (`*.test.ts`, `*.test.tsx`).
+- End-to-end tests use Playwright, in `e2e/`.
+- Tests find elements by role or label, never by class name.
+- Each test name says what must be true.
+-
+
+**Never edit or delete a test to make it pass.** When a test fails, fix the code. Change a test only when the requirement itself changed, and say so in the commit message.
