@@ -1,22 +1,3 @@
-Modified principles:
-
-- I. Arabic, RTL and Accessible by Default → II. Arabic RTL Interface
-- III. Strict Types at Every Boundary → I. Strict TypeScript
-- V. UI Kit and Tokens Only → III. Tailwind, Tokens and the UI Kit
-- VI. Right Tool for Each Kind of State → IV. Server First, Clear State Tools
-- IV. Resilient Data Sections → V. Loading, Error and Empty States
-- VII. Tests Guard Behavior (NON-NEGOTIABLE) → VI. Tested Acceptance Criteria (NON-NEGOTIABLE)
-  Added principles:
-- VII. Clean Code
-- VIII. Small English Commits
-  Removed principles:
-- II. Feature-Owned Structure, One Source of Truth (moved, shortened, into Scope and Constraints)
-  Added sections: none
-  Removed sections: none (Scope and Technology Constraints renamed to Scope and Constraints)
-  Templates: not modified (dependent templates read the constitution at runtime)
-  Deferred TODOs: none
-  -->
-
 # Tilal Web Constitution
 
 ## Core Principles
@@ -116,4 +97,4 @@ Modified principles:
   PATCH for wording.
 - Every review MUST check a change against these principles.
 
-**Version**: 2.0.0 | **Ratified**: 2026-11-11 | **Last Amended**: 2026-11-11
+**Version**: 1.0.0 | **Ratified**: 2026-11-11 | **Last Amended**: 2026-11-11

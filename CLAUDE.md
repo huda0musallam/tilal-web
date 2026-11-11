@@ -334,3 +334,10 @@ data, not written again in code.
 -
 
 **Never edit or delete a test to make it pass.** When a test fails, fix the code. Change a test only when the requirement itself changed, and say so in the commit message.
+
+- Every acceptance criterion in a spec has a test.
+
+## Code and commits
+
+- No unused variables, imports, files or exports.
+- Keep commits small, one change each, with English messages.
