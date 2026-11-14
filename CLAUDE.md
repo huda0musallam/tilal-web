@@ -341,3 +341,13 @@ data, not written again in code.
 
 - No unused variables, imports, files or exports.
 - Keep commits small, one change each, with English messages.
+
+## Rules from mistakes we fixed
+
+- Dashed borders showed on every side after the Tailwind migration: use `DashedRow` with its `top` or `top-bottom` variant, never a plain `border-dashed`.
+- A Zustand store typed its list as `never[]`: type the creator, `(): CartState => ({ ... })`.
+- Selecting a whole store or a new array re-rendered the page: select only what the component uses, and return a shared `EMPTY` constant instead of `[]`.
+- The cart read `localStorage` on the server and caused hydration errors: the cart store uses `skipHydration` and rehydrates in the cart drawer.
+- A data read outside `Suspense` failed the build with cache components on: every route that fetches has a `loading.tsx`.
+- `.env.local` overrode the deployed API URL: never commit it, and check it first when the app calls the wrong API.
+- `package-lock.json` changed after `npm install`: use `npm ci`, and never use `--force` or `--legacy-peer-deps`.
