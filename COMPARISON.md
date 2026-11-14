@@ -39,7 +39,7 @@ What I will take, and why: .env.example, so anyone who clones the repo knows whi
 CLAUDE.md
 What I did: rules for TypeScript, UI and tokens, RTL, state, testing (never edit a test to make it pass), plus a Spec Kit constitution built from these rules.
 What the reference does: sections for Data, Routes, Server and client, State, Forms, UI and Naming, step-by-step "Adding a module", and "Rules from mistakes we fixed".
-What I will take, and why: a "Rules from mistakes we fixed" section. I fixed real bugs in this project (dashed borders on every side after the Tailwind migration, a Zustand never[] type, selectors that re-rendered the whole page, cart hydration), and writing them down stops the AI from making them again.
+What I took, and why: a "Rules from mistakes we fixed" section. I fixed real bugs in this project (dashed borders on every side after the Tailwind migration, a Zustand never[] type, selectors that re-rendered the whole page, cart hydration), and writing them down stops the AI from making them again.
 What I did better
 Runtime checks on API data. The reference does const data: T = JSON.parse(text). JSON.parse returns any, so this is a hidden cast: the type is never checked, and it even assigns null to T. My client checks every response with a type guard.
 A real external API. My API runs as a separate service on Render, closer to a real project than an API inside the same app.
