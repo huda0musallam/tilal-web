@@ -104,36 +104,36 @@ place in the same commit.
 
 Every control must use these components, never a copied class string.
 
-| Component                          | Props and variants                                                                                                                                                                      |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ui/Button`                        | `variant`: `primary`, `secondary`, `ghost`, `inverse`, `link`, `chip`, `chipSelected`, `option`, `optionSelected`; `size`: `sm`, `md`, `lg`, `icon`, `bare`, `chip`, `chipSm`, `option` |
-| `ui/ButtonLink`                    | `next/link` props, with the same `variant` and `size` as `Button`                                                                                                                       |
-| `ui/Input`, `ui/Textarea`          | Native props. `aria-invalid` shows the error border                                                                                                                                     |
-| `ui/Label`                         | Native props. `labelStyles` is exported for labels that are not a `<label>`                                                                                                             |
-| `ui/Card`                          | `tone`: `page`, `section`; `radius`: `panel`, `card`, `media`; `padding`: `none`, `md`; `bordered`; `lift`                                                                              |
-| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`, `eyebrow`, `shade`; `size`: `sm`, `md`, `lg`                                                                                  |
-| `ui/Modal`                         | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end`; `bodyClassName`                                                            |
-| `ui/Chips`                         | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                                                                                             |
-| `ui/Section`                       | `tone`: `page`, `muted`                                                                                                                                                                 |
-| `ui/SectionLabel`                  | `spacing`: `section`, `page`                                                                                                                                                            |
-| `ui/Page`                          | The `<main>` and container of a page                                                                                                                                                    |
-| `ui/PageHeader`                    | `label`, `title`, description as children; `width`: `full`, `narrow`; `spacing`: `md`, `lg`                                                                                             |
-| `ui/ZoomImage`                     | `next/image` props; `zoom`: `sm`, `md`, `lg`. Zooms on hover of a `group` parent                                                                                                        |
-| `ui/MoreHint`                      | `tone`: `primary`, `onPhoto`; `arrowSize`. The arrow moves on hover of a `group` parent                                                                                                 |
-| `ui/Skeleton`                      | `variant`: `muted`, `strong`                                                                                                                                                            |
-| `ui/GridSkeleton`                  | `count`                                                                                                                                                                                 |
-| `ui/MessageBox`                    | `title`; `tone`: `empty`, `error`, `callout`                                                                                                                                            |
-| `ui/EmptyState`                    | `title`, children. Built on `MessageBox`                                                                                                                                                |
-| `ui/RouteError`, `ui/SectionError` | Error screens built on `MessageBox`                                                                                                                                                     |
-| `ui/CardGrid`                      | `layout`: `fluid3`, `fluid4`, `wide3`, `wide2`, `full3`, `split`                                                                                                                        |
-| `ui/Circle`                        | `tone`: `primary`, `inverse`, `surface`, `outline`; `size`: `xs`, `sm`, `md`, `lg`                                                                                                      |
-| `ui/Donut`                         | The label as children; `size`: `md`, `lg`; `hole`: `muted`, `primary`                                                                                                                   |
-| `ui/PhotoScrim`                    | `fade`: `short`, `long`                                                                                                                                                                 |
-| `ui/BackLink`                      | `next/link` props; `tone`: `page`, `onPhoto`                                                                                                                                            |
-| `ui/DashedRow`                     | `sides`: `top`, `block` (top and bottom). `dashedRowStyles` is exported                                                                                                                 |
-| `ui/SideColumn`                    | The sticky side column of a two-column page                                                                                                                                             |
-| `ui/shadcn/radio-group`            | `RadioGroup`, `RadioGroupItem`                                                                                                                                                          |
-| `ui/shadcn/field`                  | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`                                                                                        |
+| Component                          | Props and variants                                                                                                                                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ui/Button`                        | `variant`: `primary`, `secondary`, `ghost`, `inverse`, `danger`, `link`, `chip`, `chipSelected`, `option`, `optionSelected`; `size`: `sm`, `md`, `lg`, `icon`, `bare`, `chip`, `chipSm`, `option` |
+| `ui/ButtonLink`                    | `next/link` props, with the same `variant` and `size` as `Button`                                                                                                                                 |
+| `ui/Input`, `ui/Textarea`          | Native props. `aria-invalid` shows the error border                                                                                                                                               |
+| `ui/Label`                         | Native props. `labelStyles` is exported for labels that are not a `<label>`                                                                                                                       |
+| `ui/Card`                          | `tone`: `page`, `section`; `radius`: `panel`, `card`, `media`; `padding`: `none`, `md`; `bordered`; `lift`                                                                                        |
+| `ui/Badge`                         | `variant`: `soft`, `strong`, `inverse`, `count`, `plain`, `eyebrow`, `shade`; `size`: `sm`, `md`, `lg`                                                                                            |
+| `ui/Modal`                         | `open`, `onClose`, and `aria-labelledby` or `aria-label`; `size`: `sm`, `md`, `lg`; `side`: `center`, `end`; `bodyClassName`                                                                      |
+| `ui/Chips`                         | `options`, `value`, `onChange`, `label`; `size`: `sm`, `md`                                                                                                                                       |
+| `ui/Section`                       | `tone`: `page`, `muted`                                                                                                                                                                           |
+| `ui/SectionLabel`                  | `spacing`: `section`, `page`                                                                                                                                                                      |
+| `ui/Page`                          | The `<main>` and container of a page                                                                                                                                                              |
+| `ui/PageHeader`                    | `label`, `title`, description as children; `width`: `full`, `narrow`; `spacing`: `md`, `lg`                                                                                                       |
+| `ui/ZoomImage`                     | `next/image` props; `zoom`: `sm`, `md`, `lg`. Zooms on hover of a `group` parent                                                                                                                  |
+| `ui/MoreHint`                      | `tone`: `primary`, `onPhoto`; `arrowSize`. The arrow moves on hover of a `group` parent                                                                                                           |
+| `ui/Skeleton`                      | `variant`: `muted`, `strong`                                                                                                                                                                      |
+| `ui/GridSkeleton`                  | `count`                                                                                                                                                                                           |
+| `ui/MessageBox`                    | `title`; `tone`: `empty`, `error`, `callout`                                                                                                                                                      |
+| `ui/EmptyState`                    | `title`, children. Built on `MessageBox`                                                                                                                                                          |
+| `ui/RouteError`, `ui/SectionError` | Error screens built on `MessageBox`                                                                                                                                                               |
+| `ui/CardGrid`                      | `layout`: `fluid3`, `fluid4`, `wide3`, `wide2`, `full3`, `split`                                                                                                                                  |
+| `ui/Circle`                        | `tone`: `primary`, `inverse`, `surface`, `outline`; `size`: `xs`, `sm`, `md`, `lg`                                                                                                                |
+| `ui/Donut`                         | The label as children; `size`: `md`, `lg`; `hole`: `muted`, `primary`                                                                                                                             |
+| `ui/PhotoScrim`                    | `fade`: `short`, `long`                                                                                                                                                                           |
+| `ui/BackLink`                      | `next/link` props; `tone`: `page`, `onPhoto`                                                                                                                                                      |
+| `ui/DashedRow`                     | `sides`: `top`, `block` (top and bottom). `dashedRowStyles` is exported                                                                                                                           |
+| `ui/SideColumn`                    | The sticky side column of a two-column page                                                                                                                                                       |
+| `ui/shadcn/radio-group`            | `RadioGroup`, `RadioGroupItem`                                                                                                                                                                    |
+| `ui/shadcn/field`                  | `Field`, `FieldGroup`, `FieldSet`, `FieldLegend`, `FieldLabel`, `FieldDescription`, `FieldError`                                                                                                  |
 
 `buttonStyles`, `cardStyles`, `badgeStyles`, `cardGridStyles`, `centeredStackStyles`, `fieldSurfaceStyles` and `textFieldStyles` are exported for elements that cannot be the component itself, such
 as `motion.button`, a `Link` card or a `<figure>`.
@@ -152,7 +152,7 @@ Rules:
   - Color: `surface`, `muted-surface`, `strong-surface`, `inverse-surface`, `field`, `ink`,
     `muted-ink`, `on-inverse`, `primary`, `primary-hover`, `primary-shade`, `primary-tint`,
     `on-primary`, `on-primary-muted`, `on-primary-soft`, `on-photo`, `on-photo-muted`,
-    `text-on-dark`, `line`, `line-strong`, `accent`, `focus`, `danger`, `placeholder`, `scrim`,
+    `text-on-dark`, `line`, `line-strong`, `accent`, `focus`, `danger`, `on-danger`, `placeholder`, `scrim`,
     `logo`, `logo-accent`, `logo-detail`, `bean`, `bean-line`. Palette names such as `olive` or
     `coffee` are not for components.
   - Radius: `rounded-control` for controls, `rounded-panel`, `rounded-card`, `rounded-media` and

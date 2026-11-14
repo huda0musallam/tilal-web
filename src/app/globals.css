@@ -18,6 +18,7 @@
   --color-espresso: var(--espresso);
   --color-logo: var(--logo);
   --color-danger: var(--danger);
+  --color-on-danger: var(--on-danger);
   --color-text-on-dark: var(--text-on-dark);
   --color-white: var(--white);
   --color-placeholder: var(--placeholder);
@@ -250,6 +251,7 @@
   --primary: var(--olive);
   --primary-hover: var(--olive-dark);
   --on-primary: var(--bg);
+  --on-danger: var(--bg);
   --line: var(--sand);
   --line-strong: var(--coffee);
   --focus: var(--olive);

@@ -39,6 +39,7 @@ component. All text reaches 4.5:1 in dark mode.
 | `accent`           | `#B8865A`         | `#C9976A`         | Details, icons, stars, error box border             |
 | `focus`            | `#4F5A2E`         | `#AAB877`         | Focus ring                                          |
 | `danger`           | `#A63D2A`         | `#E58B76`         | Errors and remove buttons                           |
+| `on-danger`        | `#F7F2EA`         | `#2A1C14`         | Text on a `danger` fill (danger button)             |
 | `placeholder`      | `#9C8572`         | `#A08A78`         | Input placeholders                                  |
 | `scrim`            | `#2A1A12`         | `#2A1C14`         | Photo overlays, modal backdrop, shadows             |
 | `logo`             | `#3B2618`         | `#EFE1CD`         | Logo ink                                            |

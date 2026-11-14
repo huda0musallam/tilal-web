@@ -11,6 +11,7 @@ export const buttonStyles = cva(
         secondary: "border-line-strong bg-transparent text-muted-ink hover:bg-muted-surface",
         ghost: "bg-transparent text-muted-ink hover:bg-muted-surface",
         inverse: "bg-surface text-primary hover:bg-muted-surface",
+        danger: "bg-danger text-on-danger hover:bg-danger/90",
         link: "border-0 bg-transparent font-bold text-primary underline",
         chip: "rounded-pill border-line bg-surface text-muted-ink hover:border-accent",
         chipSelected:
